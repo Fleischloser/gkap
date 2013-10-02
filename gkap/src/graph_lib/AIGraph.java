@@ -81,6 +81,16 @@ public class AIGraph {
 	
 
 	public void deleteEdge(String idNode1, String idNode2) {
-		
+		Node node1 = this.nodeMap.get(idNode1);
+		Node node2 = this.nodeMap.get(idNode2);
+		if (node1 != null && node2 != null) {
+			
+			for(Map.Entry<String, Edge> entrySet : this.edgeMap.entrySet()) {
+				Edge edge = entrySet.getValue();
+				
+				
+			}
+			
+		}	
 	}
 }

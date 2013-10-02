@@ -1,15 +1,19 @@
 package graph_lib.entities;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class Node {
 
 	private String id;
 	private String name;
+	private Map<String, Object> attributMap;
 	
 	public Node(String name) {
 		this.id = UUID.randomUUID().toString();
 		this.name = name;
+		this.attributMap = new HashMap<String, Object>();
 	}
 	
 	public String getId() {
