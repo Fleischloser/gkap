@@ -1,0 +1,23 @@
+Konzeption:
+Überlegungen wie wir den Graph speichern können:
+Was muss gespeichert werden?
+	1: Ecken
+	2: Kanten (Verbingung zwischen zwei Ecken)
+		1: Attribute an Kanten
+Daraus ergibt sich jeweils eine Klasse für Node und Edge
+
+Der AiGraph muss eine Liste von Ecken speichern können
+
+Soll eine Ecke auch speichern welche Kanten auf ihn Zeigen oder wird das im Graph gespeichert welche Kanten es gibt?
+Nach einiger überlegung haben wir uns überlegt das ein Graph die Kanten speichert weil dann das löschen der Kanten einfacher ist.
+Sollte sich später rausstellen das es sinnvoll ist das eine Ecke seine vorgänger und nachfolger kennt müssen wir uns noch was überlegen.
+
+
+Kanten haben eine Start und eine Ziel Ecke außerdem können an ihr noch Attribute gespeichert werden.
+Da eine Kante mehr als ein Attribut speicher können muss, muss eine Kante über eine Map verfügen.
+
+Überlegungen gerichtete & ungerichtete Kanten.
+Speicher ein Graph zwei listen von kanten?
+Gerichtet und Ungerichtet oder nur eine Liste und eine Kante weiß ob Sie gerichtet oder ungerichtet ist.
+Muss eine Kante wissen ob Sie gerichtet oder ungerichtet ist.
+Gibt es zwei Klassen? UndirectedEdge und DirectedEdge die von Edge erben?
