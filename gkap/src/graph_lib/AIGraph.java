@@ -1,11 +1,11 @@
 package graph_lib;
 
-import graph_lib.entities.DirectedEdge;
 import graph_lib.entities.Edge;
 import graph_lib.entities.Node;
-import graph_lib.entities.UndirectedEdge;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AIGraph {
@@ -30,7 +30,18 @@ public class AIGraph {
 		
 		Node node = nodeMap.get(id);
 		if (node != null) {
-			//TODO: löschen der Knoten und Löschen der Kanten
+			for(Map.Entry<String, Edge> entrySet : this.edgeMap.entrySet()) {
+				Edge edge = entrySet.getValue();
+				
+					if (	(edge.getNode1().equals(node))
+							||
+							(edge.getNode2().equals(node))
+						) {
+						//Kante löschen
+						edgeMap.remove(edge.getId());
+						}
+			}
+			nodeMap.remove(node.getId());
 		}
 	}
 	
@@ -47,7 +58,7 @@ public class AIGraph {
 		Node node1 = this.nodeMap.get(idNode1);
 		Node node2 = this.nodeMap.get(idNode2);
 		if (node1 != null && node2 != null) {
-			UndirectedEdge edge = new UndirectedEdge(node1, node2);
+			Edge edge = new Edge(node1, node2, false);
 			
 			this.edgeMap.put(edge.getId(), edge);
 			
@@ -69,7 +80,7 @@ public class AIGraph {
 		Node node1 = this.nodeMap.get(idStartNode);
 		Node node2 = this.nodeMap.get(idTargetNode);
 		if (node1 != null && node2 != null) {
-			DirectedEdge edge = new DirectedEdge(node1, node2);
+			Edge edge = new Edge(node1, node2, true);
 			
 			this.edgeMap.put(edge.getId(), edge);
 			
@@ -85,10 +96,36 @@ public class AIGraph {
 		Node node2 = this.nodeMap.get(idNode2);
 		if (node1 != null && node2 != null) {
 			
+			//Liste der Kanten die gelöscht werden sollen. Beim schleifen über eine Liste oder Map sollte man daraus nix löschen
+			List<Edge> toDelEdges = new ArrayList<Edge>();
+			
+			//Schleifen über alle Knoten die wir haben
 			for(Map.Entry<String, Edge> entrySet : this.edgeMap.entrySet()) {
 				Edge edge = entrySet.getValue();
 				
+				if (edge.isDirected()) {
+					//Gerichtete Kante also ist start zeil wichtig
+					if (edge.getNode1().equals(node1) && edge.getNode2().equals(node2)) {
+						//Kante löschen
+						toDelEdges.add(edge);
+					}
+					
+				} else {
+					//Ungerichtet, also beide Kombinationen testen
+					if (	(edge.getNode1().equals(node1) && edge.getNode2().equals(node2))
+							||
+							(edge.getNode1().equals(node2) && edge.getNode2().equals(node1))
+						) {
+						//Kante löschen
+						toDelEdges.add(edge);
+					}
+				}
 				
+			}
+			
+			//löschen der Kanten
+			for (Edge edge : toDelEdges) {
+				this.edgeMap.remove(edge.getId());
 			}
 			
 		}	
