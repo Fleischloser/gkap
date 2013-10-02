@@ -1,5 +1,8 @@
 package graph_lib.entities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -15,6 +18,7 @@ public class Edge {
 		this.id = UUID.randomUUID().toString();
 		this.node1 = node1;
 		this.node2 = node2;
+		this.attributes = new HashMap<String, Object>();
 	}
 
 	public String getId() {
@@ -33,6 +37,17 @@ public class Edge {
 		return directed;
 	}
 
+	public Object getAttr(String attr) {
+		return attributes.get(attr);
+	}
+	
+	public void setAttr(String key, Object val){
+		attributes.put(key, val);
+	}
+	
+	public List<String> getAttrKeys(){
+		return new ArrayList<String>(attributes.keySet());
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (obj != null && obj instanceof Node) {

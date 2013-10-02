@@ -33,13 +33,10 @@ public class AIGraph {
 			for(Map.Entry<String, Edge> entrySet : this.edgeMap.entrySet()) {
 				Edge edge = entrySet.getValue();
 				
-					if (	(edge.getNode1().equals(node))
-							||
-							(edge.getNode2().equals(node))
-						) {
-						//Kante löschen
-						edgeMap.remove(edge.getId());
-						}
+				if ((edge.getNode1().equals(node)) || (edge.getNode2().equals(node))) {
+					//Kante löschen
+					edgeMap.remove(edge.getId());
+				}
 			}
 			nodeMap.remove(node.getId());
 		}
@@ -112,10 +109,9 @@ public class AIGraph {
 					
 				} else {
 					//Ungerichtet, also beide Kombinationen testen
-					if (	(edge.getNode1().equals(node1) && edge.getNode2().equals(node2))
-							||
-							(edge.getNode1().equals(node2) && edge.getNode2().equals(node1))
-						) {
+					if ((edge.getNode1().equals(node1) && edge.getNode2().equals(node2))
+							|| (edge.getNode1().equals(node2) && edge.getNode2().equals(node1))) {
+						
 						//Kante löschen
 						toDelEdges.add(edge);
 					}
@@ -130,4 +126,129 @@ public class AIGraph {
 			
 		}	
 	}
+	public boolean isEmpty(){
+		return nodeMap.isEmpty();
+	}
+	
+	public String getSource(String edgeID){
+		Edge e = edgeMap.get(edgeID);
+		if (e != null){
+			return e.getNode1().getId();
+		}else{
+			return null;
+		}
+	}
+	
+	public String getTarget(String edgeID){
+		Edge e = edgeMap.get(edgeID);
+		if (e != null){
+			return e.getNode2().getId();
+		}else{
+			return null;
+		}
+	}
+	
+	public List <String> getIncident(String nodeID){
+		Node node = nodeMap.get(nodeID);
+		List <String> result = new ArrayList<String>();
+		if (node != null) {
+			for(Map.Entry<String, Edge> entrySet : this.edgeMap.entrySet()) {
+				Edge edge = entrySet.getValue();
+				
+				if ((edge.getNode1().equals(node)) || (edge.getNode2().equals(node))) {
+					result.add(edge.getId());
+				}
+			}
+		}
+		return result;
+	}
+	
+	public List <String> getAdjacent(String nodeID){
+		Node node = nodeMap.get(nodeID);
+		List <String> result = new ArrayList<String>();
+		if (node != null) {
+			for(Map.Entry<String, Edge> entrySet : this.edgeMap.entrySet()) {
+				Edge edge = entrySet.getValue();
+				
+				if (edge.getNode1().equals(node)){
+					result.add(edge.getNode2().getId());
+				}else if(edge.getNode2().equals(node)){
+					result.add(edge.getNode1().getId());
+				}
+			}
+		}
+		return result;
+	}
+	
+	public List<String> getVertexes(){
+		List <String> result = new ArrayList<String>(nodeMap.keySet());		
+		return result;
+	}
+	
+	public List<String> getEdges(){
+		List <String> result = new ArrayList<String>(edgeMap.keySet());		
+		return result;
+	}
+	
+	public int getValE(String edgeID, String attr){
+		Edge e = edgeMap.get(edgeID);
+		if (e != null){
+			Object val = e.getAttr(attr);
+			if(val != null && val instanceof Integer){
+				return (Integer)val;
+			}
+		}
+		return Integer.MAX_VALUE;
+	}
+	
+	public String getStrE(String edgeID, String attr){
+		Edge e = edgeMap.get(edgeID);
+		if (e != null){
+			Object val = e.getAttr(attr);
+			if(val != null && val instanceof String){
+				return (String)val;
+			}
+		}
+		return "";
+	}
+	
+	public int getValV(String nodeID, String attr){
+		Node n = nodeMap.get(nodeID);
+		if (n != null){
+			Object val = n.getAttr(attr);
+			if(val != null && val instanceof Integer){
+				return (Integer)val;
+			}
+		}
+		return Integer.MAX_VALUE;
+	}
+
+	public String getStrV(String nodeID, String attr){
+		Node n = nodeMap.get(nodeID);
+		if (n!= null){
+			Object val = n.getAttr(attr);
+			if(val != null && val instanceof String){
+				return (String)val;
+			}
+		}
+		return "";
+	}
+	
+	public List<String> getAttrV(String nodeID){
+		Node n = nodeMap.get(nodeID);
+		if (n!= null){	
+			return n.getAttrKeys();	
+		}
+		return null;
+	}
+	
+	public List<String> getAttrE(String edgeID){
+		Edge e = edgeMap.get(edgeID);
+		if (e != null) {
+			return e.getAttrKeys();
+		}
+		return null;
+	}
+	
+	
 }
