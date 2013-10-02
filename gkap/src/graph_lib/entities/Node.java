@@ -33,9 +33,11 @@ public class Node {
 	public void setAttr(String key, Object val){
 		attributes.put(key, val);
 	}
+	
 	public List<String> getAttrKeys(){
 		return new ArrayList<String>(attributes.keySet());
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj != null) {

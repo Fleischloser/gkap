@@ -250,5 +250,33 @@ public class AIGraph {
 		return null;
 	}
 	
+	public void setValE(String edgeID, String attr, int val) {
+		Edge e = this.edgeMap.get(edgeID);
+		if (e != null) {
+			e.setAttr(attr, val);
+		}
+	}
+	
+	public void setValV(String nodeID, String attr, int val) {
+		Node n = this.nodeMap.get(nodeID);
+		if (n != null) {
+			n.setAttr(attr, val);
+		}
+	}
+	
+	public void setStrE(String edgeID, String attr, String val) {
+		Edge e = this.edgeMap.get(edgeID);
+		if (e != null) {
+			e.setAttr(attr, val);
+		}
+	}
+	
+	public void setStrV(String nodeID, String attr, String val) {
+		Node n = this.nodeMap.get(nodeID);
+		if (n != null) {
+			n.setAttr(attr, val);
+		}
+	}
+	
 	
 }
