@@ -44,7 +44,8 @@ public class Node {
 		if (obj != null) {
 			if (obj instanceof Node) {
 				Node n = (Node)obj;
-				if (n.getId() != null && this.getId() != null && n.getId().equals(this.getId())) {
+				if (n.getId() != null && this.getId() != null 
+						&& n.getId().equals(this.getId())) {
 					return true;
 				}
 			} else if (obj instanceof String) {

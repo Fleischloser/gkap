@@ -52,7 +52,8 @@ public class Edge {
 	public boolean equals(Object obj) {
 		if (obj != null && obj instanceof Node) {
 			Node n = (Node)obj;
-			if (n.getId() != null && this.getId() != null && n.getId().equals(this.getId())) {
+			if (n.getId() != null && this.getId() != null 
+					&& n.getId().equals(this.getId())) {
 				return true;
 			}
 		}
