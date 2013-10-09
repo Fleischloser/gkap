@@ -13,35 +13,53 @@ public class AIGraph {
 		return new AIGraph();
 	}
 	
-	//Speichern der Nodes in einer Map damit man zu einer ID schnell das Objekt findet.
+	/*
+	 * Speichern der Nodes in einer Map damit man zu einer ID 
+	 * schnell das Objekt findet.
+	*/
 	private Map<String, Node> nodeMap = new HashMap<String, Node>();
 	
-	//Speichern der Edges in einer Map damit man zu einer ID schnell das Objekt findet.
+	/*
+	 *Speichern der Edges in einer Map damit man zu einer ID 
+	 *schnell das Objekt findet.
+	 **/
 	private Map<String, Edge> edgeMap = new HashMap<String, Edge>();
 	
+	//erweitern des Graphen um einen Node
 	public String addVertex(String name) {
+		/*
+		 * wenn bereits ein Node mit dem übergebenen Namen existiert, 
+		 * wird kein neuer Node angelegt.
+		 */
 		if (nodeMap.containsKey(name)) {
 			return nodeMap.get(name).getId();
 		}
-		
+		//andernfalss neuen Node erzeugen und in die NodeMap eintragen 
 		Node n = new Node(name);
 		nodeMap.put(n.getId(), n);
 		
 		return n.getId();
 	}
-	
+	/*
+	 * Löschen eines Node aus dem Graphen
+	 * */
 	public void deleteVertex(String id) {
 		
 		Node node = nodeMap.get(id);
 		if (node != null) {
 			for(Map.Entry<String, Edge> entrySet : this.edgeMap.entrySet()) {
 				Edge edge = entrySet.getValue();
-				
-				if ((edge.getNode1().equals(node)) || (edge.getNode2().equals(node))) {
+				/*
+				 * Wenn der Node existiert, werden alle Kanten aus der edgeMap 
+				 * geholt und überprüft, ob der zu löschende Node Start- oder Ziel 
+				 * dieser Kante ist. In diesem Fall, wird die Kante gelöscht
+				 */
+				if ((edge.getNode1().equals(node)) 
+						|| (edge.getNode2().equals(node))) {
 					//Kante löschen
 					edgeMap.remove(edge.getId());
 				}
-			}
+			}//zu guter letzt den Node löschen
 			nodeMap.remove(node.getId());
 		}
 	}
@@ -55,6 +73,7 @@ public class AIGraph {
 	 * @param idNode2
 	 * @return ID des Edges oder null
 	 */
+	//eine neue Kante einfügen
 	public String addEdgeU(String idNode1, String idNode2) {
 		Node node1 = this.nodeMap.get(idNode1);
 		Node node2 = this.nodeMap.get(idNode2);
