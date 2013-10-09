@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 public class Importer {
 	
 	/**
+	 * Importiert aus einer Textdatei Knoten, Ecken und Attribute in einen Graphen
 	 * 
 	 * @param graph 
 	 * @param example (graph_01,graph_02,graph_03,graph_04,...graph_11)
