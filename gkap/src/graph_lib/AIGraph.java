@@ -13,13 +13,13 @@ public class AIGraph {
 		return new AIGraph();
 	}
 	
-	/*
+	/**
 	 * Speichern der Nodes in einer Map damit man zu einer ID 
 	 * schnell das Objekt findet.
 	*/
 	private Map<String, Node> nodeMap = new HashMap<String, Node>();
 	
-	/*
+	/**
 	 *Speichern der Edges in einer Map damit man zu einer ID 
 	 *schnell das Objekt findet.
 	 **/
@@ -40,19 +40,21 @@ public class AIGraph {
 		
 		return n.getId();
 	}
-	/*
+	/**
 	 * Löschen eines Node aus dem Graphen
-	 * */
+	 * Wenn der Node existiert, werden alle Kanten aus der edgeMap 
+	 * geholt und überprüft, ob der zu löschende Node Start- oder 
+	 * Ziel dieser Kante ist. In diesem Fall, wird die Kante gelöscht
+	 * @param id ID des Nodes/Vertex?Knoten 
+	 */
 	public void deleteVertex(String id) {
 		
 		Node node = nodeMap.get(id);
 		if (node != null) {
 			for(Map.Entry<String, Edge> entrySet : this.edgeMap.entrySet()) {
 				Edge edge = entrySet.getValue();
-				/*
-				 * Wenn der Node existiert, werden alle Kanten aus der edgeMap 
-				 * geholt und überprüft, ob der zu löschende Node Start- oder Ziel 
-				 * dieser Kante ist. In diesem Fall, wird die Kante gelöscht
+				/**
+				 
 				 */
 				if ((edge.getNode1().equals(node)) 
 						|| (edge.getNode2().equals(node))) {
@@ -73,7 +75,6 @@ public class AIGraph {
 	 * @param idNode2
 	 * @return ID des Edges oder null
 	 */
-	//eine neue Kante einfügen
 	public String addEdgeU(String idNode1, String idNode2) {
 		Node node1 = this.nodeMap.get(idNode1);
 		Node node2 = this.nodeMap.get(idNode2);
@@ -116,7 +117,10 @@ public class AIGraph {
 		Node node2 = this.nodeMap.get(idNode2);
 		if (node1 != null && node2 != null) {
 			
-			//Liste der Kanten die gelöscht werden sollen. Beim schleifen über eine Liste oder Map sollte man daraus nix löschen
+			/**
+			 * Liste der Kanten die gelöscht werden sollen. Beim schleifen über 
+			 * eine Liste oder Map sollte man daraus nix löschen
+			 * */
 			List<Edge> toDelEdges = new ArrayList<Edge>();
 			
 			//Schleifen über alle Knoten die wir haben
@@ -125,15 +129,18 @@ public class AIGraph {
 				
 				if (edge.isDirected()) {
 					//Gerichtete Kante also ist start zeil wichtig
-					if (edge.getNode1().equals(node1) && edge.getNode2().equals(node2)) {
+					if (edge.getNode1().equals(node1) 
+							&& edge.getNode2().equals(node2)) {
 						//Kante löschen
 						toDelEdges.add(edge);
 					}
 					
 				} else {
 					//Ungerichtet, also beide Kombinationen testen
-					if ((edge.getNode1().equals(node1) && edge.getNode2().equals(node2))
-							|| (edge.getNode1().equals(node2) && edge.getNode2().equals(node1))) {
+					if ((edge.getNode1().equals(node1) 
+							&& edge.getNode2().equals(node2))
+						|| (edge.getNode1().equals(node2) 
+							&& edge.getNode2().equals(node1))) {
 						
 						//Kante löschen
 						toDelEdges.add(edge);
@@ -150,9 +157,13 @@ public class AIGraph {
 		}	
 	}
 	public boolean isEmpty(){
+		//der Graph ist leer, wenn keine Nodes existieren
 		return nodeMap.isEmpty();
 	}
-	
+	/**
+	 *liefern des Start-Nodes einer Kante
+	 *auch bei ungerichteten Kanten wird immer der erste Node geliefert 
+	 */
 	public String getSource(String edgeID){
 		Edge e = edgeMap.get(edgeID);
 		if (e != null){
