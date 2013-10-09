@@ -41,6 +41,7 @@ public class AIGraph {
 		
 		return n.getId();
 	}
+	
 	/**
 	 * Löschen eines Node aus dem Graphen
 	 * Wenn der Node existiert, werden alle Kanten aus der edgeMap 
@@ -66,7 +67,6 @@ public class AIGraph {
 			nodeMap.remove(node.getId());
 		}
 	}
-	
 	
 	/**
 	 * Wenn idNode1 oder idNode2 nicht im Graphen vorhanden ist,
@@ -161,6 +161,7 @@ public class AIGraph {
 		//der Graph ist leer, wenn er keine Nodes enthält, also die nodeMad leer ist
 		return nodeMap.isEmpty();
 	}
+	
 	/**
 	 *liefern des Start-Nodes einer Kante
 	 *auch bei ungerichteten Kanten wird immer der erste Node geliefert 
@@ -173,6 +174,7 @@ public class AIGraph {
 			return null;
 		}
 	}
+	
 	/**
 	 *liefern des Ziel-Nodes einer Kante
 	 *auch bei ungerichteten Kanten wird immer der zweite Node geliefert 
@@ -185,8 +187,11 @@ public class AIGraph {
 			return null;
 		}
 	}
+	
 	/**
-	 * liefert eine Liste mit den IDs aller Kanten, die mit einem Node verbunden sind*/
+	 * liefert eine Liste mit den IDs aller Kanten, die mit einem Node 
+	 * verbunden sind
+	 * */
 	public List <String> getIncident(String nodeID){
 		Node node = nodeMap.get(nodeID);
 		List <String> result = new ArrayList<String>();
@@ -202,6 +207,10 @@ public class AIGraph {
 		return result;
 	}
 	
+	/**
+	 * liefert eine Liste mit den IDs aller Kanten, die mit einem Node 
+	 * benachbart sind
+	 * */
 	public List <String> getAdjacent(String nodeID){
 		Node node = nodeMap.get(nodeID);
 		List <String> result = new ArrayList<String>();
@@ -219,16 +228,26 @@ public class AIGraph {
 		return result;
 	}
 	
+	/**
+	 * liefert Liste aller Nodes des Graphen
+	 * */
 	public List<String> getVertexes(){
 		List <String> result = new ArrayList<String>(nodeMap.keySet());		
 		return result;
 	}
 	
+	/**
+	 * liefert Liste aller Kanten des Graphen
+	 * */
 	public List<String> getEdges(){
 		List <String> result = new ArrayList<String>(edgeMap.keySet());		
 		return result;
 	}
 	
+	/**
+	 * liefert ein Attribut einer Kante als Integer
+	 * im Fehlerfall maxint
+	 * */
 	public int getValE(String edgeID, String attr){
 		Edge e = edgeMap.get(edgeID);
 		if (e != null){
@@ -240,6 +259,10 @@ public class AIGraph {
 		return Integer.MAX_VALUE;
 	}
 	
+	/**
+	 * liefert ein Attribut einer Kante als String
+	 * im Fehlerfall leerer String
+	 * */
 	public String getStrE(String edgeID, String attr){
 		Edge e = edgeMap.get(edgeID);
 		if (e != null){
@@ -251,6 +274,10 @@ public class AIGraph {
 		return "";
 	}
 	
+	/**
+	 * liefert ein Attribut eines Node als Integer
+	 * im Fehlerfall maxint
+	 * */
 	public int getValV(String nodeID, String attr){
 		Node n = nodeMap.get(nodeID);
 		if (n != null){
@@ -261,7 +288,11 @@ public class AIGraph {
 		}
 		return Integer.MAX_VALUE;
 	}
-
+	
+	/**
+	 * liefert ein Attribut eines Node als String
+	 * im Fehlerfall leerer String
+	 * */
 	public String getStrV(String nodeID, String attr){
 		Node n = nodeMap.get(nodeID);
 		if (n!= null){
@@ -273,6 +304,10 @@ public class AIGraph {
 		return "";
 	}
 	
+	/**
+	 * liefert Liste aller Attribute eines Node
+	 * im Fehlerfall null
+	 * */
 	public List<String> getAttrV(String nodeID){
 		Node n = nodeMap.get(nodeID);
 		if (n!= null){	
@@ -281,6 +316,10 @@ public class AIGraph {
 		return null;
 	}
 	
+	/**
+	 * liefert Liste aller Attribute einer Kante
+	 * im Fehlerfall null
+	 * */
 	public List<String> getAttrE(String edgeID){
 		Edge e = edgeMap.get(edgeID);
 		if (e != null) {
@@ -289,6 +328,10 @@ public class AIGraph {
 		return null;
 	}
 	
+	/**
+	 * setzen eines Attributes einer Kante als Integer
+	 * existierende Attribute werden dabei überschrieben
+	 * */
 	public void setValE(String edgeID, String attr, int val) {
 		Edge e = this.edgeMap.get(edgeID);
 		if (e != null) {
@@ -296,6 +339,10 @@ public class AIGraph {
 		}
 	}
 	
+	/**
+	 * setzen eines Attributes eines Node als Integer
+	 * existierende Attribute werden dabei überschrieben
+	 * */
 	public void setValV(String nodeID, String attr, int val) {
 		Node n = this.nodeMap.get(nodeID);
 		if (n != null) {
@@ -303,6 +350,10 @@ public class AIGraph {
 		}
 	}
 	
+	/**
+	 * setzen eines Attributes einer Kante als String
+	 * existierende Attribute werden dabei überschrieben
+	 * */
 	public void setStrE(String edgeID, String attr, String val) {
 		Edge e = this.edgeMap.get(edgeID);
 		if (e != null) {
@@ -310,6 +361,10 @@ public class AIGraph {
 		}
 	}
 	
+	/**
+	 * setzen eines Attributes eines Node als String
+	 * existierende Attribute werden dabei überschrieben
+	 * */
 	public void setStrV(String nodeID, String attr, String val) {
 		Node n = this.nodeMap.get(nodeID);
 		if (n != null) {
