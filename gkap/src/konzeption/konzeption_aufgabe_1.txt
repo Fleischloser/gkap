@@ -22,8 +22,7 @@ Gerichtet und ungerichtet oder nur eine Liste und eine Kante weiß, ob Sie geric
 Muss eine Kante wissen, ob Sie gerichtet oder ungerichtet ist?
 Gibt es zwei Klassen, UndirectedEdge und DirectedEdge die von Edge erben?
 
-||Hier war arne wieder aktiv
-Wie unterscheiden sich Edges? Eigentlich nur ob er gerichtet ist oder nicht.
-Aus dem Grund doch erstmal keine zwei Klassen sondern eine Klasse die einen Boolean enthält ob er gerichtet ist oder nicht.
-Beim löschen oder so muss dann unterschieden werden ob die Kante die man sich gerade anschaut gerichtet ist oder nicht.
+Wie unterscheiden sich Edges? Eigentlich nur ob sie gerichtet sind oder nicht.
+Aus dem Grund doch erstmal keine zwei Klassen sondern eine Klasse, die einen Boolean enthält ob er gerichtet ist oder nicht.
+Beim löschen oder so muss dann unterschieden werden, ob die Kante die man sich gerade anschaut, gerichtet ist oder nicht.
 
