@@ -13,7 +13,8 @@ public class Node {
 	private Map<String, Object> attributes;
 	
 	public Node(String name) {
-		this.id = UUID.randomUUID().toString();
+		//this.id = UUID.randomUUID().toString();
+		this.id = name;
 		this.name = name;
 		this.attributes = new HashMap<String, Object>();
 	}

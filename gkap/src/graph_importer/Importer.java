@@ -27,7 +27,21 @@ public class Importer {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			
 			String line = null;
+			line = reader.readLine();
+			boolean directed = false;
+			if (line != null) {
+				//die erste Zeile enthält immer die Info ob der Graph gerichtet ist oder nicht
+				if (line.equals("﻿#ungerichtet")) {
+					directed = false;
+				} else if (line.equals("﻿#gerichtet")) {
+					directed = true;
+				}
+			}
+			
 			while ((line = reader.readLine()) != null) {
+				String[] arr = line.split(",");
+				
+				
 				
 			}
 			

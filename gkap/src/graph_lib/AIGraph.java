@@ -20,6 +20,10 @@ public class AIGraph {
 	private Map<String, Edge> edgeMap = new HashMap<String, Edge>();
 	
 	public String addVertex(String name) {
+		if (nodeMap.containsKey(name)) {
+			return nodeMap.get(name).getId();
+		}
+		
 		Node n = new Node(name);
 		nodeMap.put(n.getId(), n);
 		
