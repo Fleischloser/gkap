@@ -208,7 +208,7 @@ public class AIGraph {
 	}
 	
 	/**
-	 * liefert eine Liste mit den IDs aller Kanten, die mit einem Node 
+	 * liefert eine Liste mit den IDs aller Node, die mit einem Node 
 	 * benachbart sind
 	 * */
 	public List <String> getAdjacent(String nodeID){
