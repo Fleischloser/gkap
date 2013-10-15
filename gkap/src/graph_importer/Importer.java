@@ -35,7 +35,7 @@ public class Importer {
 				//die erste Zeile enthält immer die Info ob der Graph gerichtet ist oder nicht
 				if (line.equals("﻿#ungerichtet")) {
 					directed = false;
-				} else if (line.equals("﻿#gerichtet")) {
+				} else if (line.equals("#gerichtet")) {
 					directed = true;
 				}
 			}

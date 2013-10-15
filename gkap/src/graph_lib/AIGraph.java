@@ -372,5 +372,32 @@ public class AIGraph {
 		}
 	}
 	
-	
+
+	public void printGraphToConsole() {
+		System.out.println(this+":");
+		List<String> nodeList = this.getVertexes();
+		for (String node : nodeList) {
+			System.out.println("Node:"+node);
+			
+			List<String> edgeList = this.getIncident(node);
+			for (String edge : edgeList) {
+				Edge edgeObj = this.edgeMap.get(edge);
+				String target = this.getTarget(edge);
+				if (edgeObj.isDirected() && target.equals(node)) {
+					continue;
+				}
+				
+				if (target.equals(node)) {
+					target = this.getSource(edge);
+				}
+				
+				List<String> attrKeys = edgeObj.getAttrKeys();
+				System.out.print("  ->Edge:"+target+" ");
+				for (String attrName : attrKeys) {
+					System.out.print("Attribute:"+attrName+":"+this.getValE(edge, attrName));
+				}
+				System.out.println("");
+			}
+		}
+	}
 }
