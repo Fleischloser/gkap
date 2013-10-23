@@ -32,9 +32,10 @@ public class BellmanFordImpl {
 		this.startNode = startNode;
 		this.edgeDistAttrName = edgeDistAttrName;
 		
-		long beforeAcc = graph.getCountGraphAccesses();
+		long beforeAcc = this.graph.getCountGraphAccesses();
 		doAlgorithmus();
-		countAccessForAlgo = graph.getCountGraphAccesses() - beforeAcc; 
+		countAccessForAlgo = this.graph.getCountGraphAccesses() - beforeAcc; 
+		
 	}
 	
 	public String stringRouteToTarget(String target) {
@@ -44,7 +45,7 @@ public class BellmanFordImpl {
 			return "ERROR:1002:overflowError";
 		}
 		
-		int distance = graph.getValE(target, attrDistanceName);
+		int distance = graph.getValV(target, attrDistanceName);
 		String ret = "#"+distance;
 		
 		String path = recursive(target, "");
