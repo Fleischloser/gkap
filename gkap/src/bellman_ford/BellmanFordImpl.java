@@ -18,24 +18,57 @@ public class BellmanFordImpl {
 	private String startNode;
 	private String edgeDistAttrName;
 	private boolean negCircle = false;
+	private boolean overflowError = false;
+	private long countAccessForAlgo = -1L;
+
+	private String attrDistanceName = "distance";
+	private String attrUsedEdge = "usedEdge";
 	
+	/*
+	 *Initialisieren der Suche 
+	 */
 	public BellmanFordImpl (AIGraph graph, String startNode, String edgeDistAttrName) {
 		this.graph = graph;
 		this.startNode = startNode;
 		this.edgeDistAttrName = edgeDistAttrName;
 		
+		long beforeAcc = graph.getCountGraphAccesses();
 		doAlgorithmus();
+		countAccessForAlgo = graph.getCountGraphAccesses() - beforeAcc; 
 	}
 	
 	public String stringRouteToTarget(String target) {
+		if (negCircle) {
+			return "ERROR:1001:negCircle";
+		} else if (overflowError) {
+			return "ERROR:1002:overflowError";
+		}
 		
+		int distance = graph.getValE(target, attrDistanceName);
+		String ret = "#"+distance;
 		
-		return "";
+		recursive(target, "");
+		
+		ret = "" + ret;
+		
+		return ret;
+	}
+	
+	private String recursive(String node, String str) {
+
+		String usedEdge = graph.getStrV(node, attrUsedEdge);
+		if (usedEdge == null) {
+			return str;
+		}
+		
+		String sourceNode = graph.getSource(usedEdge);
+		
+		String ret = (recursive(sourceNode, str))+":"+node;
+		
+		return ret;
 	}
 	
 	private void doAlgorithmus() {
-		String attrDistanceName = "distance";
-		String attrUsedEdge = "usedEdge";
 		
 		List<String> nodeList = graph.getVertexes();
 		if (nodeList.size() > 0) {
@@ -58,12 +91,13 @@ public class BellmanFordImpl {
 					int valTarget = graph.getValV(targetId, attrDistanceName);
 					int valEdge = graph.getValE(edgeId, edgeDistAttrName);
 					
-					if (valSource < Integer.MAX_VALUE) {
-						int dist = valSource + valEdge;
-						if (valTarget > dist) {
-							graph.setValV(targetId, attrDistanceName, dist);
-							graph.setStrV(targetId, attrUsedEdge, edgeId);
-						}
+					int dist = valSource + valEdge;
+					if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
+						graph.setValV(targetId, attrDistanceName, dist);
+						graph.setStrV(targetId, attrUsedEdge, edgeId);
+					} else if (dist < 0) {
+						//ERROR OVERFLOW!!!!
+						overflowError = true;
 					}
 					
 				}
@@ -122,12 +156,10 @@ public class BellmanFordImpl {
 					int valTarget = graph.getValV(targetId, attrDistanceName);
 					int valEdge = graph.getValE(edgeId, attrNames[0]);
 					
-					if (valSource < Integer.MAX_VALUE) {
-						int dist = valSource + valEdge;
-						if (valTarget > dist) {
-							graph.setValV(targetId, attrDistanceName, dist);
-							graph.setStrV(targetId, attrUsedEdge, edgeId);
-						}
+					int dist = valSource + valEdge;
+					if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
+						graph.setValV(targetId, attrDistanceName, dist);
+						graph.setStrV(targetId, attrUsedEdge, edgeId);
 					}
 					
 				}
