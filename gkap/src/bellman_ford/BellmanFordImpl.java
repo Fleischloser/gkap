@@ -14,7 +14,81 @@ import graph_lib.AIGraph;
  */
 public class BellmanFordImpl {
 
+	private AIGraph graph;
+	private String startNode;
+	private String edgeDistAttrName;
+	private boolean negCircle = false;
 	
+	public BellmanFordImpl (AIGraph graph, String startNode, String edgeDistAttrName) {
+		this.graph = graph;
+		this.startNode = startNode;
+		this.edgeDistAttrName = edgeDistAttrName;
+		
+		doAlgorithmus();
+	}
+	
+	public String stringRouteToTarget(String target) {
+		
+		
+		return "";
+	}
+	
+	private void doAlgorithmus() {
+		String attrDistanceName = "distance";
+		String attrUsedEdge = "usedEdge";
+		
+		List<String> nodeList = graph.getVertexes();
+		if (nodeList.size() > 0) {
+			//Init des Graphen
+			for (String nodeId : nodeList) {
+				if (!nodeId.equals(this.startNode)) {
+					graph.setValV(nodeId, attrDistanceName, Integer.MAX_VALUE);
+				} else {
+					graph.setValV(nodeId, attrDistanceName, 0);
+				}
+			}
+			
+
+			List<String> edgeList = graph.getEdges();
+			for (int i = 0; i < nodeList.size(); i++) {
+				for (String edgeId : edgeList) {
+					String sourceId = graph.getSource(edgeId);
+					String targetId = graph.getTarget(edgeId);
+					int valSource = graph.getValV(sourceId, attrDistanceName);
+					int valTarget = graph.getValV(targetId, attrDistanceName);
+					int valEdge = graph.getValE(edgeId, edgeDistAttrName);
+					
+					if (valSource < Integer.MAX_VALUE) {
+						int dist = valSource + valEdge;
+						if (valTarget > dist) {
+							graph.setValV(targetId, attrDistanceName, dist);
+							graph.setStrV(targetId, attrUsedEdge, edgeId);
+						}
+					}
+					
+				}
+			}
+			
+			negCircle = false;
+			for (String edgeId : edgeList) {
+				String sourceId = graph.getSource(edgeId);
+				String targetId = graph.getTarget(edgeId);
+				int valSource = graph.getValV(sourceId, attrDistanceName);
+				int valTarget = graph.getValV(targetId, attrDistanceName);
+				int valEdge = graph.getValE(edgeId, edgeDistAttrName);
+				
+				int dist = valSource + valEdge;
+				if (valTarget > dist) {
+					negCircle = true;
+					break;
+				}	
+			}
+		}	
+	}
+	
+	/*
+	 * MAIN erste grundsätzliche Implementation
+	 */
 	public static void main(String[] args) {
 		
 		AIGraph graph = AIGraph.init();
@@ -74,10 +148,14 @@ public class BellmanFordImpl {
 				}	
 			}
 			
-			for (String nodeId : nodeList) {
-				String usedEdge = graph.getStrV(nodeId, attrUsedEdge);
-				String sourceNode = graph.getSource(usedEdge);
-				System.out.println(nodeId+":"+graph.getValV(nodeId, attrDistanceName)+" <-  Source:"+ sourceNode+ " distance:"+graph.getValE(usedEdge, attrNames[0]));
+			if (negCricle) {
+				System.out.println("ERROR: negativer Kreis");
+			} else {
+				for (String nodeId : nodeList) {
+					String usedEdge = graph.getStrV(nodeId, attrUsedEdge);
+					String sourceNode = graph.getSource(usedEdge);
+					System.out.println(nodeId+":"+graph.getValV(nodeId, attrDistanceName)+" <-  Source:"+ sourceNode+ " distance:"+graph.getValE(usedEdge, attrNames[0]));
+				}
 			}
 		}
 		
