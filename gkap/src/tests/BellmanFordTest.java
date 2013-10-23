@@ -4,7 +4,7 @@ import bellman_ford.BellmanFordImpl;
 import graph_importer.Importer;
 import graph_lib.AIGraph;
 
-public class BellmanFortTest {
+public class BellmanFordTest {
 	
 	public static void main(String[] args) {
 		
@@ -15,7 +15,7 @@ public class BellmanFortTest {
 		
 		BellmanFordImpl algo = new BellmanFordImpl(graph, "v", attrNames[0]);
 		
-		String str = algo.stringRouteToTarget("s");
+		String str = algo.stringRouteToTarget("x");
 		
 		System.out.println(str);
 	}
