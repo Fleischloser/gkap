@@ -15,7 +15,7 @@ public class BellmanFortTest {
 		
 		BellmanFordImpl algo = new BellmanFordImpl(graph, "v", attrNames[0]);
 		
-		String str = algo.stringRouteToTarget("x");
+		String str = algo.stringRouteToTarget("s");
 		
 		System.out.println(str);
 	}
