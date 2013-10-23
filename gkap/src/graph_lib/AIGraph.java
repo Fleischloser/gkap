@@ -13,6 +13,8 @@ public class AIGraph {
 		return new AIGraph();
 	}
 	
+	private long countAccesses = 0L;
+	
 	/**
 	 * Speichern der Nodes in einer Map damit man zu einer ID 
 	 * schnell das Objekt findet.
@@ -399,5 +401,9 @@ public class AIGraph {
 				System.out.println("");
 			}
 		}
+	}
+	
+	public long getCountGraphAccesses () {
+		return this.countAccesses;
 	}
 }

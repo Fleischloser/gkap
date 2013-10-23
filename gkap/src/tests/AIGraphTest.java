@@ -12,7 +12,7 @@ public class AIGraphTest {
 		String[] attrNames = {"distance"};
 		
 		//Name des Graphen der importiert werden soll. (Gültigkeit von: graph_01 bis graph_11)
-		String graphName = "graph_01";
+		String graphName = "graph_03";
 		
 		g = Importer.importExample(g, graphName, attrNames);
 		
