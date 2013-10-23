@@ -11,11 +11,11 @@ public class BellmanFordTest {
 		AIGraph graph = AIGraph.init();
 		String[] attrNames = {"distance"};
 		
-		graph = Importer.importExample(graph, "graph_03", attrNames);
+		graph = Importer.importExample(graph, "graph_02", attrNames);
 		
-		BellmanFordImpl algo = new BellmanFordImpl(graph, "v", attrNames[0]);
+		BellmanFordImpl algo = new BellmanFordImpl(graph, "Augsburg", attrNames[0]);
 		
-		String str = algo.stringRouteToTarget("x");
+		String str = algo.stringRouteToTarget("München");
 		
 		System.out.println(str);
 	}
