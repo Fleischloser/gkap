@@ -47,18 +47,16 @@ public class BellmanFordImpl {
 		int distance = graph.getValE(target, attrDistanceName);
 		String ret = "#"+distance;
 		
-		recursive(target, "");
+		String path = recursive(target, "");
 		
-		ret = "" + ret;
-		
-		return ret;
+		return path+ret;
 	}
 	
 	private String recursive(String node, String str) {
 
 		String usedEdge = graph.getStrV(node, attrUsedEdge);
-		if (usedEdge == null) {
-			return str;
+		if (usedEdge == null || usedEdge.length() == 0) {
+			return node;
 		}
 		
 		String sourceNode = graph.getSource(usedEdge);
@@ -95,7 +93,7 @@ public class BellmanFordImpl {
 					if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
 						graph.setValV(targetId, attrDistanceName, dist);
 						graph.setStrV(targetId, attrUsedEdge, edgeId);
-					} else if (dist < 0) {
+					} else if (valSource < Integer.MAX_VALUE && dist < 0) {
 						//ERROR OVERFLOW!!!!
 						overflowError = true;
 					}
