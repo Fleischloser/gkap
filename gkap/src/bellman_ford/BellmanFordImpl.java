@@ -111,7 +111,7 @@ public class BellmanFordImpl {
 				int valEdge = graph.getValE(edgeId, edgeDistAttrName);
 				
 				int dist = valSource + valEdge;
-				if (valTarget > dist) {
+				if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
 					negCircle = true;
 					break;
 				}	
@@ -173,7 +173,7 @@ public class BellmanFordImpl {
 				int valEdge = graph.getValE(edgeId, attrNames[0]);
 				
 				int dist = valSource + valEdge;
-				if (valTarget > dist) {
+				if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
 					negCricle = true;
 					break;
 				}	
