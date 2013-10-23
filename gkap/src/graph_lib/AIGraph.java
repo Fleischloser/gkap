@@ -33,6 +33,7 @@ public class AIGraph {
 	 * wird kein neuer Node angelegt.
 	 */
 	public String addVertex(String name) {
+		increaseAccess();
 		
 		if (nodeMap.containsKey(name)) {
 			return nodeMap.get(name).getId();
@@ -52,6 +53,7 @@ public class AIGraph {
 	 * @param ID des Nodes/Vertex?Knoten 
 	 */
 	public void deleteVertex(String id) {
+		increaseAccess();
 		
 		Node node = nodeMap.get(id);
 		if (node != null) {
@@ -79,6 +81,8 @@ public class AIGraph {
 	 * @return ID der Edge oder null
 	 */
 	public String addEdgeU(String idNode1, String idNode2) {
+		increaseAccess();
+		
 		Node node1 = this.nodeMap.get(idNode1);
 		Node node2 = this.nodeMap.get(idNode2);
 		if (node1 != null && node2 != null) {
@@ -101,6 +105,8 @@ public class AIGraph {
 	 * @return ID der Edge oder null
 	 */
 	public String addEdgeD(String idStartNode, String idTargetNode) {
+		increaseAccess();
+		
 		Node node1 = this.nodeMap.get(idStartNode);
 		Node node2 = this.nodeMap.get(idTargetNode);
 		if (node1 != null && node2 != null) {
@@ -116,6 +122,8 @@ public class AIGraph {
 	
 
 	public void deleteEdge(String idNode1, String idNode2) {
+		increaseAccess();
+		
 		Node node1 = this.nodeMap.get(idNode1);
 		Node node2 = this.nodeMap.get(idNode2);
 		if (node1 != null && node2 != null) {
@@ -160,6 +168,8 @@ public class AIGraph {
 		}	
 	}
 	public boolean isEmpty(){
+		increaseAccess();
+		
 		//der Graph ist leer, wenn er keine Nodes enthält, also die nodeMad leer ist
 		return nodeMap.isEmpty();
 	}
@@ -169,6 +179,8 @@ public class AIGraph {
 	 *auch bei ungerichteten Kanten wird immer der erste Node geliefert 
 	 */
 	public String getSource(String edgeID){
+		increaseAccess();
+		
 		Edge e = edgeMap.get(edgeID);
 		if (e != null){
 			return e.getNode1().getId();
@@ -182,6 +194,8 @@ public class AIGraph {
 	 *auch bei ungerichteten Kanten wird immer der zweite Node geliefert 
 	 */
 	public String getTarget(String edgeID){
+		increaseAccess();
+		
 		Edge e = edgeMap.get(edgeID);
 		if (e != null){
 			return e.getNode2().getId();
@@ -195,6 +209,8 @@ public class AIGraph {
 	 * verbunden sind
 	 * */
 	public List <String> getIncident(String nodeID){
+		increaseAccess();
+		
 		Node node = nodeMap.get(nodeID);
 		List <String> result = new ArrayList<String>();
 		if (node != null) {
@@ -214,6 +230,8 @@ public class AIGraph {
 	 * benachbart sind
 	 * */
 	public List <String> getAdjacent(String nodeID){
+		increaseAccess();
+		
 		Node node = nodeMap.get(nodeID);
 		List <String> result = new ArrayList<String>();
 		if (node != null) {
@@ -234,6 +252,8 @@ public class AIGraph {
 	 * liefert Liste aller Nodes des Graphen
 	 * */
 	public List<String> getVertexes(){
+		increaseAccess();
+		
 		List <String> result = new ArrayList<String>(nodeMap.keySet());		
 		return result;
 	}
@@ -242,6 +262,8 @@ public class AIGraph {
 	 * liefert Liste aller Kanten des Graphen
 	 * */
 	public List<String> getEdges(){
+		increaseAccess();
+		
 		List <String> result = new ArrayList<String>(edgeMap.keySet());		
 		return result;
 	}
@@ -251,6 +273,8 @@ public class AIGraph {
 	 * im Fehlerfall maxint
 	 * */
 	public int getValE(String edgeID, String attr){
+		increaseAccess();
+		
 		Edge e = edgeMap.get(edgeID);
 		if (e != null){
 			Object val = e.getAttr(attr);
@@ -266,6 +290,8 @@ public class AIGraph {
 	 * im Fehlerfall leerer String
 	 * */
 	public String getStrE(String edgeID, String attr){
+		increaseAccess();
+		
 		Edge e = edgeMap.get(edgeID);
 		if (e != null){
 			Object val = e.getAttr(attr);
@@ -281,6 +307,8 @@ public class AIGraph {
 	 * im Fehlerfall maxint
 	 * */
 	public int getValV(String nodeID, String attr){
+		increaseAccess();
+		
 		Node n = nodeMap.get(nodeID);
 		if (n != null){
 			Object val = n.getAttr(attr);
@@ -296,6 +324,8 @@ public class AIGraph {
 	 * im Fehlerfall leerer String
 	 * */
 	public String getStrV(String nodeID, String attr){
+		increaseAccess();
+		
 		Node n = nodeMap.get(nodeID);
 		if (n!= null){
 			Object val = n.getAttr(attr);
@@ -311,6 +341,8 @@ public class AIGraph {
 	 * im Fehlerfall null
 	 * */
 	public List<String> getAttrV(String nodeID){
+		increaseAccess();
+		
 		Node n = nodeMap.get(nodeID);
 		if (n!= null){	
 			return n.getAttrKeys();	
@@ -323,6 +355,8 @@ public class AIGraph {
 	 * im Fehlerfall null
 	 * */
 	public List<String> getAttrE(String edgeID){
+		increaseAccess();
+		
 		Edge e = edgeMap.get(edgeID);
 		if (e != null) {
 			return e.getAttrKeys();
@@ -335,6 +369,8 @@ public class AIGraph {
 	 * existierende Attribute werden dabei überschrieben
 	 * */
 	public void setValE(String edgeID, String attr, int val) {
+		increaseAccess();
+		
 		Edge e = this.edgeMap.get(edgeID);
 		if (e != null) {
 			e.setAttr(attr, val);
@@ -346,6 +382,8 @@ public class AIGraph {
 	 * existierende Attribute werden dabei überschrieben
 	 * */
 	public void setValV(String nodeID, String attr, int val) {
+		increaseAccess();
+		
 		Node n = this.nodeMap.get(nodeID);
 		if (n != null) {
 			n.setAttr(attr, val);
@@ -357,6 +395,8 @@ public class AIGraph {
 	 * existierende Attribute werden dabei überschrieben
 	 * */
 	public void setStrE(String edgeID, String attr, String val) {
+		increaseAccess();
+		
 		Edge e = this.edgeMap.get(edgeID);
 		if (e != null) {
 			e.setAttr(attr, val);
@@ -368,6 +408,8 @@ public class AIGraph {
 	 * existierende Attribute werden dabei überschrieben
 	 * */
 	public void setStrV(String nodeID, String attr, String val) {
+		increaseAccess();
+		
 		Node n = this.nodeMap.get(nodeID);
 		if (n != null) {
 			n.setAttr(attr, val);
@@ -401,6 +443,10 @@ public class AIGraph {
 				System.out.println("");
 			}
 		}
+	}
+	
+	private void increaseAccess() {
+		countAccesses = countAccesses +1;
 	}
 	
 	public long getCountGraphAccesses () {

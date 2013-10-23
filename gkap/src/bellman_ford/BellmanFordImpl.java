@@ -12,8 +12,9 @@ import graph_lib.AIGraph;
  * @author schulz_a
  *
  */
-public class BellmanFordImpls {
+public class BellmanFordImpl {
 
+	
 	public static void main(String[] args) {
 		
 		AIGraph graph = AIGraph.init();
@@ -76,7 +77,7 @@ public class BellmanFordImpls {
 			for (String nodeId : nodeList) {
 				String usedEdge = graph.getStrV(nodeId, attrUsedEdge);
 				String sourceNode = graph.getSource(usedEdge);
-				System.out.println(nodeId+":"+graph.getValV(nodeId, attrDistanceName)+" -> "+ sourceNode);
+				System.out.println(nodeId+":"+graph.getValV(nodeId, attrDistanceName)+" <-  Source:"+ sourceNode+ " distance:"+graph.getValE(usedEdge, attrNames[0]));
 			}
 		}
 		
