@@ -55,7 +55,7 @@ public class FloydWarshallImpl {
 		long beforeAcc = this.graph.getCountGraphAccesses();
 		//this.printVariableVals();
 		//System.out.println("-------");
-		this.printMatrices();
+		//this.printMatrices();
 		doAlgorithm();
 		countAccessForAlgo = this.graph.getCountGraphAccesses() - beforeAcc; 
 	}	
@@ -74,6 +74,9 @@ public class FloydWarshallImpl {
 					int dist = D[i][j] + D[j][k];
 					if (dist < Integer.MAX_VALUE && dist >= 0 && temp > dist) {
 						D[i][k] = dist;
+					}
+					
+					if(temp != D[i][k]){
 						T[i][k] = j;
 					}
 				}
@@ -108,7 +111,7 @@ public class FloydWarshallImpl {
 			int dist = D[idxSource][idxTarget];
 			
 			String ret = this.listOfVertices.get(idxSource);
-			ret = ret + "#" + recursive(idxSource, idxTarget);			
+			ret = ret + "#" + recursive(T[idxSource][idxTarget], idxTarget);
 			ret = ret + "#" + this.listOfVertices.get(idxTarget);
 			ret = ret + "#" + dist;
 			
@@ -119,11 +122,13 @@ public class FloydWarshallImpl {
 	}
 	
 	private String recursive(int idxSource, int idxTarget) {
-		int actIdx = T[idxSource][idxTarget];
-		if (actIdx >= 0) {
-			String ret = recursive(idxSource, actIdx) + "#" + this.listOfVertices.get(actIdx);
+		if (idxSource >= 0) {
+			String ret = this.listOfVertices.get(idxSource);
 			
-			ret = ret + "#" + recursive(actIdx, idxTarget);
+			int newSource = T[idxSource][idxTarget];
+			if (newSource >= 0) {
+				ret = ret + "#" + recursive(newSource, idxTarget);
+			}
 			
 			return ret;
 		}
@@ -149,14 +154,14 @@ public class FloydWarshallImpl {
 		}
 		System.out.println();
 		
-		System.out.format("%9s", "");
+		System.out.format("%6s", "");
 		for (int i = 0; i < numberOfVertices; i++){
 			System.out.format("%6s", this.listOfVertices.get(i).substring(0, (this.listOfVertices.get(i).length() > 5 ? 5 : this.listOfVertices.get(i).length())));
 		}
 		System.out.println();
 		
 		for (int i = 0; i < numberOfVertices; i++){
-			System.out.format("%2s %6s", ""+i, this.listOfVertices.get(i).substring(0, (this.listOfVertices.get(i).length() > 5 ? 5 : this.listOfVertices.get(i).length())));
+			System.out.format("%6s", this.listOfVertices.get(i).substring(0, (this.listOfVertices.get(i).length() > 5 ? 5 : this.listOfVertices.get(i).length())));
 			for (int j = 0; j < numberOfVertices; j++){
 				//System.out.print(" " + T[i][j]);
 				System.out.format("%6s", T[i][j]);

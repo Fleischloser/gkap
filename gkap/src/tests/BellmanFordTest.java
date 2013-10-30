@@ -13,9 +13,9 @@ public class BellmanFordTest {
 		
 		graph = Importer.importExample(graph, "graph_02", attrNames);
 		
-		BellmanFordImpl algo = new BellmanFordImpl(graph, "Augsburg", attrNames[0]);
+		BellmanFordImpl algo = new BellmanFordImpl(graph, "München", attrNames[0]);
 		
-		String str = algo.stringRouteToTarget("München");
+		String str = algo.stringRouteToTarget("Kassel");
 		
 		System.out.println(str);
 		System.out.println("Count Graph access:"+algo.getCountOfGraphAccess());
