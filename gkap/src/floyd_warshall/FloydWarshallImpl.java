@@ -28,7 +28,7 @@ public class FloydWarshallImpl {
 		for (int i = 0; i < numberOfVertices; i++){
 			List<String>edgesOfCurrentVertex = graph.getIncident(listOfVertices.get(i));
 			for (int j = 0; j < numberOfVertices; j++){
-				T[i][j] = 0;
+				T[i][j] = -1;
 				if (i == j){
 					D[i][j] = 0;
 				}else{
@@ -38,6 +38,14 @@ public class FloydWarshallImpl {
 							dist = graph.getValE(edge, edgeDistAttrName);
 							break;
 						}
+						
+						int isDierectedEdge = graph.getValE(edge, "isDirectedEdge");
+						if (isDierectedEdge == 0) {
+							if(graph.getSource(edge) == listOfVertices.get(j)){
+								dist = graph.getValE(edge, edgeDistAttrName);
+								break;
+							}
+						}
 					}
 					D[i][j]	= dist;		
 				}
@@ -45,29 +53,122 @@ public class FloydWarshallImpl {
 			}
 		}
 		long beforeAcc = this.graph.getCountGraphAccesses();
+		//this.printVariableVals();
+		//System.out.println("-------");
+		//this.printMatrices();
 		doAlgorithm();
 		countAccessForAlgo = this.graph.getCountGraphAccesses() - beforeAcc; 
 	}	
 	
 	private void doAlgorithm(){
+		for(int j = 0; j < numberOfVertices; j++){
+			for(int i = 0; i < numberOfVertices; i++){
+				if(i == j){
+					continue;
+				}
+				for(int k = 0; k < numberOfVertices; k++){
+					if(k == j){
+						continue;
+					}
+					int temp = D[i][k];
+					int dist = D[i][j] + D[j][k];
+					if (dist < Integer.MAX_VALUE && dist >= 0 && temp > dist) {
+						D[i][k] = dist;
+					}
+					
+					if(temp != D[i][k]){
+						T[i][k] = j;
+					}
+				}
+				if(D[i][i] < 0){
+					negCircle = true;
+					break;
+				}
+			}
+			//this.printMatrices();
+		}
+	}
+	
+	public void printVariableVals () {
+		for (int i = 0; i < this.listOfVertices.size(); i++ ) {
+			System.out.println(i+"<>"+this.listOfVertices.get(i));
+		}
+	}
+	
+	public String stringRouteSourceToTarget (String source, String target) {
 		
+		int idxSource = -1;
+		int idxTarget = -1;
+		for (int i = 0; i < this.listOfVertices.size(); i++) {
+			if (this.listOfVertices.get(i).equals(source)) {
+				idxSource = i;
+			} else if (this.listOfVertices.get(i).equals(target)) {
+				idxTarget = i;
+			}
+		}
+		
+		if (idxSource >= 0 && idxTarget >= 0) {
+			int dist = D[idxSource][idxTarget];
+			
+			String ret = this.listOfVertices.get(idxSource);
+			ret = ret + "#" + recursive(T[idxSource][idxTarget], idxTarget);
+			ret = ret + "#" + this.listOfVertices.get(idxTarget);
+			ret = ret + "#" + dist;
+			
+			return ret;
+		}
+		
+		return "";
+	}
+	
+	private String recursive(int idxSource, int idxTarget) {
+		if (idxSource >= 0) {
+			String ret = this.listOfVertices.get(idxSource);
+			
+			int newSource = T[idxSource][idxTarget];
+			if (newSource >= 0) {
+				ret = ret + "#" + recursive(newSource, idxTarget);
+			}
+			
+			return ret;
+		}
+		
+		return "";
 	}
 	
 	public void printMatrices(){
+		
+		System.out.format("%6s", "");
 		for (int i = 0; i < numberOfVertices; i++){
+			System.out.format("%6s", this.listOfVertices.get(i).substring(0, (this.listOfVertices.get(i).length() > 5 ? 5 : this.listOfVertices.get(i).length())));
+		}
+		System.out.println();
+		
+		for (int i = 0; i < numberOfVertices; i++){
+			System.out.format("%6s", this.listOfVertices.get(i).substring(0, (this.listOfVertices.get(i).length() > 5 ? 5 : this.listOfVertices.get(i).length())));
 			for (int j = 0; j < numberOfVertices; j++){
-				System.out.print(" " + D[i][j]);
+				//System.out.print(" " + (D[i][j] == Integer.MAX_VALUE ? "x" : D[i][j]));
+				System.out.format("%6s", (D[i][j] == Integer.MAX_VALUE ? "x" : D[i][j]));
 			}
 			System.out.println();
 		}
 		System.out.println();
+		
+		System.out.format("%6s", "");
 		for (int i = 0; i < numberOfVertices; i++){
+			System.out.format("%6s", this.listOfVertices.get(i).substring(0, (this.listOfVertices.get(i).length() > 5 ? 5 : this.listOfVertices.get(i).length())));
+		}
+		System.out.println();
+		
+		for (int i = 0; i < numberOfVertices; i++){
+			System.out.format("%6s", this.listOfVertices.get(i).substring(0, (this.listOfVertices.get(i).length() > 5 ? 5 : this.listOfVertices.get(i).length())));
 			for (int j = 0; j < numberOfVertices; j++){
-				System.out.print(" " + T[i][j]);
+				//System.out.print(" " + T[i][j]);
+				System.out.format("%6s", T[i][j]);
 			}
 			System.out.println();
 		}
-		System.out.println();
+		System.out.println("#######################");
 	}
 	
 } 

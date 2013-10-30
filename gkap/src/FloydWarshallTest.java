@@ -13,13 +13,18 @@ public class FloydWarshallTest {
 		
 		FloydWarshallImpl algo = new FloydWarshallImpl(graph, attrNames[0]);
 		algo.printMatrices();
+		
+		String path = algo.stringRouteSourceToTarget("München", "Lübeck");
+		System.out.println("path:"+path);
+		
+		//algo.printMatrices();
 //		String str = algo.stringRouteToTarget("München");
 		
 //		System.out.println(str);
 		
-		System.out.println("##########");
+		//System.out.println("##########");
 		
-		FloydWarshallImpl algo2 = new FloydWarshallImpl(graph, attrNames[0]);
+		//FloydWarshallImpl algo2 = new FloydWarshallImpl(graph, attrNames[0]);
 		
 //		String str2 = algo2.stringRouteToTarget("Stuttgart");
 		
