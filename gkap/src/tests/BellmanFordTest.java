@@ -18,14 +18,16 @@ public class BellmanFordTest {
 		String str = algo.stringRouteToTarget("München");
 		
 		System.out.println(str);
+		System.out.println("Count Graph access:"+algo.getCountOfGraphAccess());
 		
 		System.out.println("##########");
 		
 		BellmanFordImpl algo2 = new BellmanFordImpl(graph, "München", attrNames[0]);
 		
-		String str2 = algo2.stringRouteToTarget("Stuttgart");
+		String str2 = algo2.stringRouteToTarget("Lübeck");
 		
 		System.out.println(str2);
+		System.out.println("Count Graph access:"+algo.getCountOfGraphAccess());
 	}
 
 }
