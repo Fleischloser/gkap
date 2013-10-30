@@ -16,21 +16,32 @@ public class FloydWarshallImpl {
 	private int numberOfVertices;
 	private int[][] D;
 	private int[][] T;
+	List<String>listOfVertices;
 	
 	public FloydWarshallImpl (AIGraph graph, String edgeDistAttrName){
 		this.graph = graph;
 		this.edgeDistAttrName = edgeDistAttrName;
-		List<String>listOfVertices = graph.getVertexes();
+		listOfVertices = graph.getVertexes();
 		numberOfVertices = listOfVertices.size();
 		D = new int[numberOfVertices][numberOfVertices];
 		T = new int[numberOfVertices][numberOfVertices];
 		for (int i = 0; i < numberOfVertices; i++){
+			List<String>edgesOfCurrentVertex = graph.getIncident(listOfVertices.get(i));
 			for (int j = 0; j < numberOfVertices; j++){
 				T[i][j] = 0;
-				if (i = j){
-					
+				if (i == j){
+					D[i][j] = 0;
+				}else{
+					int dist = Integer.MAX_VALUE;
+					for(String edge : edgesOfCurrentVertex){
+						if(graph.getTarget(edge) == listOfVertices.get(j)){
+							dist = graph.getValE(edge, edgeDistAttrName);
+							break;
+						}
+					}
+					D[i][j]	= dist;		
 				}
-				D[i][j]			
+					
 			}
 		}
 		long beforeAcc = this.graph.getCountGraphAccesses();
@@ -40,6 +51,23 @@ public class FloydWarshallImpl {
 	
 	private void doAlgorithm(){
 		
+	}
+	
+	public void printMatrices(){
+		for (int i = 0; i < numberOfVertices; i++){
+			for (int j = 0; j < numberOfVertices; j++){
+				System.out.print(" " + D[i][j]);
+			}
+			System.out.println();
+		}
+		System.out.println();
+		for (int i = 0; i < numberOfVertices; i++){
+			for (int j = 0; j < numberOfVertices; j++){
+				System.out.print(" " + T[i][j]);
+			}
+			System.out.println();
+		}
+		System.out.println();
 	}
 	
 } 
