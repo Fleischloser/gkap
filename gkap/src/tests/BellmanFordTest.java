@@ -18,6 +18,15 @@ public class BellmanFordTest {
 		String str = algo.stringRouteToTarget("München");
 		
 		System.out.println(str);
+		
+		algo = new BellmanFordImpl(graph, "München", attrNames[0]);
+		
+		//graph.getAttrV("München");
+		String used = graph.getStrV("München", "usedEdge");
+		System.out.println("us:"+used);
+		str = algo.stringRouteToTarget("Augsburg");
+		
+		System.out.println(str);
 	}
 
 }

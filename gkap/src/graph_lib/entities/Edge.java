@@ -20,6 +20,9 @@ public class Edge {
 		this.node2 = node2;
 		this.directed = directed;
 		this.attributes = new HashMap<String, Object>();
+		
+		//An die Kante attr anfügen ob gerichtet oder nicht
+		this.setAttr("isDirectedEdge", directed ? 1 : 0);
 	}
 
 	public String getId() {
