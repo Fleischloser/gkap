@@ -2,15 +2,12 @@ package bellman_ford;
 
 import java.util.List;
 
-import graph_importer.Importer;
 import graph_lib.AIGraph;
 
 
 /**
  * http://www-m9.ma.tum.de/material/spp/Bellman-Ford-Algorithmus.html
  * 
- * @author schulz_a
- *
  */
 public class BellmanFordImpl {
 
