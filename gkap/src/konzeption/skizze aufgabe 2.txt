@@ -38,23 +38,66 @@ Floyed Warshall Algorithmus:
 Funktionsweise:
 	1: Initialisierung
 		-> Zwei verschachtelte Schleifen
-			For i = 0; i < |V|; i++
-				For j = 0; j < |V|; j++
-					if (i == j)
-						D(ij) = 0
-					else if (eine Kanto von i nach j)
-						D(ij) = (Kosten der Kante von i nach j)
-					else
-						D(ij) = UNENTLICH
- 					end
+			FOR i = 0; i < |V|; i++
+				FOR j = 0; j < |V|; j++
+					IF (i == j)
+						D[i][j] = 0
+					ELSE IF (eine Kante von i nach j)
+						D[i][j] = (Kosten der Kante von i nach j)
+					ELSE
+						D[i][j] = UNENDLICH
+ 					END
  					
- 					T(ij) = 0
- 				end
- 			end
+ 					T[i][j] = -1 // weil 0 bei uns ein gültiger Index
+ 				END
+ 			END
+ 			
  	2: Algorithmus
+ 		-> Drei ineinander verschachtelte Schleifen
+			FOR j = 0; j < |V|; j++
+				FOR i = 0; i < |V|; i++
+					IF i == j CONTINUE
+					
+					FOR k = 0; k < |V|; k++
+						IF k == j CONTINUE
+						
+						IF D[i][k] > D[i][j] + D[j][k]
+							D[i][k] = D[i][j] + D[j][k] | T[i][k] = j
+						END
+					END
+					IF D[i][i] < 0
+						negCircle = true
+						BREAK
+					END
+				END
+			END
  	
- Bei der Betrachtung des Algorithmus ist uns Aufgefallen das der Algorithmus 
- so nicht funktionieren wird wenn es von einer Ecke mehere Kanten zu einer
- anderen Ecke gibt.
- In der Transitmatrix werden die Ecken gespeichert über die eine Ecke zur 
- anderen Ecke kommt.
+ 	
+Bei der Betrachtung des Algorithmus ist uns Aufgefallen, dass wenn von einem Knoten zu einem anderen Knoten mehr als eine Kante existiert,
+der Algorithmus nicht richtig funktioniert.
+Aus der Funktionsweise lässt sich ableiten das wir zwei Matrizen brauchen (Arrays von Arrays).
+Zum besseren Verständnis des Algorithmus hat uns die Beschreibung des Algorithmus in der Englischen Wikipedia sehr geholfen. 
+ 
+Nachtrag 30.10.2013
+Die Implementierung hat super geklappt und die Distanz stimmt mit der aus dem Bellman-Ford Algorithmus überein.
+Um den Pfad zur Ermittlung über welche Kanten man gehen muss haben wir uns folgendermaßen überlegt:
+In der Transit-Matrix (T) wird ja immer der Knoten mit dem Höchsten Index gespeichert der auf dem Weg ist.
+Dadurch ergibt sich eine beitseitige Rekursion, dass bedeutet das wir für T[i][j] nicht nur den Pfad von T[i][j] zum Ziel, sondern auch den Pfad vom Start zu T[i][j]
+Pseudo-Code	
+	transitNode = T[idxSource][idxTarget];
+	IF transitNode >= 0 // bei -1 existiert ein direkter weg
+		//Wenn ein transit existiert dann müssen wir schauen wie der Source zum Transit gekommen ist 
+		PRINT recursive(idxSource, transitNode)
+		
+		//Dann sich selber ausgeben 
+		PRINT this.listOfVertices.get(transitNode);
+		
+		//Wenn ein transit existiert dann müssen wir schauen wie der Transit zum Ziel gekommen ist 
+		PRINT recursive(transitNode, idxTarget);
+	END
+
+
+
+
+ 
+ 

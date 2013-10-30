@@ -17,6 +17,9 @@ public class FloydWarshallTest {
 		String path = algo.stringRouteSourceToTarget("München", "Lübeck");
 		System.out.println("path:"+path);
 		
+		path = algo.stringRouteSourceToTarget("München", "Kassel");
+		System.out.println("path:"+path);
+		
 		//algo.printMatrices();
 //		String str = algo.stringRouteToTarget("München");
 		
