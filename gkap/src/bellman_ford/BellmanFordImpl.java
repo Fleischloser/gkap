@@ -77,6 +77,7 @@ public class BellmanFordImpl {
 		if (nodeList.size() > 0) {
 			//Init des Graphen
 			for (String nodeId : nodeList) {
+				graph.setStrV(nodeId, attrUsedEdge, null);
 				if (!nodeId.equals(this.startNode)) {
 					graph.setValV(nodeId, attrDistanceName, Integer.MAX_VALUE);
 				} else {
@@ -95,7 +96,7 @@ public class BellmanFordImpl {
 					int valEdge = graph.getValE(edgeId, edgeDistAttrName);
 					
 					int dist = valSource + valEdge;
-					if (!sourceId.equals(this.startNode)) {
+					if (!targetId.equals(this.startNode)) {
 						if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
 							graph.setValV(targetId, attrDistanceName, dist);
 							graph.setStrV(targetId, attrUsedEdge, edgeId);
@@ -126,8 +127,6 @@ public class BellmanFordImpl {
 								//ERROR OVERFLOW!!!!
 								overflowError = true;
 							}
-						} else {
-							//System.out.println("target == source"+targetId);
 						}
 					}
 				}
@@ -142,7 +141,7 @@ public class BellmanFordImpl {
 				int valEdge = graph.getValE(edgeId, edgeDistAttrName);
 				
 				int dist = valSource + valEdge;
-				if (!sourceId.equals(this.startNode)) {
+				if (!targetId.equals(this.startNode)) {
 					if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
 						negCircle = true;
 						break;
@@ -173,8 +172,6 @@ public class BellmanFordImpl {
 							//ERROR OVERFLOW!!!!
 							overflowError = true;
 						}
-					} else {
-						//System.out.println("target == source"+targetId);
 					}
 				}
 			}

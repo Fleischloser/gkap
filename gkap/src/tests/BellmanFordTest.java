@@ -13,20 +13,19 @@ public class BellmanFordTest {
 		
 		graph = Importer.importExample(graph, "graph_02", attrNames);
 		
-		BellmanFordImpl algo = new BellmanFordImpl(graph, "München", attrNames[0]);
+		BellmanFordImpl algo = new BellmanFordImpl(graph, "Augsburg", attrNames[0]);
 		
-		String str = algo.stringRouteToTarget("Augsburg");
-		
-		System.out.println(str);
-		
-		algo = new BellmanFordImpl(graph, "München", attrNames[0]);
-		
-		//graph.getAttrV("München");
-		String used = graph.getStrV("München", "usedEdge");
-		System.out.println("us:"+used);
-		str = algo.stringRouteToTarget("Augsburg");
+		String str = algo.stringRouteToTarget("München");
 		
 		System.out.println(str);
+		
+		System.out.println("##########");
+		
+		BellmanFordImpl algo2 = new BellmanFordImpl(graph, "München", attrNames[0]);
+		
+		String str2 = algo2.stringRouteToTarget("Stuttgart");
+		
+		System.out.println(str2);
 	}
 
 }
