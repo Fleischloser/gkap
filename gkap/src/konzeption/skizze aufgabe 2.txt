@@ -31,3 +31,30 @@ Ob es dann wirklich so funktioniert wie wir uns das vorstellen wird sich zeigen.
 
 Nachtrag 30.10.2014
 Die Implementierung hat so wir wie es uns vorgestellt haben funktioniert.
+
+
+
+Floyed Warshall Algorithmus:
+Funktionsweise:
+	1: Initialisierung
+		-> Zwei verschachtelte Schleifen
+			For i = 0; i < |V|; i++
+				For j = 0; j < |V|; j++
+					if (i == j)
+						D(ij) = 0
+					else if (eine Kanto von i nach j)
+						D(ij) = (Kosten der Kante von i nach j)
+					else
+						D(ij) = UNENTLICH
+ 					end
+ 					
+ 					T(ij) = 0
+ 				end
+ 			end
+ 	2: Algorithmus
+ 	
+ Bei der Betrachtung des Algorithmus ist uns Aufgefallen das der Algorithmus 
+ so nicht funktionieren wird wenn es von einer Ecke mehere Kanten zu einer
+ anderen Ecke gibt.
+ In der Transitmatrix werden die Ecken gespeichert über die eine Ecke zur 
+ anderen Ecke kommt.
