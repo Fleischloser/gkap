@@ -55,11 +55,11 @@ public class BellmanFordImpl {
 	
 	private String recursive(String node, String str) {
 
-		String usedEdge = graph.getStrV(node, attrUsedEdge);
-		if (usedEdge == null || usedEdge.length() == 0) {
+		if (node.equals(this.startNode)) {
 			return node;
 		}
 		
+		String usedEdge = graph.getStrV(node, attrUsedEdge);
 		String sourceNode = graph.getSource(usedEdge);
 		if (node.equals(sourceNode)) {
 			//Kann nur passieren wenn es sich um eine ungerichtete Kante handelt
@@ -96,14 +96,12 @@ public class BellmanFordImpl {
 					int valEdge = graph.getValE(edgeId, edgeDistAttrName);
 					
 					int dist = valSource + valEdge;
-					if (!targetId.equals(this.startNode)) {
-						if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
-							graph.setValV(targetId, attrDistanceName, dist);
-							graph.setStrV(targetId, attrUsedEdge, edgeId);
-						} else if (valSource < Integer.MAX_VALUE && dist < 0) {
-							//ERROR OVERFLOW!!!!
-							overflowError = true;
-						}
+					if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
+						graph.setValV(targetId, attrDistanceName, dist);
+						graph.setStrV(targetId, attrUsedEdge, edgeId);
+					} else if (valSource < Integer.MAX_VALUE && dist < 0) {
+						//ERROR OVERFLOW!!!!
+						overflowError = true;
 					}
 					
 					
@@ -114,19 +112,17 @@ public class BellmanFordImpl {
 						sourceId = graph.getTarget(edgeId);
 						targetId = graph.getSource(edgeId);
 						
-						if (!targetId.equals(this.startNode)) {
-							valSource = graph.getValV(sourceId, attrDistanceName);
-							valTarget = graph.getValV(targetId, attrDistanceName);
-							valEdge = graph.getValE(edgeId, edgeDistAttrName);
-							
-							dist = valSource + valEdge;
-							if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
-								graph.setValV(targetId, attrDistanceName, dist);
-								graph.setStrV(targetId, attrUsedEdge, edgeId);
-							} else if (valSource < Integer.MAX_VALUE && dist < 0) {
-								//ERROR OVERFLOW!!!!
-								overflowError = true;
-							}
+						valSource = graph.getValV(sourceId, attrDistanceName);
+						valTarget = graph.getValV(targetId, attrDistanceName);
+						valEdge = graph.getValE(edgeId, edgeDistAttrName);
+						
+						dist = valSource + valEdge;
+						if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
+							graph.setValV(targetId, attrDistanceName, dist);
+							graph.setStrV(targetId, attrUsedEdge, edgeId);
+						} else if (valSource < Integer.MAX_VALUE && dist < 0) {
+							//ERROR OVERFLOW!!!!
+							overflowError = true;
 						}
 					}
 				}
@@ -141,14 +137,12 @@ public class BellmanFordImpl {
 				int valEdge = graph.getValE(edgeId, edgeDistAttrName);
 				
 				int dist = valSource + valEdge;
-				if (!targetId.equals(this.startNode)) {
-					if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
-						negCircle = true;
-						break;
-					} else if (valSource < Integer.MAX_VALUE && dist < 0) {
-						//ERROR OVERFLOW!!!!
-						overflowError = true;
-					}
+				if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
+					negCircle = true;
+					break;
+				} else if (valSource < Integer.MAX_VALUE && dist < 0) {
+					//ERROR OVERFLOW!!!!
+					overflowError = true;
 				}
 				
 				
@@ -159,19 +153,17 @@ public class BellmanFordImpl {
 					sourceId = graph.getTarget(edgeId);
 					targetId = graph.getSource(edgeId);
 					
-					if (!targetId.equals(this.startNode)) {
-						valSource = graph.getValV(sourceId, attrDistanceName);
-						valTarget = graph.getValV(targetId, attrDistanceName);
-						valEdge = graph.getValE(edgeId, edgeDistAttrName);
-						
-						dist = valSource + valEdge;
-						if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
-							negCircle = true;
-							break;
-						} else if (valSource < Integer.MAX_VALUE && dist < 0) {
-							//ERROR OVERFLOW!!!!
-							overflowError = true;
-						}
+					valSource = graph.getValV(sourceId, attrDistanceName);
+					valTarget = graph.getValV(targetId, attrDistanceName);
+					valEdge = graph.getValE(edgeId, edgeDistAttrName);
+					
+					dist = valSource + valEdge;
+					if (dist < Integer.MAX_VALUE && dist >= 0 && valTarget > dist) {
+						negCircle = true;
+						break;
+					} else if (valSource < Integer.MAX_VALUE && dist < 0) {
+						//ERROR OVERFLOW!!!!
+						overflowError = true;
 					}
 				}
 			}

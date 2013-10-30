@@ -12,13 +12,22 @@ Funktionsweise:
 
 3: Nachitteration um negative Zyklen zu finden
 
-Aus der Funktionsweise ergibt sich das an jedem Knoten ein Attribut gespeichert werden muss das die Kosten zu erreichen dieser Kante speichert. Soweit so gut, jetzt wissen wir wie teuer es ist vom Start zu einem anderen Knoten zu kommen.
-Allerdings fehlt noch der Weg den man gehen muss. Um das zu bewegstelligen, wollen wir an jedem Knoten noch die ID der Kante speichern über den der Knoten erreicht wurde. Da die ID einer Kante bei uns ein String ist, können wir die einfach in den Attributen der Kante abspeichern. Um dann den Weg vom Start zum Ziel zu ermitteln müssen wir dann einfach rekursiv vom Ende zum Start laufen.
+Aus der Funktionsweise ergibt sich das an jeder Knoten ein Attribut gespeichert werden muss das die Kosten zu dieser Kante speichert.
+Soweit so gut, jetzt wissen wir wie teuer es ist vom Start zu einem anderen Knoten zu kommen.
+Allerdings fehlt jetzt noch der Weg den man gehen muss.
+Um das zu bewegstelligen, wollen wir an jedem Knoten noch die ID der Kante speichern über den der Knoten erreicht wurde.
+Da die ID einer Kante bei uns ein String ist, können wir die einfach in den Attributen der Kante abspeichern.
+Um dann den Weg vom Start zum Ziel zu ermitteln müssen wir dann einfach rekursiv vom Ende zum Start laufen.
 
-Nachtrag:
+
+Nachtrag 23.10.2014:
 Uns ist aufgefallen das der Algorithmus so wie wir Ihn implementiert haben jede Kante als gerichtet interpretiert.
 Bei dem Versuch den Allorithmus auf ungerichtete Kanten zu erweitern, ist uns aufgefallen das wir aktuell in unser ADT den kleinen Schwachpunkt haben. Von außerhalb des Graphen kann man nicht rausfinden ob eine Kante gerichtet oder ungerichtet ist. Somit können wir auch den Allgorithmus nicht ohne weiteres umbauen, dass er sich bei einer ungerichteten Kante anders verhält.
 Um dieses zu ermöglichen, haben wir uns überlegt in den Attributen einer Kante mit abzuspeichern ob sie gerichtet oder ungerichtet ist. Durch diese Art der Erweiterung müssen wir den ADT des Graphen nicht anpassen und bleiben weiterhin austauschbar mit anderen Gruppen.
 Als AttributName geben wir dafür "isDirectedEdge" vor mit den Werten "0" und "1" als Integer gespeichert. Dieses Attribut darf dann von außerhalb der ADT nicht veränderbar sein. Darum müssen wir beim setzten eines Attributes an einer Kante auch überprüfen das der Name des Attributes != "isDirectedEdge" sein muss.
 Wenn wir unseren Graphen dann erweitert haben, können wir in der Schleife über die Kanten dann ein IF einbauen, dass wenn es eine ungerichtete Kante ist der Allgorithmus auch noch mal Start und Ziel vertauscht.
 Ob es dann wirklich so funktioniert wie wir uns das vorstellen wird sich zeigen.
+
+
+Nachtrag 30.10.2014
+Die Implementierung hat so wir wie es uns vorgestellt haben funktioniert.
