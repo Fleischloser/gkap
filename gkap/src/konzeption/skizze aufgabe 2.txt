@@ -10,7 +10,7 @@ Funktionsweise:
 			-> WENN die Kosten des Ziels der Kante > den Kosten vom Start und den Kosten der Kante selbst
 				-> DANN: Überschreibe die Kosten am Ziel mit den neuen
 
-3: Nachiteration um negative Zyklen zu finden
+3: Nachiteration um Zyklen mit negativen Kosten zu finden
 
 Aus der Funktionsweise ergibt sich das an jedem Knoten ein Attribut gespeichert werden muss, das die Kosten zu dieser Kante speichert.
 Soweit so gut, jetzt wissen wir wie teuer es ist vom Start zu einem anderen Knoten zu kommen.
