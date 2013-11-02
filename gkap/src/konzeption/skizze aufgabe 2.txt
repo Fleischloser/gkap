@@ -2,17 +2,17 @@ Skizze:
 Bellman-Ford:
 Funktionsweise:
 1: Initialisierung
-	-> An allen Knoten die Kosten zum erreichen auf "unendlich" setzten
-	-> Am Start Knoten die Kosten auf 0 Setzten
+	-> An allen Knoten die Kosten zum erreichen auf "unendlich" setzen
+	-> Am Startknoten die Kosten auf 0 setzen
 2: Zwei verschachtelte Schleifen
 	-> Schleife über alle Knoten
-		-> Schleife über alle Kanten im Grafen
-			-> WENN die Kosten des Ziel der Kante > den Kosten vom Start und den Kosten der Kante selbst
+		-> Schleife über alle Kanten im Graphen
+			-> WENN die Kosten des Ziels der Kante > den Kosten vom Start und den Kosten der Kante selbst
 				-> DANN: Überschreibe die Kosten am Ziel mit den neuen
 
-3: Nachitteration um negative Zyklen zu finden
+3: Nachiteration um negative Zyklen zu finden
 
-Aus der Funktionsweise ergibt sich das an jeder Knoten ein Attribut gespeichert werden muss das die Kosten zu dieser Kante speichert.
+Aus der Funktionsweise ergibt sich das an jedem Knoten ein Attribut gespeichert werden muss, das die Kosten zu dieser Kante speichert.
 Soweit so gut, jetzt wissen wir wie teuer es ist vom Start zu einem anderen Knoten zu kommen.
 Allerdings fehlt jetzt noch der Weg den man gehen muss.
 Um das zu bewegstelligen, wollen wir an jedem Knoten noch die ID der Kante speichern über den der Knoten erreicht wurde.
@@ -21,20 +21,20 @@ Um dann den Weg vom Start zum Ziel zu ermitteln müssen wir dann einfach rekursi
 
 
 Nachtrag 23.10.2014:
-Uns ist aufgefallen das der Algorithmus so wie wir Ihn implementiert haben jede Kante als gerichtet interpretiert.
-Bei dem Versuch den Allorithmus auf ungerichtete Kanten zu erweitern, ist uns aufgefallen das wir aktuell in unser ADT den kleinen Schwachpunkt haben. Von außerhalb des Graphen kann man nicht rausfinden ob eine Kante gerichtet oder ungerichtet ist. Somit können wir auch den Allgorithmus nicht ohne weiteres umbauen, dass er sich bei einer ungerichteten Kante anders verhält.
-Um dieses zu ermöglichen, haben wir uns überlegt in den Attributen einer Kante mit abzuspeichern ob sie gerichtet oder ungerichtet ist. Durch diese Art der Erweiterung müssen wir den ADT des Graphen nicht anpassen und bleiben weiterhin austauschbar mit anderen Gruppen.
-Als AttributName geben wir dafür "isDirectedEdge" vor mit den Werten "0" und "1" als Integer gespeichert. Dieses Attribut darf dann von außerhalb der ADT nicht veränderbar sein. Darum müssen wir beim setzten eines Attributes an einer Kante auch überprüfen das der Name des Attributes != "isDirectedEdge" sein muss.
-Wenn wir unseren Graphen dann erweitert haben, können wir in der Schleife über die Kanten dann ein IF einbauen, dass wenn es eine ungerichtete Kante ist der Allgorithmus auch noch mal Start und Ziel vertauscht.
+Uns ist aufgefallen, dass der Algorithmus so wie wir ihn implementiert haben, jede Kante als gerichtet interpretiert.
+Bei dem Versuch den Algorithmus auf ungerichtete Kanten zu erweitern, ist uns aufgefallen, dass wir aktuell in unserem ADT den kleinen Schwachpunkt haben. Von außerhalb des Graphen kann man nicht rausfinden ob eine Kante gerichtet oder ungerichtet ist. Somit können wir auch den Algorithmus nicht ohne weiteres umbauen, dass er sich bei einer ungerichteten Kante anders verhält.
+Um dieses zu ermöglichen, haben wir uns überlegt, in den Attributen einer Kante mit abzuspeichern, ob sie gerichtet oder ungerichtet ist. Durch diese Art der Erweiterung müssen wir den ADT des Graphen nicht anpassen und bleiben weiterhin austauschbar mit anderen Gruppen.
+Als Attribut-Name geben wir dafür "isDirectedEdge" vor mit den Werten "0" und "1" als Integer gespeichert. Dieses Attribut darf dann von außerhalb der ADT nicht veränderbar sein. Darum müssen wir beim setzten eines Attributes an einer Kante auch überprüfen das der Name des Attributes != "isDirectedEdge" sein muss.
+Wenn wir unseren Graphen dann erweitert haben, können wir in der Schleife über die Kanten dann eine Abfrage einbauen, die sicherstellt, dass bei einer ungerichtete Kante der Algorithmus auch noch mal Start und Ziel vertauscht.
 Ob es dann wirklich so funktioniert wie wir uns das vorstellen wird sich zeigen.
 
 
 Nachtrag 30.10.2014
-Die Implementierung hat so wir wie es uns vorgestellt haben funktioniert.
+Die Implementierung hat so, wir wie es uns vorgestellt haben, funktioniert.
 
 
 
-Floyed Warshall Algorithmus:
+Floyd-Warshall-Algorithmus:
 Funktionsweise:
 	1: Initialisierung
 		-> Zwei verschachtelte Schleifen
@@ -73,16 +73,16 @@ Funktionsweise:
 			END
  	
  	
-Bei der Betrachtung des Algorithmus ist uns Aufgefallen, dass wenn von einem Knoten zu einem anderen Knoten mehr als eine Kante existiert,
+Bei der Betrachtung des Algorithmus ist uns aufgefallen, dass wenn von einem Knoten zu einem anderen Knoten mehr als eine Kante existiert,
 der Algorithmus nicht richtig funktioniert.
-Aus der Funktionsweise lässt sich ableiten das wir zwei Matrizen brauchen (Arrays von Arrays).
-Zum besseren Verständnis des Algorithmus hat uns die Beschreibung des Algorithmus in der Englischen Wikipedia sehr geholfen. 
+Aus der Funktionsweise lässt sich ableiten, dass wir zwei Matrizen brauchen (Arrays von Arrays).
+Zum besseren Verständnis des Algorithmus hat uns die Beschreibung des Algorithmus zur Rekontruktion des Weges in der Englischen Wikipedia sehr geholfen. 
  
 Nachtrag 30.10.2013
-Die Implementierung hat super geklappt und die Distanz stimmt mit der aus dem Bellman-Ford Algorithmus überein.
-Um den Pfad zur Ermittlung über welche Kanten man gehen muss haben wir uns folgendermaßen überlegt:
-In der Transit-Matrix (T) wird ja immer der Knoten mit dem Höchsten Index gespeichert der auf dem Weg ist.
-Dadurch ergibt sich eine beitseitige Rekursion, dass bedeutet das wir für T[i][j] nicht nur den Pfad von T[i][j] zum Ziel, sondern auch den Pfad vom Start zu T[i][j]
+Die Implementierung hat super geklappt und die Distanz stimmt mit der durch den Bellman-Ford-Algorithmus ermittelten überein.
+Um den Pfad zur Ermittlung, über welche Kanten man gehen muss, haben wir uns folgendermaßen überlegt:
+In der Transit-Matrix (T) wird ja immer der Knoten mit dem höchsten Index gespeichert, der auf dem Weg ist.
+Dadurch ergibt sich eine beidseitige Rekursion, dass bedeutet das wir für T[i][j] nicht nur den Pfad von T[i][j] zum Ziel, sondern auch den Pfad vom Start zu T[i][j]
 Pseudo-Code	
 	transitNode = T[idxSource][idxTarget];
 	IF transitNode >= 0 // bei -1 existiert ein direkter weg
