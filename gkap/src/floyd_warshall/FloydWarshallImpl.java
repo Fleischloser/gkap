@@ -105,14 +105,19 @@ public class FloydWarshallImpl {
 		}
 		
 		if (idxSource >= 0 && idxTarget >= 0) {
-			int dist = D[idxSource][idxTarget];
-			
-			String ret = this.listOfVertices.get(idxSource);
-			ret = ret + "#" + recursive(idxSource, idxTarget);			
-			ret = ret + "#" + this.listOfVertices.get(idxTarget);
-			ret = ret + "#" + dist;
-			
-			return ret;
+			if (this.negCircle) {
+				return "ERROR:1001:NEG Circle";	
+			} else {
+
+				int dist = D[idxSource][idxTarget];
+				
+				String ret = this.listOfVertices.get(idxSource);
+				ret = ret + "#" + recursive(idxSource, idxTarget);			
+				ret = ret + "#" + this.listOfVertices.get(idxTarget);
+				ret = ret + "#" + dist;
+				
+				return ret;
+			}
 		}
 		
 		return "";
