@@ -22,11 +22,13 @@ public class BellmanFordImpl {
 	private String attrUsedEdge = "usedEdge";
 	
 	/**
-	 * Initialisieren des Algorithmus mit einem Graphen, Startknoten und dem Attributnamen der Kosten an der Kante
+	 * Initialisieren des Algorithmus mit einem Graphen, Startknoten und dem 
+	 * Attributnamen der Kosten an der Kante
 	 * 
 	 * @param graph - Graph, der untersucht werden soll
 	 * @param startNode - Startknoten
-	 * @param edgeDistAttrName - Attributname, über den die Kosten an der Kante geholt werden können
+	 * @param edgeDistAttrName - Attributname, über den die Kosten an der Kante 
+	 * 		geholt werden können
 	 */
 	public BellmanFordImpl (AIGraph graph, String startNode, String edgeDistAttrName) {
 		this.graph = graph;
