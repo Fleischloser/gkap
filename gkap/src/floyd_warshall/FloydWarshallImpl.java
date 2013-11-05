@@ -216,6 +216,9 @@ public class FloydWarshallImpl {
 			}
 			System.out.println();
 		}
+		System.out.println("+++++++++++++++++++++++");
+		System.out.println("Legende: D-Matrix ->  x == Es egistiert kein Pfad zwischen den Knoten");
+		System.out.println("#######################");
 		System.out.println();
 		
 		System.out.format("%9s", "");
@@ -236,7 +239,10 @@ public class FloydWarshallImpl {
 			}
 			System.out.println();
 		}
+		System.out.println("+++++++++++++++++++++++");
+		System.out.println("Legende: T-Matrix -> -1 == Es egistiert kein Pfad zwischen den Knoten");
 		System.out.println("#######################");
+		System.out.println();
 	}
 	
 } 
