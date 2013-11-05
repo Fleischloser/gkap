@@ -10,29 +10,22 @@ public class FloydWarshallTest {
 		AIGraph graph = AIGraph.init();
 		String[] attrNames = {"distance"};
 		
+		//Import des Graphen der benutzt werden soll
 		graph = Importer.importExample(graph, "graph_02", attrNames);
 		
+		//Initialisieren des Algorithmus
 		FloydWarshallImpl algo = new FloydWarshallImpl(graph, attrNames[0]);
+		
+		//Ausgabe der Matrizen
 		algo.printMatrices();
 		
+		//Ermitteln des Pfades und der Kosten von <START> zum <ZIEL>
 		String path = algo.stringRouteSourceToTarget("München", "Lübeck");
 		System.out.println("path:"+path);
 		
 		path = algo.stringRouteSourceToTarget("München", "Kassel");
 		System.out.println("path:"+path);
-		
-		//algo.printMatrices();
-//		String str = algo.stringRouteToTarget("München");
-		
-//		System.out.println(str);
-		
-		//System.out.println("##########");
-		
-		//FloydWarshallImpl algo2 = new FloydWarshallImpl(graph, attrNames[0]);
-		
-//		String str2 = algo2.stringRouteToTarget("Stuttgart");
-		
-//		System.out.println(str2);
+
 	}
 
 }

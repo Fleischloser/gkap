@@ -5,44 +5,48 @@ import graph_lib.AIGraph;
 
 public class FloydWarshallImpl {
 	private AIGraph graph;
-	private String startNode;
 	private String edgeDistAttrName;
 	private boolean negCircle = false;
-	private boolean overflowError = false;
-	private long countAccessForAlgo = -1L;
+	private long countAccessForAlgo;
 
-	private String attrDistanceName = "distance";
-	private String attrUsedEdge = "usedEdge";
 	private int numberOfVertices;
 	private int[][] D;
 	private int[][] T;
 	List<String>listOfVertices;
 	
+	/**
+	 * Initialisieren des Algorithmus mit einem Graphen und dem Attributnamen der Kosten an der Kante
+	 * 
+	 * @param graph - Graph der untersucht werden soll
+	 * @param edgeDistAttrName - Attributname über den die Kosten an der Kante geholt werden können
+	 */
 	public FloydWarshallImpl (AIGraph graph, String edgeDistAttrName){
 		this.graph = graph;
 		this.edgeDistAttrName = edgeDistAttrName;
-		listOfVertices = graph.getVertexes();
-		numberOfVertices = listOfVertices.size();
-		D = new int[numberOfVertices][numberOfVertices];
-		T = new int[numberOfVertices][numberOfVertices];
-		for (int i = 0; i < numberOfVertices; i++){
-			List<String>edgesOfCurrentVertex = graph.getIncident(listOfVertices.get(i));
-			for (int j = 0; j < numberOfVertices; j++){
+		this.listOfVertices = graph.getVertexes();
+		this.numberOfVertices = listOfVertices.size();
+		this.D = new int[this.numberOfVertices][this.numberOfVertices];
+		this.T = new int[this.numberOfVertices][this.numberOfVertices];
+
+		long beforeAcc = this.graph.getCountGraphAccesses();
+		for (int i = 0; i < this.numberOfVertices; i++){
+			List<String>edgesOfCurrentVertex = graph.getIncident(this.listOfVertices.get(i));
+			for (int j = 0; j < this.numberOfVertices; j++){
 				T[i][j] = -1;
 				if (i == j){
 					D[i][j] = 0;
 				}else{
 					int dist = Integer.MAX_VALUE;
 					for(String edge : edgesOfCurrentVertex){
-						if(graph.getTarget(edge) == listOfVertices.get(j)){
-							dist = graph.getValE(edge, edgeDistAttrName);
+						if(graph.getTarget(edge) == this.listOfVertices.get(j)){
+							dist = graph.getValE(edge, this.edgeDistAttrName);
 							break;
 						}
 						
 						int isDierectedEdge = graph.getValE(edge, "isDirectedEdge");
 						if (isDierectedEdge == 0) {
 							if(graph.getSource(edge) == listOfVertices.get(j)){
-								dist = graph.getValE(edge, edgeDistAttrName);
+								dist = graph.getValE(edge, this.edgeDistAttrName);
 								break;
 							}
 						}
@@ -52,21 +56,31 @@ public class FloydWarshallImpl {
 					
 			}
 		}
-		long beforeAcc = this.graph.getCountGraphAccesses();
+		
 		//this.printVariableVals();
 		//System.out.println("-------");
-		this.printMatrices();
+		//this.printMatrices();
 		doAlgorithm();
-		countAccessForAlgo = this.graph.getCountGraphAccesses() - beforeAcc; 
-	}	
+		this.countAccessForAlgo = this.graph.getCountGraphAccesses() - beforeAcc; 
+	}
 	
+	public long getCountForAlgo() {
+		return this.countAccessForAlgo;
+	}
+	
+	/**
+	 * Algorithmus zum berchnen der Matrizen
+	 */
 	private void doAlgorithm(){
-		for(int j = 0; j < numberOfVertices; j++){
-			for(int i = 0; i < numberOfVertices; i++){
+		for(int j = 0; j < this.numberOfVertices; j++){
+			if (this.negCircle) {
+				break;
+			}
+			for(int i = 0; i < this.numberOfVertices; i++){
 				if(i == j){
 					continue;
 				}
-				for(int k = 0; k < numberOfVertices; k++){
+				for(int k = 0; k < this.numberOfVertices; k++){
 					if(k == j){
 						continue;
 					}
@@ -78,7 +92,7 @@ public class FloydWarshallImpl {
 					}
 				}
 				if(D[i][i] < 0){
-					negCircle = true;
+					this.negCircle = true;
 					break;
 				}
 			}
@@ -86,12 +100,24 @@ public class FloydWarshallImpl {
 		}
 	}
 	
-	public void printVariableVals () {
+	/**
+	 * Printausgabe welcher Index welchem Knoten entspricht.
+	 * Nur zum Testen
+	 */
+	@SuppressWarnings("unused")
+	private void printVariableVals () {
 		for (int i = 0; i < this.listOfVertices.size(); i++ ) {
 			System.out.println(i+"<>"+this.listOfVertices.get(i));
 		}
 	}
 	
+	/**
+	 * Ermittelt den Pfat vom Startknoten zum Zielknoten und die geringsten Kosten
+	 * 
+	 * @param source - Startknoten
+	 * @param target - Zielknoten
+	 * @return String : <START>##<ZWISCHENKNOTEN>##<ZWISCHENKNOTEN>##<ZIEL>#<KOSTEN>
+	 */
 	public String stringRouteSourceToTarget (String source, String target) {
 		
 		int idxSource = -1;
@@ -120,9 +146,16 @@ public class FloydWarshallImpl {
 			}
 		}
 		
-		return "";
+		return "ERROR:1002:Start or Target unknown";
 	}
 	
+	/**
+	 * Rekusives ermitteln der Printausgabe des Pfades
+	 * 
+	 * @param idxSource
+	 * @param idxTarget
+	 * @return String
+	 */
 	private String recursive(int idxSource, int idxTarget) {
 		int actIdx = T[idxSource][idxTarget];
 		if (actIdx >= 0) {
@@ -136,6 +169,9 @@ public class FloydWarshallImpl {
 		return "";
 	}
 	
+	/**
+	 * Printausgabe der Matrizen
+	 */
 	public void printMatrices(){
 		
 		System.out.format("%6s", "");
