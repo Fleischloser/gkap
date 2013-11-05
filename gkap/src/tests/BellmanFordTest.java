@@ -15,7 +15,7 @@ public class BellmanFordTest {
 		
 		BellmanFordImpl algo = new BellmanFordImpl(graph, "München", attrNames[0]);
 		
-		String str = algo.stringRouteToTarget("Kassel");
+		String str = algo.stringRouteToTarget("Hamburg");
 		
 		System.out.println(str);
 		System.out.println("Count Graph access:"+algo.getCountOfGraphAccess());

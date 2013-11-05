@@ -21,8 +21,12 @@ public class BellmanFordImpl {
 	private String attrDistanceName = "distance";
 	private String attrUsedEdge = "usedEdge";
 	
-	/*
-	 *Initialisieren der Suche 
+	/**
+	 * Initialisieren des Algorithmus mit einem Graphen,Startknoten und dem Attributnamen der Kosten an der Kante
+	 * 
+	 * @param graph - Graph der untersucht werden soll
+	 * @param startNode - Startknoten
+	 * @param edgeDistAttrName - Attributname über den die Kosten an der Kante geholt werden können
 	 */
 	public BellmanFordImpl (AIGraph graph, String startNode, String edgeDistAttrName) {
 		this.graph = graph;
@@ -35,6 +39,12 @@ public class BellmanFordImpl {
 		
 	}
 	
+	/**
+	 * Ermittelt den Pfad vom Startknoten zum Zielknoten und die geringsten Kosten
+	 * 
+	 * @param target - Zielknoten
+	 * @return String - <START>:<ZWISCHENKNOTEN>:<ZWISCHENKNOTEN>:<ZIEL>#<KOSTEN>
+	 */
 	public String stringRouteToTarget(String target) {
 		if (negCircle) {
 			return "ERROR:1001:negCircle";
@@ -43,6 +53,9 @@ public class BellmanFordImpl {
 		}
 		
 		int distance = graph.getValV(target, attrDistanceName);
+		if (distance == Integer.MAX_VALUE) {
+			return "ERROR:1000:No route from "+this.startNode+" to "+target;
+		}
 		String ret = "#"+distance;
 		
 		String path = recursive(target, "");
@@ -50,6 +63,13 @@ public class BellmanFordImpl {
 		return path+ret;
 	}
 	
+	/**
+	 * Rekursives ermitteln des Pfades
+	 * 
+	 * @param node - Aktueller Knoten
+	 * @param str - Aktuelles Stringergebnis
+	 * @return Pfad
+	 */
 	private String recursive(String node, String str) {
 
 		if (node.equals(this.startNode)) {
@@ -68,6 +88,9 @@ public class BellmanFordImpl {
 		return ret;
 	}
 	
+	/**
+	 * Algorithmus ausführen
+	 */
 	private void doAlgorithmus() {
 		
 		List<String> nodeList = graph.getVertexes();

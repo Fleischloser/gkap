@@ -11,7 +11,7 @@ public class FloydWarshallTest {
 		String[] attrNames = {"distance"};
 		
 		//Import des Graphen der benutzt werden soll
-		graph = Importer.importExample(graph, "graph_02", attrNames);
+		graph = Importer.importExample(graph, "graph_08", attrNames);
 		
 		//Initialisieren des Algorithmus
 		FloydWarshallImpl algo = new FloydWarshallImpl(graph, attrNames[0]);
@@ -20,10 +20,11 @@ public class FloydWarshallTest {
 		algo.printMatrices();
 		
 		//Ermitteln des Pfades und der Kosten von <START> zum <ZIEL>
-		String path = algo.stringRouteSourceToTarget("München", "Lübeck");
+		String path = algo.stringRouteSourceToTarget("Hamburg", "Dresden");
 		System.out.println("path:"+path);
+		System.out.println("count:"+algo.getCountForAlgo());
 		
-		path = algo.stringRouteSourceToTarget("München", "Kassel");
+		path = algo.stringRouteSourceToTarget("München", "Hamburg");
 		System.out.println("path:"+path);
 
 	}

@@ -112,13 +112,17 @@ public class FloydWarshallImpl {
 	}
 	
 	/**
-	 * Ermittelt den Pfat vom Startknoten zum Zielknoten und die geringsten Kosten
+	 * Ermittelt den Pfad vom Startknoten zum Zielknoten und die geringsten Kosten
 	 * 
 	 * @param source - Startknoten
 	 * @param target - Zielknoten
 	 * @return String : <START>##<ZWISCHENKNOTEN>##<ZWISCHENKNOTEN>##<ZIEL>#<KOSTEN>
 	 */
 	public String stringRouteSourceToTarget (String source, String target) {
+		
+		if (this.negCircle) {
+			return "ERROR:1001:NEG Circle";	
+		}
 		
 		int idxSource = -1;
 		int idxTarget = -1;
@@ -131,19 +135,17 @@ public class FloydWarshallImpl {
 		}
 		
 		if (idxSource >= 0 && idxTarget >= 0) {
-			if (this.negCircle) {
-				return "ERROR:1001:NEG Circle";	
-			} else {
-
-				int dist = D[idxSource][idxTarget];
-				
-				String ret = this.listOfVertices.get(idxSource);
-				ret = ret + "#" + recursive(idxSource, idxTarget);			
-				ret = ret + "#" + this.listOfVertices.get(idxTarget);
-				ret = ret + "#" + dist;
-				
-				return ret;
+			int dist = D[idxSource][idxTarget];
+			if (dist == Integer.MAX_VALUE) {
+				return "ERROR:1000:No route from "+this.listOfVertices.get(idxSource)+" to "+this.listOfVertices.get(idxTarget);
 			}
+			
+			String ret = this.listOfVertices.get(idxSource);
+			ret = ret + "#" + recursive(idxSource, idxTarget);			
+			ret = ret + "#" + this.listOfVertices.get(idxTarget);
+			ret = ret + "#" + dist;
+			
+			return ret;
 		}
 		
 		return "ERROR:1002:Start or Target unknown";
