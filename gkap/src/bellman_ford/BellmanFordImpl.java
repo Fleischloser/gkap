@@ -22,11 +22,11 @@ public class BellmanFordImpl {
 	private String attrUsedEdge = "usedEdge";
 	
 	/**
-	 * Initialisieren des Algorithmus mit einem Graphen,Startknoten und dem Attributnamen der Kosten an der Kante
+	 * Initialisieren des Algorithmus mit einem Graphen, Startknoten und dem Attributnamen der Kosten an der Kante
 	 * 
-	 * @param graph - Graph der untersucht werden soll
+	 * @param graph - Graph, der untersucht werden soll
 	 * @param startNode - Startknoten
-	 * @param edgeDistAttrName - Attributname über den die Kosten an der Kante geholt werden können
+	 * @param edgeDistAttrName - Attributname, über den die Kosten an der Kante geholt werden können
 	 */
 	public BellmanFordImpl (AIGraph graph, String startNode, String edgeDistAttrName) {
 		this.graph = graph;
@@ -79,7 +79,7 @@ public class BellmanFordImpl {
 		String usedEdge = graph.getStrV(node, attrUsedEdge);
 		String sourceNode = graph.getSource(usedEdge);
 		if (node.equals(sourceNode)) {
-			//Kann nur passieren wenn es sich um eine ungerichtete Kante handelt
+			//Kann nur passieren, wenn es sich um eine ungerichtete Kante handelt
 			sourceNode = graph.getTarget(usedEdge);
 		}
 		
@@ -127,13 +127,13 @@ public class BellmanFordImpl {
 					
 					int isDierectedEdge = graph.getValE(edgeId, "isDirectedEdge");
 					if (isDierectedEdge == 0) {
-						//Ungerichtet also auch die andere Richtung testen...
+						//Ungerichtet, also auch die andere Richtung testen...
 						//das bedeutet source und target tauschen
 						sourceId = graph.getTarget(edgeId);
 						targetId = graph.getSource(edgeId);
 						
 						valSource = graph.getValV(sourceId, attrDistanceName);
-						valTarget = graph.getValV(targetId, attrDistanceName);
+						valTarget = graph.getValV( targetId, attrDistanceName);
 						valEdge = graph.getValE(edgeId, edgeDistAttrName);
 						
 						dist = valSource + valEdge;
@@ -168,7 +168,7 @@ public class BellmanFordImpl {
 				
 				int isDierectedEdge = graph.getValE(edgeId, "isDirectedEdge");
 				if (isDierectedEdge == 0) {
-					//Ungerichtet also auch die andere Richtung testen...
+					//Ungerichtet, also auch die andere Richtung testen...
 					//das bedeutet source und target tauschen
 					sourceId = graph.getTarget(edgeId);
 					targetId = graph.getSource(edgeId);
