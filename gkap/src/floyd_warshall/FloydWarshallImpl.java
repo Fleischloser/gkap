@@ -16,10 +16,12 @@ public class FloydWarshallImpl {
 	List<String>listOfVertices;
 	
 	/**
-	 * Initialisieren des Algorithmus mit einem Graphen und dem Attributnamen der Kosten an der Kante
+	 * Initialisieren des Algorithmus mit einem Graphen und dem Attributnamen 
+	 * der Kosten an der Kante
 	 * 
 	 * @param graph - Graph der untersucht werden soll
-	 * @param edgeDistAttrName - Attributname über den die Kosten an der Kante geholt werden können
+	 * @param edgeDistAttrName - Attributname über den die Kosten an der Kante 
+	 * 			geholt werden können
 	 */
 	public FloydWarshallImpl (AIGraph graph, String edgeDistAttrName){
 		this.graph = graph;
@@ -76,7 +78,7 @@ public class FloydWarshallImpl {
 	}
 	
 	/**
-	 * Algorithmus zum berchnen der Matrizen
+	 * Algorithmus zum berechnen der Matrizen
 	 */
 	private void doAlgorithm(){
 		for(int j = 0; j < this.numberOfVertices; j++){
@@ -119,7 +121,7 @@ public class FloydWarshallImpl {
 	}
 	
 	/**
-	 * Printausgabe welcher Index welchem Knoten entspricht.
+	 * Printausgabe, welcher Index welchem Knoten entspricht.
 	 * Nur zum Testen
 	 */
 	@SuppressWarnings("unused")
@@ -155,7 +157,8 @@ public class FloydWarshallImpl {
 		if (idxSource >= 0 && idxTarget >= 0) {
 			int dist = D[idxSource][idxTarget];
 			if (dist == Integer.MAX_VALUE) {
-				return "ERROR:1000:No route from "+this.listOfVertices.get(idxSource)+" to "+this.listOfVertices.get(idxTarget);
+				return "ERROR:1000:No route from "+this.listOfVertices.get(idxSource)
+						+" to "+this.listOfVertices.get(idxTarget);
 			}
 			
 			String ret = this.listOfVertices.get(idxSource);
@@ -179,7 +182,8 @@ public class FloydWarshallImpl {
 	private String recursive(int idxSource, int idxTarget) {
 		int actIdx = T[idxSource][idxTarget];
 		if (actIdx >= 0) {
-			String ret = recursive(idxSource, actIdx) + "#" + this.listOfVertices.get(actIdx);
+			String ret = recursive(idxSource, actIdx) + "#" 
+					+ this.listOfVertices.get(actIdx);
 			
 			ret = ret + "#" + recursive(actIdx, idxTarget);
 			
@@ -196,12 +200,16 @@ public class FloydWarshallImpl {
 		
 		System.out.format("%6s", "");
 		for (int i = 0; i < numberOfVertices; i++){
-			System.out.format("%6s", this.listOfVertices.get(i).substring(0, (this.listOfVertices.get(i).length() > 5 ? 5 : this.listOfVertices.get(i).length())));
+			System.out.format("%6s", this.listOfVertices.get(i).substring(0, 
+				(this.listOfVertices.get(i).length() > 5 ? 5 : 
+				this.listOfVertices.get(i).length())));
 		}
 		System.out.println();
 		
 		for (int i = 0; i < numberOfVertices; i++){
-			System.out.format("%6s", this.listOfVertices.get(i).substring(0, (this.listOfVertices.get(i).length() > 5 ? 5 : this.listOfVertices.get(i).length())));
+			System.out.format("%6s", this.listOfVertices.get(i).substring(0, 
+				(this.listOfVertices.get(i).length() > 5 ? 5 : 
+				this.listOfVertices.get(i).length())));
 			for (int j = 0; j < numberOfVertices; j++){
 				//System.out.print(" " + (D[i][j] == Integer.MAX_VALUE ? "x" : D[i][j]));
 				System.out.format("%6s", (D[i][j] == Integer.MAX_VALUE ? "x" : D[i][j]));
@@ -212,12 +220,16 @@ public class FloydWarshallImpl {
 		
 		System.out.format("%9s", "");
 		for (int i = 0; i < numberOfVertices; i++){
-			System.out.format("%6s", this.listOfVertices.get(i).substring(0, (this.listOfVertices.get(i).length() > 5 ? 5 : this.listOfVertices.get(i).length())));
+			System.out.format("%6s", this.listOfVertices.get(i).substring(0, 
+				(this.listOfVertices.get(i).length() > 5 ? 5 : 
+				this.listOfVertices.get(i).length())));
 		}
 		System.out.println();
 		
 		for (int i = 0; i < numberOfVertices; i++){
-			System.out.format("%2s %6s", ""+i, this.listOfVertices.get(i).substring(0, (this.listOfVertices.get(i).length() > 5 ? 5 : this.listOfVertices.get(i).length())));
+			System.out.format("%2s %6s", ""+i, this.listOfVertices.get(i).substring(0, 
+				(this.listOfVertices.get(i).length() > 5 ? 5 : 
+				this.listOfVertices.get(i).length())));
 			for (int j = 0; j < numberOfVertices; j++){
 				//System.out.print(" " + T[i][j]);
 				System.out.format("%6s", T[i][j]);
