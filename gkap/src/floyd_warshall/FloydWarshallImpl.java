@@ -7,7 +7,8 @@ public class FloydWarshallImpl {
 	private AIGraph graph;
 	private String edgeDistAttrName;
 	private boolean negCircle = false;
-	private long countAccessForAlgo;
+	private long countAccessGraph;
+	private long countAccessMatrix = 0;
 
 	private int numberOfVertices;
 	private int[][] D;
@@ -61,11 +62,15 @@ public class FloydWarshallImpl {
 		//System.out.println("-------");
 		//this.printMatrices();
 		doAlgorithm();
-		this.countAccessForAlgo = this.graph.getCountGraphAccesses() - beforeAcc; 
+		this.countAccessGraph = this.graph.getCountGraphAccesses() - beforeAcc; 
 	}
 	
-	public long getCountForAlgo() {
-		return this.countAccessForAlgo;
+	public long getCountForGraph() {
+		return this.countAccessGraph;
+	}
+	
+	public long getCountMatrix() {
+		return this.countAccessMatrix;
 	}
 	
 	/**
@@ -84,13 +89,24 @@ public class FloydWarshallImpl {
 					if(k == j){
 						continue;
 					}
+					countAccessMatrix++;
 					int temp = D[i][k];
+
+					countAccessMatrix++;
+					countAccessMatrix++;
 					int dist = D[i][j] + D[j][k];
+					
 					if (dist < Integer.MAX_VALUE && dist >= 0 && temp > dist) {
+
+						countAccessMatrix++;
 						D[i][k] = dist;
+						
+						countAccessMatrix++;
 						T[i][k] = j;
 					}
 				}
+
+				countAccessMatrix++;
 				if(D[i][i] < 0){
 					this.negCircle = true;
 					break;

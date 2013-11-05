@@ -11,23 +11,19 @@ public class BellmanFordTest {
 		AIGraph graph = AIGraph.init();
 		String[] attrNames = {"distance"};
 		
+		//Import des Graphen der benutzt werden soll
 		graph = Importer.importExample(graph, "graph_02", attrNames);
 		
+		//Initialisieren des Algorithmus
 		BellmanFordImpl algo = new BellmanFordImpl(graph, "München", attrNames[0]);
 		
+		//Ermitteln des Pfades und der Kosten zum <ZIEL>
 		String str = algo.stringRouteToTarget("Hamburg");
 		
+		//Print den Pfad
 		System.out.println(str);
 		System.out.println("Count Graph access:"+algo.getCountOfGraphAccess());
 		
-		System.out.println("##########");
-		
-		BellmanFordImpl algo2 = new BellmanFordImpl(graph, "München", attrNames[0]);
-		
-		String str2 = algo2.stringRouteToTarget("Lübeck");
-		
-		System.out.println(str2);
-		System.out.println("Count Graph access:"+algo.getCountOfGraphAccess());
 	}
 
 }
