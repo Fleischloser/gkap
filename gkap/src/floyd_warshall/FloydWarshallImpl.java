@@ -3,6 +3,11 @@ package floyd_warshall;
 import java.util.List;
 import graph_lib.AIGraph;
 
+/**
+ * https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Path_reconstruction
+ * @author sebastian
+ *
+ */
 public class FloydWarshallImpl {
 	private AIGraph graph;
 	private String edgeDistAttrName;
