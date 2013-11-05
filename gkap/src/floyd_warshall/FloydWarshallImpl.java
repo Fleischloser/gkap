@@ -26,14 +26,16 @@ public class FloydWarshallImpl {
 		this.edgeDistAttrName = edgeDistAttrName;
 		this.listOfVertices = graph.getVertexes();
 		this.numberOfVertices = listOfVertices.size();
+		//Die beiden Matrizen
 		this.D = new int[this.numberOfVertices][this.numberOfVertices];
 		this.T = new int[this.numberOfVertices][this.numberOfVertices];
 
 		long beforeAcc = this.graph.getCountGraphAccesses();
 		for (int i = 0; i < this.numberOfVertices; i++){
 			List<String>edgesOfCurrentVertex = graph.getIncident(this.listOfVertices.get(i));
+			//Initialisierung der Matrizen
 			for (int j = 0; j < this.numberOfVertices; j++){
-				T[i][j] = -1;
+				T[i][j] = -1; //-1, da 0 ein gültiger Matrix-Index ist
 				if (i == j){
 					D[i][j] = 0;
 				}else{
@@ -44,8 +46,8 @@ public class FloydWarshallImpl {
 							break;
 						}
 						
-						int isDierectedEdge = graph.getValE(edge, "isDirectedEdge");
-						if (isDierectedEdge == 0) {
+						int isDirectedEdge = graph.getValE(edge, "isDirectedEdge");
+						if (isDirectedEdge == 0) {
 							if(graph.getSource(edge) == listOfVertices.get(j)){
 								dist = graph.getValE(edge, this.edgeDistAttrName);
 								break;
