@@ -14,7 +14,7 @@ public class BellmanFordTest {
 		//Import des Graphen der benutzt werden soll
 		graph = Importer.importExample(graph, "graph_02", attrNames);
 		
-		//Initialisieren des Algorithmus
+		//Initialisieren des Algorithmus mit <START> und dem Attributnamen wo sich die Kosten an der Kante befinden
 		BellmanFordImpl algo = new BellmanFordImpl(graph, "München", attrNames[0]);
 		
 		//Ermitteln des Pfades und der Kosten zum <ZIEL>
