@@ -40,8 +40,8 @@ public class FordFulkersonImpl {
 		}
 		
 		//Startknoten an in die markierte einfügen
-		this.markedVertices.add(initSource);
-		this.graph.setValV(initSource, this.attrNodeDelta, Integer.MAX_VALUE);
+		this.markedVertices.add(this.initSource);
+		this.graph.setValV(this.initSource, this.attrNodeDelta, Integer.MAX_VALUE);
 		
 		step2();
 	}
@@ -105,7 +105,7 @@ public class FordFulkersonImpl {
 			
 			this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge + delta));
 			
-			String newUsedEdge = this.graph.getStrV(usedEdge, this.attrNodeUsedEdge);
+			String newUsedEdge = this.graph.getStrV(this.graph.getSource(usedEdge), this.attrNodeUsedEdge);
 			this.step3Recursiv(newUsedEdge, delta);
 		}
 	}
@@ -117,7 +117,11 @@ public class FordFulkersonImpl {
 			List<String> edges = this.graph.getIncident(node);
 			for (String edge : edges) {
 				if (this.graph.getSource(edge).equals(node)) {
-					System.out.format("%4s (%3s,%3s)", node, this.graph.getValE(edge, this.attrEdgeCapacity), this.graph.getValE(edge, this.attrEdgeFlow));
+					System.out.format("%4s (%3s,%3s) %4s", 
+							node, 
+							this.graph.getValE(edge, this.attrEdgeCapacity), 
+							this.graph.getValE(edge, this.attrEdgeFlow),
+							this.graph.getTarget(edge));
 					System.out.println();
 				}
 			}
@@ -125,15 +129,6 @@ public class FordFulkersonImpl {
 		}
 		
 		System.out.println("#######################");
-	}
-	
-	
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
