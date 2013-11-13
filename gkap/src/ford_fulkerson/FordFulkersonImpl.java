@@ -41,7 +41,7 @@ public class FordFulkersonImpl {
 		}
 		
 		//Startknoten an in die markierte einfügen
-		this.markedVertices.add(this.initSource);
+		this.markedVertices.push(this.initSource);
 		this.graph.setValV(this.initSource, this.attrNodeDelta, Integer.MAX_VALUE);
 		
 		step2();
@@ -59,7 +59,7 @@ public class FordFulkersonImpl {
 				if (this.graph.getSource(edge).equals(v)) {
 					//Vorwärtskante
 					String target = this.graph.getTarget(edge);
-					if (!this.markedVertices.contains(target)) {
+					if (!this.markedVertices.contains(target) && !this.inspectedVertices.contains(target)) {
 						int delta = -1;
 						int maxEdge = (this.graph.getValE(edge, this.attrEdgeCapacity) - this.graph.getValE(edge, this.attrEdgeFlow));
 						int maxSource = this.graph.getValV(v, this.attrNodeDelta);
@@ -116,6 +116,7 @@ public class FordFulkersonImpl {
 		
 		this.markedVertices.clear();
 		this.markedVertices.add(this.initSource);
+		this.inspectedVertices.clear();
 
 		step2();
 	}
