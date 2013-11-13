@@ -1,11 +1,9 @@
-package ford_fulkerson;
+package p3_ford_fulkerson;
 
 import graph_lib.AIGraph;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 
 

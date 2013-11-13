@@ -1,4 +1,4 @@
-package floyd_warshall;
+package p2_floyd_warshall;
 
 import java.util.List;
 import graph_lib.AIGraph;

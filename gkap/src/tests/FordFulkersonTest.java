@@ -1,6 +1,6 @@
 package tests;
 
-import ford_fulkerson.FordFulkersonImpl;
+import p3_ford_fulkerson.FordFulkersonImpl;
 import graph_importer.Importer;
 import graph_lib.AIGraph;
 
@@ -21,7 +21,7 @@ public class FordFulkersonTest {
 		
 		graph = Importer.importExample(graph, "graph_08", attrNames);
 		
-		FordFulkersonImpl algo = new FordFulkersonImpl(graph, attrNames[0], "Rostock", "München");
+		new FordFulkersonImpl(graph, attrNames[0], "Rostock", "München");
 	}
 
 }

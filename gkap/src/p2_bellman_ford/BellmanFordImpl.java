@@ -1,4 +1,4 @@
-package bellman_ford;
+package p2_bellman_ford;
 
 import java.util.List;
 

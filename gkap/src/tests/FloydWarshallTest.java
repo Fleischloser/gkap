@@ -1,5 +1,5 @@
 package tests;
-import floyd_warshall.*;
+import p2_floyd_warshall.*;
 import graph_importer.Importer;
 import graph_lib.AIGraph;
 

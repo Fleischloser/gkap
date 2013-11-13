@@ -1,6 +1,6 @@
 package tests;
 
-import bellman_ford.BellmanFordImpl;
+import p2_bellman_ford.BellmanFordImpl;
 import graph_importer.Importer;
 import graph_lib.AIGraph;
 
