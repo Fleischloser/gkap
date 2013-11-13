@@ -86,11 +86,17 @@ public class FordFulkersonImpl {
 					
 					//wenn source unmarkiert 
 					String prev = this.graph.getSource(edge);
-					if (!this.markedVertices.contains(prev)) {
-						int flow = this.graph.getValV(prev, this.attrEdgeFlow);
+					if (!this.markedVertices.contains(prev) && !this.inspectedVertices.contains(prev)) {
+						int flow = this.graph.getValE(edge, this.attrEdgeFlow);
 						if (flow > 0) {
-							this.markedVertices.add(prev);
+							this.markedVertices.push(prev);
 							//setzten entgegengesetzt---
+							
+							this.graph.setStrV(prev, this.attrNodeUsedEdge, edge);
+							int maxDeltaSource = this.graph.getValV(v, this.attrNodeDelta);
+							int delta = (maxDeltaSource > flow) ? flow : maxDeltaSource;
+							this.graph.setValV(prev, this.attrNodeDelta, delta);
+							
 						}
 					}
 				}
@@ -111,13 +117,14 @@ public class FordFulkersonImpl {
 		String usedEdge = this.graph.getStrV(this.initSink, this.attrNodeUsedEdge);
 		
 		System.out.println(this.graph.getSource(usedEdge)+"::"+delta);
-		this.step3Recursiv(usedEdge, delta);
+		this.step3Recursiv(usedEdge, delta, this.initSink);
 
 		//Alles zurücksetzten
 		this.clearDataForNextTurn();
 		
 		//Source hinzufügen
 		this.markedVertices.push(this.initSource);
+		this.graph.setValV(this.initSource, this.attrNodeDelta, Integer.MAX_VALUE);
 		step2();
 	}
 	
@@ -133,19 +140,31 @@ public class FordFulkersonImpl {
 		List<String> nodes = this.graph.getVertexes();
 		for (String node : nodes) {
 			this.graph.setStrV(node, this.attrNodeUsedEdge, "");
+			this.graph.setValV(node, this.attrNodeDelta, 0);
 		}
 	}
 	
-	private void step3Recursiv(String usedEdge, int delta) {
+	private void step3Recursiv(String usedEdge, int delta, String target) {
 		if (usedEdge != null && usedEdge.length() > 0 && delta > 0) {
 			int flowAtEdge = this.graph.getValE(usedEdge, this.attrEdgeFlow);
 			
-			this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge + delta));
-			
-			
-			String newUsedEdge = this.graph.getStrV(this.graph.getSource(usedEdge), this.attrNodeUsedEdge);
-			if (!this.graph.getSource(usedEdge).equals(this.initSource)) {
-				this.step3Recursiv(newUsedEdge, delta);
+			//Bin ich Source oder Target
+			String source = this.graph.getSource(usedEdge);
+			if (!source.equals(target)) {
+				//target bin das Ziel also normale Kante
+				this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge + delta));
+				
+				String newUsedEdge = this.graph.getStrV(source, this.attrNodeUsedEdge);
+				this.step3Recursiv(newUsedEdge, delta, source);
+			} else {
+				//target bin der Source also entgegengesetzt... backtracking...
+				System.out.println("Back....");
+				source = this.graph.getTarget(usedEdge);
+				
+				this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge - delta));
+				
+				String newUsedEdge = this.graph.getStrV(source, this.attrNodeUsedEdge);
+				this.step3Recursiv(newUsedEdge, delta, source);
 			}
 		}
 	}
