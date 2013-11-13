@@ -15,9 +15,13 @@ public class FordFulkersonTest {
 		String[] attrNames = {"distance"};
 		
 		//Import des Graphen der benutzt werden soll
-		graph = Importer.importExample(graph, "graph_12", attrNames);
+//		graph = Importer.importExample(graph, "graph_12", attrNames);
+//		
+//		FordFulkersonImpl algo = new FordFulkersonImpl(graph, attrNames[0], "q", "s");
 		
-		FordFulkersonImpl algo = new FordFulkersonImpl(graph, attrNames[0], "q", "s");
+		graph = Importer.importExample(graph, "graph_08", attrNames);
+		
+		FordFulkersonImpl algo = new FordFulkersonImpl(graph, attrNames[0], "Rostock", "München");
 	}
 
 }

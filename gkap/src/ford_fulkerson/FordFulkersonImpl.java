@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 
 
@@ -21,7 +22,7 @@ public class FordFulkersonImpl {
 	//Delta = Kapazität der Kante - dem Fluss der fließt
 	private String attrNodeDelta = "delta";
 	
-	private Queue<String> markedVertices = new LinkedList<String>();
+	private Stack<String> markedVertices = new Stack<String>();
 	private List<String> inspectedVertices = new ArrayList<String>();
 	
 	private String initSource;
@@ -50,7 +51,7 @@ public class FordFulkersonImpl {
 		boolean doStep3 = false;
 		
 		while (!this.markedVertices.isEmpty()) {
-			String v = this.markedVertices.poll();
+			String v = this.markedVertices.pop();
 			this.inspectedVertices.add(v);
 			
 			List<String> incidents = this.graph.getIncident(v);
@@ -80,18 +81,18 @@ public class FordFulkersonImpl {
 							break;
 						}	
 					}
-				} else if (this.graph.getTarget(edge).equals(v)) {
-					//Rückwärtskante
-					
-					//wenn source unmarkiert 
-					String prev = this.graph.getSource(edge);
-					if (!this.markedVertices.contains(prev)) {
-						int flow = this.graph.getValV(prev, this.attrEdgeFlow);
-						if (flow > 0) {
-							this.markedVertices.add(prev);
-							//setzten entgegengesetzt---
-						}
-					}
+//				} else if (this.graph.getTarget(edge).equals(v)) {
+//					//Rückwärtskante
+//					
+//					//wenn source unmarkiert 
+//					String prev = this.graph.getSource(edge);
+//					if (!this.markedVertices.contains(prev)) {
+//						int flow = this.graph.getValV(prev, this.attrEdgeFlow);
+//						if (flow > 0) {
+//							this.markedVertices.add(prev);
+//							//setzten entgegengesetzt---
+//						}
+//					}
 				}
 			}
 		}
@@ -111,7 +112,7 @@ public class FordFulkersonImpl {
 		
 		this.step3Recursiv(usedEdge, delta);
 		
-		this.doPrint();
+//		this.doPrint();
 		
 		this.markedVertices.clear();
 		this.markedVertices.add(this.initSource);
