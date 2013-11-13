@@ -47,7 +47,7 @@ public class FordFulkersonImpl {
 		step2();
 	}
 	
-	public void step2() {
+	private void step2() {
 		boolean doStep3 = false;
 		
 		while (!this.markedVertices.isEmpty() && !doStep3) {
@@ -60,7 +60,7 @@ public class FordFulkersonImpl {
 				if (this.graph.getSource(edge).equals(v)) {
 					//Vorwärtskante
 					String target = this.graph.getTarget(edge);
-					if (!this.markedVertices.contains(target) && !this.inspectedVertices.contains(target)) {
+					if (!this.markedVertices.contains(target) && !this.inspectedVertices.contains(target) && !doStep3) {
 						int delta = -1;
 						int maxEdge = (this.graph.getValE(edge, this.attrEdgeCapacity) - this.graph.getValE(edge, this.attrEdgeFlow));
 						int maxSource = this.graph.getValV(v, this.attrNodeDelta);
@@ -71,27 +71,28 @@ public class FordFulkersonImpl {
 							//Fluss > 0 also kann da noch was fließen
 							this.markedVertices.push(target);
 							this.graph.setStrV(target, this.attrNodeUsedEdge, edge);
+
+							this.graph.setValV(target, this.attrNodeDelta, delta);
+							
+							if (target.equals(this.initSink)) {
+								doStep3 = true;
+								break;
+							}	
 						}
 						
-						this.graph.setValV(target, this.attrNodeDelta, delta);
-						
-						if (target.equals(this.initSink)) {
-							doStep3 = true;
-							break;
-						}	
 					}
-//				} else if (this.graph.getTarget(edge).equals(v)) {
-//					//Rückwärtskante
-//					
-//					//wenn source unmarkiert 
-//					String prev = this.graph.getSource(edge);
-//					if (!this.markedVertices.contains(prev)) {
-//						int flow = this.graph.getValV(prev, this.attrEdgeFlow);
-//						if (flow > 0) {
-//							this.markedVertices.add(prev);
-//							//setzten entgegengesetzt---
-//						}
-//					}
+				} else if (this.graph.getTarget(edge).equals(v)) {
+					//Rückwärtskante
+					
+					//wenn source unmarkiert 
+					String prev = this.graph.getSource(edge);
+					if (!this.markedVertices.contains(prev)) {
+						int flow = this.graph.getValV(prev, this.attrEdgeFlow);
+						if (flow > 0) {
+							this.markedVertices.add(prev);
+							//setzten entgegengesetzt---
+						}
+					}
 				}
 			}
 		}
@@ -104,29 +105,43 @@ public class FordFulkersonImpl {
 		
 	}
 	
-	public void step3() {
+	private void step3() {
 		
 		int delta = this.graph.getValV(this.initSink, this.attrNodeDelta);
 		String usedEdge = this.graph.getStrV(this.initSink, this.attrNodeUsedEdge);
 		
+		System.out.println(this.graph.getSource(usedEdge)+"::"+delta);
 		this.step3Recursiv(usedEdge, delta);
-		
-//		this.doPrint();
-//		System.out.println("Step 3");
-		
-		this.markedVertices.clear();
-		this.markedVertices.add(this.initSource);
-		this.graph.setValV(this.initSource, this.attrNodeDelta, Integer.MAX_VALUE);
-		this.inspectedVertices.clear();
 
+		//Alles zurücksetzten
+		this.clearDataForNextTurn();
+		
+		//Source hinzufügen
+		this.markedVertices.push(this.initSource);
 		step2();
 	}
 	
-	public void step3Recursiv(String usedEdge, int delta) {
+	private void clearDataForNextTurn() {
+		
+		//Markierte löschen
+		this.markedVertices.clear();
+		
+		//Inspzierte löschen
+		this.inspectedVertices.clear();
+		
+		//Zurücksetzten der Used Edge (Eigentlich nicht nötig aber damit sauberer)
+		List<String> nodes = this.graph.getVertexes();
+		for (String node : nodes) {
+			this.graph.setStrV(node, this.attrNodeUsedEdge, "");
+		}
+	}
+	
+	private void step3Recursiv(String usedEdge, int delta) {
 		if (usedEdge != null && usedEdge.length() > 0 && delta > 0) {
 			int flowAtEdge = this.graph.getValE(usedEdge, this.attrEdgeFlow);
 			
 			this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge + delta));
+			
 			
 			String newUsedEdge = this.graph.getStrV(this.graph.getSource(usedEdge), this.attrNodeUsedEdge);
 			if (!this.graph.getSource(usedEdge).equals(this.initSource)) {
@@ -135,7 +150,7 @@ public class FordFulkersonImpl {
 		}
 	}
 	
-	public void step4() {
+	private void step4() {
 		this.doPrint();
 	}
 	
