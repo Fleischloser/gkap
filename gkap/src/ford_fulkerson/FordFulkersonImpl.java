@@ -50,7 +50,8 @@ public class FordFulkersonImpl {
 	public void step2() {
 		boolean doStep3 = false;
 		
-		while (!this.markedVertices.isEmpty()) {
+		while (!this.markedVertices.isEmpty() && !doStep3) {
+			
 			String v = this.markedVertices.pop();
 			this.inspectedVertices.add(v);
 			
@@ -64,11 +65,11 @@ public class FordFulkersonImpl {
 						int maxEdge = (this.graph.getValE(edge, this.attrEdgeCapacity) - this.graph.getValE(edge, this.attrEdgeFlow));
 						int maxSource = this.graph.getValV(v, this.attrNodeDelta);
 						
-						delta = maxSource > maxEdge ? maxEdge : maxSource;
+						delta = (maxSource > maxEdge) ? maxEdge : maxSource;
 						
 						if (delta > 0) {
 							//Fluss > 0 also kann da noch was fließen
-							this.markedVertices.add(target);
+							this.markedVertices.push(target);
 							this.graph.setStrV(target, this.attrNodeUsedEdge, edge);
 						}
 						
@@ -76,8 +77,6 @@ public class FordFulkersonImpl {
 						
 						if (target.equals(this.initSink)) {
 							doStep3 = true;
-							
-							this.markedVertices.clear();
 							break;
 						}	
 					}
@@ -113,22 +112,26 @@ public class FordFulkersonImpl {
 		this.step3Recursiv(usedEdge, delta);
 		
 //		this.doPrint();
+//		System.out.println("Step 3");
 		
 		this.markedVertices.clear();
 		this.markedVertices.add(this.initSource);
+		this.graph.setValV(this.initSource, this.attrNodeDelta, Integer.MAX_VALUE);
 		this.inspectedVertices.clear();
 
 		step2();
 	}
 	
 	public void step3Recursiv(String usedEdge, int delta) {
-		if (usedEdge != null && usedEdge.length() > 0) {
+		if (usedEdge != null && usedEdge.length() > 0 && delta > 0) {
 			int flowAtEdge = this.graph.getValE(usedEdge, this.attrEdgeFlow);
 			
 			this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge + delta));
 			
 			String newUsedEdge = this.graph.getStrV(this.graph.getSource(usedEdge), this.attrNodeUsedEdge);
-			this.step3Recursiv(newUsedEdge, delta);
+			if (!this.graph.getSource(usedEdge).equals(this.initSource)) {
+				this.step3Recursiv(newUsedEdge, delta);
+			}
 		}
 	}
 	
