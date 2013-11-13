@@ -1,0 +1,87 @@
+Skizze:
+
+Ford Fulkerson:
+Funktionsweise:
+
+1: Initialisierung
+	- An allen Kanten den aktuellen Flow auf 0 setzten
+	- In die markieren Knoten den Start-Knoten eintragen
+	- Für den Start-Knoten das Delta "Unendlich" eintragen
+	
+2: Algorithmus
+BEGIN step2
+	WHILE (noch nicht alle Knoten inspiziert)
+		v = (beliebiger Knoten der noch nicht inspiziert wurde)
+		setInspiziert(v)
+		listIncidentsFromV = getIncident(v)
+	
+		FOR (schleife über alle Kanten)
+			IF (kante.source == v) //Vorwärtskante
+				target = kante.target
+				IF (target noch nicht markiert)
+					delta = MIN((edgeCapacity - flow), vNodeDelta)
+					IF (delta > 0)
+						target markieren
+						targetDelta = delta
+						
+						IF (target == sink)
+							goToStep3
+						END IF
+					END IF
+				END IF
+			ELSE //Rückwärtskante
+				prev = kante.source
+				IF (prev noch nicht markiert)
+					IF (flow an der kante > 0)
+						prev markieren
+						
+						delta = MIN(flow an der kante, vNodeDelta)
+						prevDelta = delta
+						prevIsBackEdge = TRUE
+					END IF
+				END IF	
+			END IF 
+		END FOR
+	END WHILE
+	
+	goToStep4
+END
+
+#########################
+
+BEGIN step3
+
+	delta = sinkDelta
+	edge = kante mittels der zum sink gelankt wurde
+	step3Recirsiv(edge, delta)
+
+	markierungen und flow zurücksetzten
+	
+	goToStep2
+END step3
+
+BEGIN step3Recirsiv (edge, delta)
+	IF (edge != null)
+		IF (Vorwärtskante)
+			edgeFlow = edgeFlow + delta
+		ELSE
+			edgeFlow = edgeFlow - delta
+		END
+		
+		newEdge = die kante mit der der Vorgänger erreicht wurde
+		step3Recirsiv(newEdge, delta)
+	END
+END step3Recirsiv
+
+##########################
+
+BEGIN step4
+	Algorithmus ist fertig
+END step4
+
+
+
+
+
+
+
