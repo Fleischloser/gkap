@@ -20,13 +20,13 @@ public class FordFulkersonEdmondKarpImpl {
 	//Delta = Kapazität der Kante - dem Fluss der fließt
 	private String attrNodeDelta = "delta";
 	
-	private Stack<String> markedVertices = new Stack<String>();
+	private IStackQueue<String> markedVertices = null;
 	private List<String> inspectedVertices = new ArrayList<String>();
 	
 	private String initSource;
 	private String initSink;
 	
-	public FordFulkersonEdmondKarpImpl(AIGraph g, String attrEdgeNameCapacity, String initSource, String initSink) {
+	public FordFulkersonEdmondKarpImpl(AIGraph g, String attrEdgeNameCapacity, String initSource, String initSink, boolean useFord) {
 		this.graph = g;
 		this.attrEdgeCapacity = attrEdgeNameCapacity;
 		this.initSource = initSource;
@@ -38,8 +38,14 @@ public class FordFulkersonEdmondKarpImpl {
 			this.graph.setValE(edge, this.attrEdgeFlow, 0);
 		}
 		
+		if (useFord) {
+			markedVertices = new StackImpl<String>();
+		} else {
+			markedVertices = new QueueImpl<String>();
+		}
+		
 		//Startknoten an in die markierte einfügen
-		this.markedVertices.push(this.initSource);
+		this.markedVertices.add(this.initSource);
 		this.graph.setValV(this.initSource, this.attrNodeDelta, Integer.MAX_VALUE);
 		
 		step2();
@@ -50,7 +56,7 @@ public class FordFulkersonEdmondKarpImpl {
 		
 		while (!this.markedVertices.isEmpty() && !doStep3) {
 			
-			String v = this.markedVertices.pop();
+			String v = this.markedVertices.get();
 			this.inspectedVertices.add(v);
 			
 			List<String> incidents = this.graph.getIncident(v);
@@ -67,7 +73,7 @@ public class FordFulkersonEdmondKarpImpl {
 						
 						if (delta > 0) {
 							//Fluss > 0 also kann da noch was fließen
-							this.markedVertices.push(target);
+							this.markedVertices.add(target);
 							this.graph.setStrV(target, this.attrNodeUsedEdge, edge);
 
 							this.graph.setValV(target, this.attrNodeDelta, delta);
@@ -87,7 +93,7 @@ public class FordFulkersonEdmondKarpImpl {
 					if (!this.markedVertices.contains(prev) && !this.inspectedVertices.contains(prev)) {
 						int flow = this.graph.getValE(edge, this.attrEdgeFlow);
 						if (flow > 0) {
-							this.markedVertices.push(prev);
+							this.markedVertices.add(prev);
 							//setzten entgegengesetzt---
 							
 							this.graph.setStrV(prev, this.attrNodeUsedEdge, edge);
@@ -121,7 +127,7 @@ public class FordFulkersonEdmondKarpImpl {
 		this.clearDataForNextTurn();
 		
 		//Source hinzufügen
-		this.markedVertices.push(this.initSource);
+		this.markedVertices.add(this.initSource);
 		this.graph.setValV(this.initSource, this.attrNodeDelta, Integer.MAX_VALUE);
 		step2();
 	}
