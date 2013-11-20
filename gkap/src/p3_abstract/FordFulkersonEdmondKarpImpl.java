@@ -1,13 +1,14 @@
-package p3_edmonds_karp;
+package p3_abstract;
 
 import graph_lib.AIGraph;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.Stack;
 
-public class EdmondsKarpImpl {
+
+
+public class FordFulkersonEdmondKarpImpl {
 
 	private AIGraph graph;
 	private String attrEdgeCapacity;
@@ -19,13 +20,13 @@ public class EdmondsKarpImpl {
 	//Delta = Kapazität der Kante - dem Fluss der fließt
 	private String attrNodeDelta = "delta";
 	
-	private Queue<String> markedVertices = new LinkedList<String>();
+	private Stack<String> markedVertices = new Stack<String>();
 	private List<String> inspectedVertices = new ArrayList<String>();
 	
 	private String initSource;
 	private String initSink;
 	
-	public EdmondsKarpImpl(AIGraph g, String attrEdgeNameCapacity, String initSource, String initSink) {
+	public FordFulkersonEdmondKarpImpl(AIGraph g, String attrEdgeNameCapacity, String initSource, String initSink) {
 		this.graph = g;
 		this.attrEdgeCapacity = attrEdgeNameCapacity;
 		this.initSource = initSource;
@@ -38,7 +39,7 @@ public class EdmondsKarpImpl {
 		}
 		
 		//Startknoten an in die markierte einfügen
-		this.markedVertices.add(this.initSource);
+		this.markedVertices.push(this.initSource);
 		this.graph.setValV(this.initSource, this.attrNodeDelta, Integer.MAX_VALUE);
 		
 		step2();
@@ -49,7 +50,7 @@ public class EdmondsKarpImpl {
 		
 		while (!this.markedVertices.isEmpty() && !doStep3) {
 			
-			String v = this.markedVertices.poll();
+			String v = this.markedVertices.pop();
 			this.inspectedVertices.add(v);
 			
 			List<String> incidents = this.graph.getIncident(v);
@@ -66,7 +67,7 @@ public class EdmondsKarpImpl {
 						
 						if (delta > 0) {
 							//Fluss > 0 also kann da noch was fließen
-							this.markedVertices.add(target);
+							this.markedVertices.push(target);
 							this.graph.setStrV(target, this.attrNodeUsedEdge, edge);
 
 							this.graph.setValV(target, this.attrNodeDelta, delta);
@@ -86,7 +87,7 @@ public class EdmondsKarpImpl {
 					if (!this.markedVertices.contains(prev) && !this.inspectedVertices.contains(prev)) {
 						int flow = this.graph.getValE(edge, this.attrEdgeFlow);
 						if (flow > 0) {
-							this.markedVertices.add(prev);
+							this.markedVertices.push(prev);
 							//setzten entgegengesetzt---
 							
 							this.graph.setStrV(prev, this.attrNodeUsedEdge, edge);
@@ -120,7 +121,7 @@ public class EdmondsKarpImpl {
 		this.clearDataForNextTurn();
 		
 		//Source hinzufügen
-		this.markedVertices.add(this.initSource);
+		this.markedVertices.push(this.initSource);
 		this.graph.setValV(this.initSource, this.attrNodeDelta, Integer.MAX_VALUE);
 		step2();
 	}
@@ -191,5 +192,5 @@ public class EdmondsKarpImpl {
 		
 		System.out.println("#######################");
 	}
-	
+
 }
