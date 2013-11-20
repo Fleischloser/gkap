@@ -25,6 +25,7 @@ public class EdmondsKarpImpl {
 	private String initSource;
 	private String initSink;
 	
+	private int backtracks = 0;
 	public EdmondsKarpImpl(AIGraph g, String attrEdgeNameCapacity, String initSource, String initSink) {
 		this.graph = g;
 		this.attrEdgeCapacity = attrEdgeNameCapacity;
@@ -155,8 +156,9 @@ public class EdmondsKarpImpl {
 				this.step3Recursiv(newUsedEdge, delta, source);
 			} else {
 				//target bin der Source also entgegengesetzt... backtracking...
-				System.out.println("Back....");
 				source = this.graph.getTarget(usedEdge);
+				System.out.println("Rückwärtskante von " + target + " nach " + source + ".");
+				backtracks++;				
 				
 				this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge - delta));
 				
@@ -188,7 +190,7 @@ public class EdmondsKarpImpl {
 			}
 			System.out.println("---------------");
 		}
-		
+		System.out.println("Es wurde über " + backtracks + " Rückswärtskante" + ((backtracks == 1)?"":"n") + " gegangen.");
 		System.out.println("#######################");
 	}
 	

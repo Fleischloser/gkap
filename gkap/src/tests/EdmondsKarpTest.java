@@ -19,8 +19,9 @@ public class EdmondsKarpTest {
 //		
 //		FordFulkersonImpl algo = new FordFulkersonImpl(graph, attrNames[0], "q", "s");
 		
+//		graph = Importer.importExample(graph, "graph_09", attrNames);
 		graph = Importer.importExample(graph, "graph_08", attrNames);
-		
+//		new EdmondsKarpImpl(graph, attrNames[0], "Quelle", "Senke");
 		new EdmondsKarpImpl(graph, attrNames[0], "Rostock", "München");
 	}
 
