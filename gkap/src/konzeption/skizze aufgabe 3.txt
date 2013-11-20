@@ -1,21 +1,21 @@
 Skizze:
 
-Ford Fulkerson:
+Ford-Fulkerson:
 Funktionsweise:
 
 1: Initialisierung
-	- An allen Kanten den aktuellen Flow auf 0 setzten
-	- In die markieren Knoten den Start-Knoten eintragen
+	- An allen Kanten den aktuellen Flow auf 0 setzen
+	- Den Start-Knoten markieren
 	- Für den Start-Knoten das Delta "Unendlich" eintragen
 	
 2: Algorithmus
 BEGIN step2
 	WHILE (noch nicht alle Knoten inspiziert)
-		v = (beliebiger Knoten der noch nicht inspiziert wurde)
+		v = (beliebiger Knoten, der noch nicht inspiziert wurde)
 		setInspiziert(v)
 		listIncidentsFromV = getIncident(v)
 	
-		FOR (schleife über alle Kanten)
+		FOR (Schleife über alle Kanten)
 			IF (kante.source == v) //Vorwärtskante
 				target = kante.target
 				IF (target noch nicht markiert)
@@ -32,10 +32,10 @@ BEGIN step2
 			ELSE //Rückwärtskante
 				prev = kante.source
 				IF (prev noch nicht markiert)
-					IF (flow an der kante > 0)
+					IF (Flow an der Kante > 0)
 						prev markieren
 						
-						delta = MIN(flow an der kante, vNodeDelta)
+						delta = MIN(flow an der Kante, vNodeDelta)
 						prevDelta = delta
 						prevIsBackEdge = TRUE
 					END IF
@@ -52,15 +52,15 @@ END
 BEGIN step3
 
 	delta = sinkDelta
-	edge = kante mittels der zum sink gelankt wurde
-	step3Recirsiv(edge, delta)
+	edge = Kante, mit der die Senke erreicht wurde
+	step3Recursiv(edge, delta)
 
-	markierungen und flow zurücksetzten
+	Markierungen und Flow zurücksetzen
 	
 	goToStep2
 END step3
 
-BEGIN step3Recirsiv (edge, delta)
+BEGIN step3Recursiv (edge, delta)
 	IF (edge != null)
 		IF (Vorwärtskante)
 			edgeFlow = edgeFlow + delta
@@ -68,10 +68,10 @@ BEGIN step3Recirsiv (edge, delta)
 			edgeFlow = edgeFlow - delta
 		END
 		
-		newEdge = die kante mit der der Vorgänger erreicht wurde
-		step3Recirsiv(newEdge, delta)
+		newEdge = die Kante, mit der der Vorgänger erreicht wurde
+		step3Recursiv(newEdge, delta)
 	END
-END step3Recirsiv
+END step3Recursiv
 
 ##########################
 
@@ -80,23 +80,23 @@ BEGIN step4
 END step4
 
 
-Wie aus dem Skript hervorgeht arbeitet der Ford Fulkerson intern mit einer Tiefensuche.
-Daraus ergibt sich das intern die markierten Kanten in einem Stack vorgehalten werden.
-Wir haben uns überlegt das wir einen Stack einsetzten wollen. Das bedeutet aber das wir eine Seperate Liste vorhalten müssen mit den Inspezierten Knoten.
-So können wir den Stack immer verkleinen. Beim einfügen in die Markierte Liste müssen wir dann auch noch überprüfen ob der Knoten schon in der Liste der inspezierten ist.
-Wie man oben in der Funktionsweise des Algorithmus schon erkennen kann, werden wir an einem Knoten speichern über welche Kante er erreicht wurde.
+Wie aus dem Skript hervorgeht, arbeitet der Ford-Fulkerson intern mit einer Tiefensuche.
+Daraus ergibt sich, dass intern die markierten Kanten in einem Stack vorgehalten werden.
+Wir haben uns überlegt, dass wir einen Stack einsetzen wollen. Das bedeutet aber, dass wir eine seperate Liste vorhalten müssen mit den Inspizierten Knoten.
+So können wir den Stack immer verkleinen. Beim einfügen in die Liste der markierten Knoten müssen wir dann auch noch überprüfen, ob der Knoten schon in der Liste der Inspizierten ist.
+Wie man oben in der Funktionsweise des Algorithmus schon erkennen kann, werden wir an einem Knoten speichern, über welche Kante er erreicht wurde.
 Dadurch können wir eindeutig feststellen über welche Kante ein Knoten erreicht wurde und wer der Vorgänger ist.
 
 
 Nachtrag 14.11.2013
-Die implementierung mittels Stack und einer seperaten Liste für die inspezierten hat wie geplant funktioniert.
--Wichtig in Step 3 muss auch die Liste der Inspizierten Kanten gelöscht werden.-
+Die Implementierung mittels Stack und einer seperaten Liste für die Inspizierten hat wie geplant funktioniert.
+-Wichtig: in Step 3 muss auch die Liste der inspizierten Kanten gelöscht werden.-
 An unserem Graphen mussten wir keine Änderungen vornehmen um den Algorithmus zu implementieren.
 
 
 
 Edmonds Karp:
-Funktioniert wie der Ford Fulkerson, bis auf das intern eine Breitensuche benutzt wird.
+Funktioniert wie der Ford-Fulkerson, bis auf das intern eine Breitensuche benutzt wird.
 
 
 
