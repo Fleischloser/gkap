@@ -95,12 +95,33 @@ An unserem Graphen mussten wir keine Änderungen vornehmen um den Algorithmus zu
 
 
 
+
 Edmonds Karp:
 Funktioniert wie der Ford-Fulkerson, bis auf das intern eine Breitensuche benutzt wird.
 
 
+Nachtrag 14.11.2013:
 
-Nachtrag 20.11.2013:
+Da der Edmonds Karp sich vom Algorithmus nicht vom Ford Fulkerson unterscheidet, außer das intern ein FIFO Speicher benutzt wird.
+Werden wir erstmal den Code vom Ford Fulkerson kopieren und den Stack durch eine Queue austauschen.
+
+
+Nachtrag 20.11.2013
+Ein erster Ansatz um den Edmonds Karp und den Ford Fulkerson Algorithmus über eine Implementation zu realisieren wäre,
+das beim Initialisieren ein globaler Boolean gespeichert wird welcher Algorithmus benutzt werden soll. (Ob ein Stack oder eine Queue benutzt werden soll.)
+Dann müsste man allerdings an jeder Stelle im Code wo auf den Stack oder die Queue zugegriffen werden soll ein IF-Else eingebaut werden.
+Das finden wir unschön, dadurm haben wir uns das folgendermaßen überlegt:
+Der einzige Unterschied zwischen Queue und Stack ist, dass Queue nach FIFO (first in first out) und Stack nach LIFO (last in first out) arbeitet.
+Grundsätzlich bedeutet das, dass beide mit einer Liste arbeiten könnten und jeweils nur das erste oder letzte Element in der Liste zurückgeben wird.
+Umsetztunggedanke:
+	1. Wir erstellen eine Interface das List extendet und eine weitere Function "get" hinzufügt.
+	2. Wir erstellen zwei Implementationen die das Interface implementieren und "ArrayList" extenden.
+		(ArrayList extenden wir damit wir die Grundimplementationen nicht machen müssen.)
+		
+		2.1 Queue Implementation: Implementiert "get" -> Indem es das erste Element aus der Liste holt und dieses löscht.
+		
+		2.2 Stack Implementation: Implementiert "get" -> Indem es das letzte Element aus der Liste holt und dieses löscht.
+
 
 
 
