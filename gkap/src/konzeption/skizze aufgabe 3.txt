@@ -81,7 +81,7 @@ END step4
 
 
 Wie aus dem Skript hervorgeht, arbeitet der Ford-Fulkerson intern mit einer Tiefensuche.
-Daraus ergibt sich, dass intern die markierten Kanten in einem Stack vorgehalten werden.
+Daraus ergibt sich, dass intern die markierten Kanten in einem LIFO-Speicher (Stack) vorgehalten werden.
 Wir haben uns überlegt, dass wir einen Stack einsetzen wollen. Das bedeutet aber, dass wir eine seperate Liste vorhalten müssen mit den Inspizierten Knoten.
 So können wir den Stack immer verkleinen. Beim einfügen in die Liste der markierten Knoten müssen wir dann auch noch überprüfen, ob der Knoten schon in der Liste der Inspizierten ist.
 Wie man oben in der Funktionsweise des Algorithmus schon erkennen kann, werden wir an einem Knoten speichern, über welche Kante er erreicht wurde.
