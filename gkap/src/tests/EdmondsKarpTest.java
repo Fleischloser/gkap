@@ -10,18 +10,17 @@ public class EdmondsKarpTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		AIGraph graph = AIGraph.init();
 		String[] attrNames = {"distance"};
 		
 		//Import des Graphen der benutzt werden soll
 //		graph = Importer.importExample(graph, "graph_12", attrNames);
-//		
-//		FordFulkersonImpl algo = new FordFulkersonImpl(graph, attrNames[0], "q", "s");
+//		EdmondsKarpImpl algo = new EdmondsKarpImpl(graph, attrNames[0], "q", "s");
 		
 //		graph = Importer.importExample(graph, "graph_09", attrNames);
-		graph = Importer.importExample(graph, "graph_08", attrNames);
 //		new EdmondsKarpImpl(graph, attrNames[0], "Quelle", "Senke");
+		
+		graph = Importer.importExample(graph, "graph_08", attrNames);
 		new EdmondsKarpImpl(graph, attrNames[0], "Rostock", "München");
 	}
 

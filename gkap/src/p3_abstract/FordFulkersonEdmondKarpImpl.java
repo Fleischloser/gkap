@@ -25,7 +25,8 @@ public class FordFulkersonEdmondKarpImpl {
 	
 	private String initSource;
 	private String initSink;
-	
+
+	private int backtracks = 0;
 	public FordFulkersonEdmondKarpImpl(AIGraph g, String attrEdgeNameCapacity, String initSource, String initSink, boolean useFord) {
 		this.graph = g;
 		this.attrEdgeCapacity = attrEdgeNameCapacity;
@@ -162,8 +163,10 @@ public class FordFulkersonEdmondKarpImpl {
 				this.step3Recursiv(newUsedEdge, delta, source);
 			} else {
 				//target bin der Source also entgegengesetzt... backtracking...
-				System.out.println("Back....");
 				source = this.graph.getTarget(usedEdge);
+				
+				System.out.println("Rückwärtskante von " + target + " nach " + source + ".");
+				backtracks++;
 				
 				this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge - delta));
 				
@@ -174,6 +177,10 @@ public class FordFulkersonEdmondKarpImpl {
 	}
 	
 	private void step4() {
+		System.out.println();
+		System.out.println("######################################");
+		System.out.println("Ergebnis:");
+		
 		this.doPrint();
 	}
 	
@@ -195,7 +202,8 @@ public class FordFulkersonEdmondKarpImpl {
 			}
 			System.out.println("---------------");
 		}
-		
+
+		System.out.println("Es wurde über " + ((backtracks == 0) ? "keine": backtracks) + " Rückswärtskante" + ((backtracks == 1)?"":"n") + " gegangen.");
 		System.out.println("#######################");
 	}
 

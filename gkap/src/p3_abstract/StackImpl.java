@@ -9,6 +9,10 @@ public class StackImpl<E> extends ArrayList<E> implements IStackQueue<E> {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/*
+	 * Liefert das letzte Element in der Liste und löscht es
+	 * 
+	 */
 	@Override
 	public E get() {
 		if (this.size() > 0) {
