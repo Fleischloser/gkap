@@ -14,7 +14,8 @@ public class FordFulkersonEdmondKarpImpl {
 	private String attrEdgeCapacity;
 	private String attrEdgeFlow = "act_flow";
 	
-	//Wir speichern die Kante die benutzt wurde um nicht bei dem raussuchen von der kante zwischen start und zeil unnötig viele zugriffe zu machen
+	//Wir speichern die Kante, die benutzt wurde, um nicht beim Raussuchen 
+	//der kante zwischen Start und Ziel unnötig viele Zugriffe zu machen
 	private String attrNodeUsedEdge = "used_edge";
 	
 	//Delta = Kapazität der Kante - dem Fluss der fließt
@@ -34,7 +35,7 @@ public class FordFulkersonEdmondKarpImpl {
 		this.initSink = initSink;
 		
 		List<String> edges = this.graph.getEdges();
-		//Alle Kannten den Flow auf 0 setzten
+		//bei allen Kanten den Flow auf 0 setzten
 		for (String edge : edges) {
 			this.graph.setValE(edge, this.attrEdgeFlow, 0);
 		}
@@ -45,7 +46,7 @@ public class FordFulkersonEdmondKarpImpl {
 			markedVertices = new QueueImpl<String>();
 		}
 		
-		//Startknoten an in die markierte einfügen
+		//Startknoten in die Liste der markierten Knoten einfügen
 		this.markedVertices.add(this.initSource);
 		this.graph.setValV(this.initSource, this.attrNodeDelta, Integer.MAX_VALUE);
 		
@@ -95,7 +96,7 @@ public class FordFulkersonEdmondKarpImpl {
 						int flow = this.graph.getValE(edge, this.attrEdgeFlow);
 						if (flow > 0) {
 							this.markedVertices.add(prev);
-							//setzten entgegengesetzt---
+							//setzen entgegengesetzt---
 							
 							this.graph.setStrV(prev, this.attrNodeUsedEdge, edge);
 							int maxDeltaSource = this.graph.getValV(v, this.attrNodeDelta);
@@ -124,7 +125,7 @@ public class FordFulkersonEdmondKarpImpl {
 		System.out.println(this.graph.getSource(usedEdge)+"::"+delta);
 		this.step3Recursiv(usedEdge, delta, this.initSink);
 
-		//Alles zurücksetzten
+		//Alles zurücksetzen
 		this.clearDataForNextTurn();
 		
 		//Source hinzufügen
@@ -141,7 +142,7 @@ public class FordFulkersonEdmondKarpImpl {
 		//Inspzierte löschen
 		this.inspectedVertices.clear();
 		
-		//Zurücksetzten der Used Edge (Eigentlich nicht nötig aber damit sauberer)
+		//Zurücksetzen der Used Edge (Eigentlich nicht nötig aber damit sauberer)
 		List<String> nodes = this.graph.getVertexes();
 		for (String node : nodes) {
 			this.graph.setStrV(node, this.attrNodeUsedEdge, "");
@@ -153,16 +154,16 @@ public class FordFulkersonEdmondKarpImpl {
 		if (usedEdge != null && usedEdge.length() > 0 && delta > 0) {
 			int flowAtEdge = this.graph.getValE(usedEdge, this.attrEdgeFlow);
 			
-			//Bin ich Source oder Target
+			//Bin ich Source oder Target?
 			String source = this.graph.getSource(usedEdge);
 			if (!source.equals(target)) {
-				//target bin das Ziel also normale Kante
+				//target ist das Ziel, also normale Kante
 				this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge + delta));
 				
 				String newUsedEdge = this.graph.getStrV(source, this.attrNodeUsedEdge);
 				this.step3Recursiv(newUsedEdge, delta, source);
 			} else {
-				//target bin der Source also entgegengesetzt... backtracking...
+				//target ist der Source, also Rückwärtskante ... backtracking...
 				source = this.graph.getTarget(usedEdge);
 				
 				System.out.println("Rückwärtskante von " + target + " nach " + source + ".");
