@@ -28,7 +28,8 @@ public class FordFulkersonEdmondKarpImpl {
 	private String initSink;
 
 	private int backtracks = 0;
-	public FordFulkersonEdmondKarpImpl(AIGraph g, String attrEdgeNameCapacity, String initSource, String initSink, boolean useFord) {
+	public FordFulkersonEdmondKarpImpl(AIGraph g, String attrEdgeNameCapacity, 
+			String initSource, String initSink, boolean useFord) {
 		this.graph = g;
 		this.attrEdgeCapacity = attrEdgeNameCapacity;
 		this.initSource = initSource;
@@ -48,7 +49,8 @@ public class FordFulkersonEdmondKarpImpl {
 		
 		//Startknoten in die Liste der markierten Knoten einfügen
 		this.markedVertices.add(this.initSource);
-		this.graph.setValV(this.initSource, this.attrNodeDelta, Integer.MAX_VALUE);
+		this.graph.setValV(this.initSource, this.attrNodeDelta, 
+				Integer.MAX_VALUE);
 		
 		step2();
 	}
@@ -66,9 +68,11 @@ public class FordFulkersonEdmondKarpImpl {
 				if (this.graph.getSource(edge).equals(v)) {
 					//Vorwärtskante
 					String target = this.graph.getTarget(edge);
-					if (!this.markedVertices.contains(target) && !this.inspectedVertices.contains(target) && !doStep3) {
+					if (!this.markedVertices.contains(target) 
+							&& !this.inspectedVertices.contains(target) && !doStep3) {
 						int delta = -1;
-						int maxEdge = (this.graph.getValE(edge, this.attrEdgeCapacity) - this.graph.getValE(edge, this.attrEdgeFlow));
+						int maxEdge = (this.graph.getValE(edge, this.attrEdgeCapacity) 
+								- this.graph.getValE(edge, this.attrEdgeFlow));
 						int maxSource = this.graph.getValV(v, this.attrNodeDelta);
 						
 						delta = (maxSource > maxEdge) ? maxEdge : maxSource;
@@ -92,7 +96,8 @@ public class FordFulkersonEdmondKarpImpl {
 					
 					//wenn source unmarkiert 
 					String prev = this.graph.getSource(edge);
-					if (!this.markedVertices.contains(prev) && !this.inspectedVertices.contains(prev)) {
+					if (!this.markedVertices.contains(prev) 
+							&& !this.inspectedVertices.contains(prev)) {
 						int flow = this.graph.getValE(edge, this.attrEdgeFlow);
 						if (flow > 0) {
 							this.markedVertices.add(prev);
@@ -204,7 +209,9 @@ public class FordFulkersonEdmondKarpImpl {
 			System.out.println("---------------");
 		}
 
-		System.out.println("Es wurde über " + ((backtracks == 0) ? "keine": backtracks) + " Rückswärtskante" + ((backtracks == 1)?"":"n") + " gegangen.");
+		System.out.println("Es wurde über " 
+			+ ((backtracks == 0) ? "keine": backtracks) + " Rückswärtskante" 
+			+ ((backtracks == 1)?"":"n") + " gegangen.");
 		System.out.println("#######################");
 	}
 

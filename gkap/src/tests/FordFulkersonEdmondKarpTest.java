@@ -16,7 +16,8 @@ public class FordFulkersonEdmondKarpTest {
 		
 		//Import des Graphen der benutzt werden soll
 //		graph = Importer.importExample(graph, "graph_12", attrNames);
-//		FordFulkersonEdmondKarpImpl algo = new FordFulkersonEdmondKarpImpl(graph, attrNames[0], "q", "s", true);
+//		FordFulkersonEdmondKarpImpl algo = new FordFulkersonEdmondKarpImpl
+//		(graph, attrNames[0], "q", "s", true);
 		
 		graph = Importer.importExample(graph, "graph_09", attrNames);
 		new FordFulkersonEdmondKarpImpl(graph, attrNames[0], "Quelle", "Senke", false);
