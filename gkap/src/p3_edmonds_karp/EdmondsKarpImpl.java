@@ -190,7 +190,7 @@ public class EdmondsKarpImpl {
 			}
 			System.out.println("---------------");
 		}
-		System.out.println("Es wurde über " + backtracks + " Rückswärtskante" + ((backtracks == 1)?"":"n") + " gegangen.");
+		System.out.println("Es wurde über " + ((backtracks == 0) ? "keine": backtracks) + " Rückswärtskante" + ((backtracks == 1)?"":"n") + " gegangen.");
 		System.out.println("#######################");
 	}
 	
