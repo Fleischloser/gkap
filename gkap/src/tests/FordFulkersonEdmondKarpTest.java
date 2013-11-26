@@ -18,14 +18,27 @@ public class FordFulkersonEdmondKarpTest {
 //		graph = Importer.importExample(graph, "graph_12", attrNames);
 //		FordFulkersonEdmondKarpImpl algo = new FordFulkersonEdmondKarpImpl
 //		(graph, attrNames[0], "q", "s", true);
-		
+
+		graph = AIGraph.init();
 		graph = Importer.importExample(graph, "graph_09", attrNames);
 		new FordFulkersonEdmondKarpImpl(graph, attrNames[0], "Quelle", "Senke", false);
+
+		System.out.println("");
+		System.out.println("");
+		System.out.println("####*******''''######");
+		System.out.println("####*******''''######");
+		System.out.println("####*******''''######");
+		System.out.println("");
+		System.out.println("");
 		
+		graph = AIGraph.init();
+		graph = Importer.importExample(graph, "graph_09", attrNames);
+		new FordFulkersonEdmondKarpImpl(graph, attrNames[0], "Quelle", "Senke", true);
+
+//		graph = AIGraph.init();
 //		graph = Importer.importExample(graph, "graph_08", attrNames);
 //		new FordFulkersonEdmondKarpImpl(graph, attrNames[0], "Rostock", "München", false);
 		
-
 	}
 
 }
