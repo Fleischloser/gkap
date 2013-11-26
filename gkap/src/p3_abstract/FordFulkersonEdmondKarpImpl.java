@@ -131,9 +131,12 @@ public class FordFulkersonEdmondKarpImpl {
 		int delta = this.graph.getValV(this.initSink, this.attrNodeDelta);
 		String usedEdge = this.graph.getStrV(this.initSink, this.attrNodeUsedEdge);
 		
-		System.out.println(this.graph.getSource(usedEdge)+"::"+delta);
+		
+		System.out.println("Vergrößernder Weg:");
+		System.out.print("DELTA:"+ delta+" <> " +this.initSink+":");
 		this.step3Recursive(usedEdge, delta, this.initSink);
-
+		System.out.println();
+		
 		//Alles zurücksetzen
 		this.clearDataForNextTurn();
 		
@@ -169,13 +172,15 @@ public class FordFulkersonEdmondKarpImpl {
 				//target ist das Ziel, also normale Kante
 				this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge + delta));
 				
+				System.out.print(""+source+":");
+				
 				String newUsedEdge = this.graph.getStrV(source, this.attrNodeUsedEdge);
 				this.step3Recursive(newUsedEdge, delta, source);
 			} else {
 				//target ist der Source, also Rückwärtskante ... backtracking...
 				source = this.graph.getTarget(usedEdge);
 				
-				System.out.println("Rückwärtskante von " + target + " nach " + source + ".");
+				System.out.print("#BACK# " + target + " Kante zu " + source + " löschen und "+source+" umbiegen auf ");
 				backtracks++;
 				
 				this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge - delta));
@@ -195,11 +200,38 @@ public class FordFulkersonEdmondKarpImpl {
 		
 		this.doPrint();
 		
-		System.out.println("Anzahl Graph Zugriffe: " + this.getGraphCount());
+		System.out.println("Größter Schnitt:");
+		doPrintSchnitt();
+		
+		System.out.println("Anzahl Zugriffe auf den Graph: " + this.getGraphCount());
 	}
 	
 	public long getGraphCount() {
 		return this.countGraphAfterAlgo - this.countGraphInit;
+	}
+	
+	public void doPrintSchnitt() {
+		
+		for (int i = 0; i < this.inspectedVertices.size(); i++) {
+			boolean isSchnitt = false;
+			String schnittTarget = "";
+			String node = this.inspectedVertices.get(i);
+			List<String> edges = this.graph.getIncident(node);
+			for (String edge : edges) {
+				String target = this.graph.getTarget(edge);
+				if (!this.inspectedVertices.contains(target)) {
+					isSchnitt = true;
+					schnittTarget = target;
+				}
+			}
+			
+			if (isSchnitt) {
+				System.out.println("Schnitt: von " + node + " nach " + schnittTarget + " Fluss nicht mehr steigerbar");
+			}
+		}
+		
+		
+		
 	}
 	
 	
