@@ -4,8 +4,6 @@ import graph_lib.AIGraph;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
-
 
 
 public class FordFulkersonEdmondKarpImpl {
@@ -28,12 +26,18 @@ public class FordFulkersonEdmondKarpImpl {
 	private String initSink;
 
 	private int backtracks = 0;
+	
+	private long countGraphInit = 0;
+	private long countGraphAfterAlgo = 0;
+	
 	public FordFulkersonEdmondKarpImpl(AIGraph g, String attrEdgeNameCapacity, 
 			String initSource, String initSink, boolean useFord) {
 		this.graph = g;
 		this.attrEdgeCapacity = attrEdgeNameCapacity;
 		this.initSource = initSource;
 		this.initSink = initSink;
+		
+		this.countGraphInit = g.getCountGraphAccesses();
 		
 		List<String> edges = this.graph.getEdges();
 		//bei allen Kanten den Flow auf 0 setzten
@@ -128,7 +132,7 @@ public class FordFulkersonEdmondKarpImpl {
 		String usedEdge = this.graph.getStrV(this.initSink, this.attrNodeUsedEdge);
 		
 		System.out.println(this.graph.getSource(usedEdge)+"::"+delta);
-		this.step3Recursiv(usedEdge, delta, this.initSink);
+		this.step3Recursive(usedEdge, delta, this.initSink);
 
 		//Alles zurücksetzen
 		this.clearDataForNextTurn();
@@ -155,7 +159,7 @@ public class FordFulkersonEdmondKarpImpl {
 		}
 	}
 	
-	private void step3Recursiv(String usedEdge, int delta, String target) {
+	private void step3Recursive(String usedEdge, int delta, String target) {
 		if (usedEdge != null && usedEdge.length() > 0 && delta > 0) {
 			int flowAtEdge = this.graph.getValE(usedEdge, this.attrEdgeFlow);
 			
@@ -166,7 +170,7 @@ public class FordFulkersonEdmondKarpImpl {
 				this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge + delta));
 				
 				String newUsedEdge = this.graph.getStrV(source, this.attrNodeUsedEdge);
-				this.step3Recursiv(newUsedEdge, delta, source);
+				this.step3Recursive(newUsedEdge, delta, source);
 			} else {
 				//target ist der Source, also Rückwärtskante ... backtracking...
 				source = this.graph.getTarget(usedEdge);
@@ -177,7 +181,7 @@ public class FordFulkersonEdmondKarpImpl {
 				this.graph.setValE(usedEdge, this.attrEdgeFlow, (flowAtEdge - delta));
 				
 				String newUsedEdge = this.graph.getStrV(source, this.attrNodeUsedEdge);
-				this.step3Recursiv(newUsedEdge, delta, source);
+				this.step3Recursive(newUsedEdge, delta, source);
 			}
 		}
 	}
@@ -187,7 +191,15 @@ public class FordFulkersonEdmondKarpImpl {
 		System.out.println("######################################");
 		System.out.println("Ergebnis:");
 		
+		this.countGraphAfterAlgo = this.graph.getCountGraphAccesses();
+		
 		this.doPrint();
+		
+		System.out.println("Anzahl Graph Zugriffe: " + this.getGraphCount());
+	}
+	
+	public long getGraphCount() {
+		return this.countGraphAfterAlgo - this.countGraphInit;
 	}
 	
 	
