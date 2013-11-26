@@ -15,7 +15,7 @@ public class FordFulkersonEdmondKarpImpl {
 	private String attrEdgeFlow = "act_flow";
 	
 	//Wir speichern die Kante, die benutzt wurde, um nicht beim Raussuchen 
-	//der kante zwischen Start und Ziel unnötig viele Zugriffe zu machen
+	//der Kante zwischen Start und Ziel unnötig viele Zugriffe zu machen
 	private String attrNodeUsedEdge = "used_edge";
 	
 	//Delta = Kapazität der Kante - dem Fluss der fließt
