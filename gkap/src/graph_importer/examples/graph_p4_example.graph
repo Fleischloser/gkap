@@ -1,0 +1,11 @@
+﻿#ungerichtet
+s,a,10
+s,b,1
+b,a,4
+b,c,2
+b,d,5
+a,c,6
+a,d,9
+c,d,7
+e,c,3
+d,e,8
