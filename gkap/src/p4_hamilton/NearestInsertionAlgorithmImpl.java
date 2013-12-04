@@ -1,10 +1,7 @@
 package p4_hamilton;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.management.RuntimeErrorException;
 
 import graph_lib.AIGraph;
 
@@ -16,9 +13,11 @@ public class NearestInsertionAlgorithmImpl {
 	private String nodeAttreUsedEdge = "used_edge";
 	
 	private LinkedList<String> circleNodes = new LinkedList<String>();
+	private int countAllNodesInGraph = -1;
 	
 	public NearestInsertionAlgorithmImpl(AIGraph graph, String edgeDistAttrName, String startNode) {
 		this.graph = graph;
+		this.countAllNodesInGraph = this.graph.getVertexes().size();
 		this.edgeDistAttrName = edgeDistAttrName;
 		
 		if (startNode == null || startNode.length() == 0) {
@@ -37,16 +36,22 @@ public class NearestInsertionAlgorithmImpl {
 		String nearestNode = nearestNodeEdge[0];
 		String nearestEdge = nearestNodeEdge[1];
 		
+		System.out.println("NEW NEAREST:"+nearestNode+" FROM EDGE: "+ this.getOtherNodeFromEdge(nearestEdge, nearestNode));
+		
 		//Raussuchen wo einfügen....
 		if (this.circleNodes.size() == 1) {
 			this.circleNodes.addLast(nearestNode);
 			this.graph.setStrV(this.circleNodes.get(0), this.nodeAttreUsedEdge, nearestEdge);
+
+			this.printCircleToConsole();
 		} else {
 			
 			List<String> allEdgesNearest = this.graph.getIncident(nearestNode);
 			
-			String edgeToPrev = null;
-			String edgeToNext = null;
+			String outerEdgeToPrev = null;
+			String outerEdgeToNext = null;
+			String outerPrevNode = null;
+			String outerNextNode = null;
 			int minDist = -1;
 			
 			for (int i = 0; i < this.circleNodes.size(); i++) {
@@ -89,15 +94,36 @@ public class NearestInsertionAlgorithmImpl {
 					int sumFromNextToEnd = this.getDistanceBetweenIndexes((i+1), this.circleNodes.size());
 					
 					int sumSum = sumDistNear + sumFromStartToPrev + sumFromNextToEnd;
-					
-					if (edgeToPrev == null || sumSum < minDist) {
-						edgeToPrev = innerEdgeToPrev;
-						edgeToNext = innerEdgeToNext;
+					System.out.println("sumSum:"+sumSum);
+					if (outerEdgeToPrev == null || sumSum < minDist) {
+						outerEdgeToPrev = innerEdgeToPrev;
+						outerEdgeToNext = innerEdgeToNext;
+						outerPrevNode = prevNode;
+						outerNextNode = nextNode;
 						minDist = sumSum;
+						System.out.println("minDist:"+minDist);
 					}
 				}
 			}
 			
+			if (outerEdgeToPrev != null && outerEdgeToNext != null && outerPrevNode != null && outerNextNode != null) {
+
+				this.graph.setStrV(outerPrevNode, this.nodeAttreUsedEdge, outerEdgeToPrev);
+				this.graph.setStrV(nearestNode, this.nodeAttreUsedEdge, outerEdgeToNext);
+				
+				this.circleNodes.add(this.circleNodes.indexOf(outerNextNode), nearestNode);
+				
+				this.printCircleToConsole();
+			}
+			
+		}
+		
+		if (this.circleNodes.size() >= this.countAllNodesInGraph) {
+			//ende...
+			System.out.println("****** ENDE *******");
+			System.out.println();
+		} else {
+			doStep2();
 		}
 	}
 	
@@ -151,6 +177,17 @@ public class NearestInsertionAlgorithmImpl {
 		}
 		
 		return ret;
+	}
+	
+	public void printCircleToConsole() {
+		
+		for (String node : this.circleNodes) {
+			System.out.print(node + ":" + this.graph.getValE(this.graph.getStrV(node, this.nodeAttreUsedEdge), this.edgeDistAttrName) + "#");
+		}
+
+		System.out.println();
+		System.out.println("#############");
+		System.out.println();
 	}
 
 }
