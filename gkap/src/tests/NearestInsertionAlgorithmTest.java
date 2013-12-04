@@ -1,16 +1,16 @@
 package tests;
 
-import p4_hierholzer.HierholzerImpl;
 import graph_importer.Importer;
 import graph_lib.AIGraph;
+import p4_hamilton.NearestInsertionAlgorithmImpl;
+import p4_hierholzer.HierholzerImpl;
 
-public class HierholzerTest {
+public class NearestInsertionAlgorithmTest {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
 		AIGraph graph = null;
 		String[] attrNames = {"distance"};
 		
@@ -20,8 +20,9 @@ public class HierholzerTest {
 		
 		
 		graph = AIGraph.init();
-		graph = Importer.importExample(graph, "graph_02", attrNames);
-		new HierholzerImpl(graph, "München");
+		graph = Importer.importExample(graph, "graph_11", attrNames);
+		new NearestInsertionAlgorithmImpl(graph, attrNames[0], "v1");
+
 	}
 
 }
