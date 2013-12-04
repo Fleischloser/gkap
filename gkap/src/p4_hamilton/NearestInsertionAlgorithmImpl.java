@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import graph_lib.AIGraph;
 
 public class NearestInsertionAlgorithmImpl {
@@ -38,7 +40,7 @@ public class NearestInsertionAlgorithmImpl {
 		//Raussuchen wo einfügen....
 		if (this.circleNodes.size() == 1) {
 			this.circleNodes.addLast(nearestNode);
-			this.graph.setStrV(nearestNode, nodeAttreUsedEdge, nearestEdge);
+			this.graph.setStrV(this.circleNodes.get(0), this.nodeAttreUsedEdge, nearestEdge);
 		} else {
 			
 			List<String> allEdgesNearest = this.graph.getIncident(nearestNode);
@@ -66,28 +68,51 @@ public class NearestInsertionAlgorithmImpl {
 					int distNear = this.graph.getValE(edgeNear, this.edgeDistAttrName);
 					if (otherNode.equals(prevNode)) {
 						//zeigt auf prev node
-						if (innerEdgeToPrev == null) {
+						if (innerEdgeToPrev == null || innerDistToPrev > distNear) {
 							innerEdgeToPrev = edgeNear;
 							innerDistToPrev = distNear;
-						} else if (innerDistToPrev > distNear) {
-							innerDistToPrev = distNear;
 						}
-						
 					} else if (otherNode.equals(nextNode)) {
 						//zeigt auf next node
-						if (innerEdgeToNext == null) {
+						if (innerEdgeToNext == null || innerDistToNext > distNear) {
 							innerEdgeToNext = edgeNear;
-							innerDistToNext = distNear;
-						} else if (innerDistToNext > distNear) {
 							innerDistToNext = distNear;
 						}
 					}
 				}
 				
-				
+				if (innerEdgeToPrev != null && innerEdgeToNext != null) {
+					//die summe der kosten über diese Kante von prev zu next
+
+					int sumDistNear = innerDistToPrev = innerDistToNext;
+					int sumFromStartToPrev = this.getDistanceBetweenIndexes(0, i);
+					int sumFromNextToEnd = this.getDistanceBetweenIndexes((i+1), this.circleNodes.size());
+					
+					int sumSum = sumDistNear + sumFromStartToPrev + sumFromNextToEnd;
+					
+					if (edgeToPrev == null || sumSum < minDist) {
+						edgeToPrev = innerEdgeToPrev;
+						edgeToNext = innerEdgeToNext;
+						minDist = sumSum;
+					}
+				}
 			}
 			
 		}
+	}
+	
+	public int getDistanceBetweenIndexes(int startIdx, int targetIdx) {
+		int ret = 0;
+		
+		for (int i = startIdx; i < targetIdx; i++) {
+			String node = this.circleNodes.get(i);
+			String usedEdge = this.graph.getStrV(node, this.nodeAttreUsedEdge);
+			int dist = this.graph.getValE(usedEdge, this.edgeDistAttrName);
+			
+			ret = ret + dist;
+		}
+		
+		return ret;
 	}
 	
 	public String[] findNearestInsertion() {
@@ -103,14 +128,10 @@ public class NearestInsertionAlgorithmImpl {
 				if (!this.circleNodes.contains(target)) {
 					//Node noch nicht im Kreis
 					int dist = this.graph.getValE(edge, this.edgeDistAttrName);
-					if (edgeMin == null) {
+					if (edgeMin == null || distMin > dist) {
 						edgeMin = edge;
 						nodeMin = target;
 						distMin = dist;
-					} else if (distMin > dist) {
-						distMin = dist;
-						nodeMin = target;
-						edgeMin = edge;
 					}
 				}
 			}
