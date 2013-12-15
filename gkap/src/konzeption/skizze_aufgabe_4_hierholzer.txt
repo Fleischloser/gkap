@@ -1,0 +1,67 @@
+Skizze:
+
+Hierholzer Algorithmus: (27.11.2013)
+Wie aus dem Skript hervorgeht ist der Hierholzer Algorithmus ein Algorithmus zur Ermittlung ob es in einem Graphen eine Euler-Tour gibt oder nicht.	
+Grob erklärt, soll unser Algorithmus folgendermaßen funktionieren:
+	1:	Einen belibigen Kreis im Graphen suchen, mittles Tiefensuche. 
+		Wobei von einem Knoten entfernt vom Start-Knoten (Delta-Knoten) bis zu Start-Knoten gesucht wird.
+		Das wollen wir machen, da wenn wir Direkt vom Start zum Start-Knoten suchen, kein Kreis gefunden werden würde.
+		Weil alle Kanten nur einmal besucht werden dürfen und alle Kanten die zum Start-Knoten zeigen dann mit dem 
+		ersten Schritt schon besucht worden wären und wir so keinen Kreis finden können.
+		
+	2: In dem Kreis der gefunden wurde alle Knoten anschauen, ob es von Ihnen wieder einen Kreis gibt. (Analog zu 1)
+		-	Sollte ein Kreis gefunden werden, wird dieses direkt hinter dem gerade angeschauten Knoten Angefügt.
+		-	Daraufhin, wird der als erstes gerade eingefüge Knoten wieder untersucht ob es von ihm einen Kreis gibt.
+	
+	3: 	Schritt 2 wird solange wiederholt, bis die Anzahl der benutzen Kanten == der Anzahl der Kanten im Graph,
+		aber maximal solange wie I < der Anzahl der gefundenen Knoten
+
+Funktionsweise Pseudo-Code:
+
+1. Initialisierung:
+	- Benutze Ecken mit leerer Liste initialisieren 
+	- Ersten Kreis vom Startknoten aus finden
+
+2. Algorithmus:
+
+WHILE (globalUsedEdges.size < graph.edges.size && i < globalFoundCircle.size)
+	nextCircleSearchNode = globalFoundCircle[i]
+
+	doFindCircle(nextCircleSearchNode)
+END WHILE
+
+printFoundCircle()
+
+#############################################
+
+BEGIN doFindCircle (startNode)
+	nextNode = finde eine belibige nächsten Knoten über eine Kante die noch nicht benutzt wurde vom startNode aus
+	circleFound = FALSE
+	WENN nextNode != NULL
+		WHILE (noch nicht alle Knoten inspiziert)
+			v = (beliebiger Knoten, der noch nicht inspiziert wurde)
+			setInspiziert(v)
+			listIncidentsFromV = getIncident(v)
+		
+			FOR (Schleife über alle Kanten)
+				target = kante.target
+				IF (target == startNode)
+					//circle Gefunden
+					circleFound = TRUE
+					BREAK WHILE
+				ELSE IF(target noch nicht markiert)
+					target markieren
+				END IF
+			END FOR
+		END WHILE
+	END WENN
+	
+	IF (circleFound)
+		raussuchen des Weges der gegangen wurde und ankleben an den globalFoundCircle und anfügen der benutzen Kanten an globalUsedEdges
+	END IF
+	
+END doFindCircle
+
+Nachtrag vom 04.12.2013
+Die Implementation nach dem oben beschriebenen Pseudo-Code hat geklappt. Wobei wir eine kleine Anpassung vorgenommen haben.
+Ursprünglich wollten wir in "globalFoundCircle" die Knoten speichern, dass haben wir dann aber doch so angepasst, dass wir Kanten in der Liste speichern.
