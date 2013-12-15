@@ -65,9 +65,9 @@ public class NearestInsertionAlgorithmImpl {
 				}
 				
 				String innerEdgeToPrev = null;
-				int innerDistToPrev = -1;
+				int innerDistToPrev = Integer.MAX_VALUE;
 				String innerEdgeToNext = null;
-				int innerDistToNext = -1;
+				int innerDistToNext = Integer.MAX_VALUE;
 				for (String edgeNear : allEdgesNearest) {
 					String otherNode = this.getOtherNodeFromEdge(edgeNear, nearestNode);
 					int distNear = this.graph.getValE(edgeNear, this.edgeDistAttrName);
@@ -94,8 +94,8 @@ public class NearestInsertionAlgorithmImpl {
 					int sumFromNextToEnd = this.getDistanceBetweenIndexes((i+1), this.circleNodes.size());
 					
 					int sumSum = sumDistNear + sumFromStartToPrev + sumFromNextToEnd;
-					//System.out.println("sumSum:"+sumSum+" = " + sumDistNear + "##" +sumFromStartToPrev +"##"+sumFromNextToEnd);
-					System.out.println("sumSum:"+sumSum);
+					System.out.println("sumSum:"+sumSum+" = Prev:" +sumFromStartToPrev+"## Next:"+sumDistNear  +"## End:"+sumFromNextToEnd);
+					
 					if (outerEdgeToPrev == null || sumSum < minDist) {
 						outerEdgeToPrev = innerEdgeToPrev;
 						outerEdgeToNext = innerEdgeToNext;
@@ -211,10 +211,13 @@ public class NearestInsertionAlgorithmImpl {
 	
 	public void printCircleToConsole() {
 		
+		int total = 0;
 		for (String node : this.circleNodes) {
-			System.out.print(node + ":" + this.graph.getValE(this.graph.getStrV(node, this.nodeAttreUsedEdge), this.edgeDistAttrName) + "#");
+			int dist = this.graph.getValE(this.graph.getStrV(node, this.nodeAttreUsedEdge), this.edgeDistAttrName);
+			total = total + dist;
+			System.out.print(node + ":" + dist + "#");
 		}
-
+		System.out.print(this.circleNodes.getFirst() + "  *** TOTAL: "+total);
 		System.out.println();
 		System.out.println("#############");
 		System.out.println();
