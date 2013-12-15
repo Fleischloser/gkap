@@ -52,7 +52,7 @@ public class NearestInsertionAlgorithmImpl {
 			String outerEdgeToNext = null;
 			String outerPrevNode = null;
 			String outerNextNode = null;
-			int minDist = -1;
+			int minDist = Integer.MAX_VALUE;
 			
 			for (int i = 0; i < this.circleNodes.size(); i++) {
 				String prevNode = this.circleNodes.get(i);
@@ -89,11 +89,12 @@ public class NearestInsertionAlgorithmImpl {
 				if (innerEdgeToPrev != null && innerEdgeToNext != null) {
 					//die summe der kosten über diese Kante von prev zu next
 
-					int sumDistNear = innerDistToPrev = innerDistToNext;
+					int sumDistNear = innerDistToPrev + innerDistToNext;
 					int sumFromStartToPrev = this.getDistanceBetweenIndexes(0, i);
 					int sumFromNextToEnd = this.getDistanceBetweenIndexes((i+1), this.circleNodes.size());
 					
 					int sumSum = sumDistNear + sumFromStartToPrev + sumFromNextToEnd;
+					//System.out.println("sumSum:"+sumSum+" = " + sumDistNear + "##" +sumFromStartToPrev +"##"+sumFromNextToEnd);
 					System.out.println("sumSum:"+sumSum);
 					if (outerEdgeToPrev == null || sumSum < minDist) {
 						outerEdgeToPrev = innerEdgeToPrev;
@@ -101,7 +102,7 @@ public class NearestInsertionAlgorithmImpl {
 						outerPrevNode = prevNode;
 						outerNextNode = nextNode;
 						minDist = sumSum;
-						System.out.println("minDist:"+minDist);
+						//System.out.println("minDist:"+minDist);
 					}
 				}
 			}
@@ -112,6 +113,31 @@ public class NearestInsertionAlgorithmImpl {
 				this.graph.setStrV(nearestNode, this.nodeAttreUsedEdge, outerEdgeToNext);
 				
 				this.circleNodes.add(this.circleNodes.indexOf(outerNextNode), nearestNode);
+				
+				String lastNode = this.circleNodes.getLast();
+				String lastNodeUsedEdge = this.graph.getStrV(lastNode, this.nodeAttreUsedEdge);
+				if (lastNodeUsedEdge == null || lastNodeUsedEdge.length() == 0) {
+					//der letzte Knoten in der Liste Zeigt noch nicht auf den Start...
+					String firstNode = this.circleNodes.getFirst();
+					
+					List<String> edges = this.graph.getIncident(lastNode);
+					String edgeMin = null;
+					int distMin = Integer.MAX_VALUE;
+					for (String edge : edges) {
+						String target = this.getOtherNodeFromEdge(edge, lastNode);
+						if (target.equals(firstNode)) {
+							int dist = this.graph.getValE(edge, this.edgeDistAttrName);
+							if (edgeMin == null || distMin > dist) {
+								edgeMin = edge;
+								distMin = dist;
+							}
+						}
+					}
+					
+					if (edgeMin != null) {
+						this.graph.setStrV(lastNode, this.nodeAttreUsedEdge, edgeMin);
+					}
+				}
 				
 				this.printCircleToConsole();
 			}
@@ -135,7 +161,11 @@ public class NearestInsertionAlgorithmImpl {
 			String usedEdge = this.graph.getStrV(node, this.nodeAttreUsedEdge);
 			int dist = this.graph.getValE(usedEdge, this.edgeDistAttrName);
 			
-			ret = ret + dist;
+			if (dist == Integer.MAX_VALUE) {
+				
+			} else {
+				ret = ret + dist;
+			}
 		}
 		
 		return ret;
