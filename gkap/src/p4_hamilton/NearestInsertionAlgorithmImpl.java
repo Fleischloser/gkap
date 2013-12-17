@@ -94,7 +94,7 @@ public class NearestInsertionAlgorithmImpl {
 					int sumFromNextToEnd = this.getDistanceBetweenIndexes((i+1), this.circleNodes.size());
 					
 					int sumSum = sumDistNear + sumFromStartToPrev + sumFromNextToEnd;
-					System.out.println("sumSum:"+sumSum+" = Prev:" +sumFromStartToPrev+"## Next:"+sumDistNear  +"## End:"+sumFromNextToEnd);
+					System.out.println("sumSum:"+sumSum+" = Prev:" +sumFromStartToPrev+"## NEAREST:"+sumDistNear  +"## End:"+sumFromNextToEnd);
 					
 					if (outerEdgeToPrev == null || sumSum < minDist) {
 						outerEdgeToPrev = innerEdgeToPrev;
@@ -161,9 +161,7 @@ public class NearestInsertionAlgorithmImpl {
 			String usedEdge = this.graph.getStrV(node, this.nodeAttreUsedEdge);
 			int dist = this.graph.getValE(usedEdge, this.edgeDistAttrName);
 			
-			if (dist == Integer.MAX_VALUE) {
-				
-			} else {
+			if (dist != Integer.MAX_VALUE) {
 				ret = ret + dist;
 			}
 		}
