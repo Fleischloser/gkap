@@ -23,13 +23,13 @@ public class HierholzerTest {
 //		graph = Importer.importExample(graph, "graph_02", attrNames);
 //		new HierholzerImpl(graph, "München");
 
-//		graph = AIGraph.init();
-//		graph = Importer.importExample(graph, "graph_02", attrNames);
-//		new HierholzerImpl(graph, "Dortmund");
-
 		graph = AIGraph.init();
-		graph = Importer.importExample(graph, "graph_12", attrNames);
-		new HierholzerImpl(graph, null);
+		graph = Importer.importExample(graph, "graph_02", attrNames);
+		new HierholzerImpl(graph, "Dortmund");
+
+//		graph = AIGraph.init();
+//		graph = Importer.importExample(graph, "graph_12", attrNames);
+//		new HierholzerImpl(graph, null);
 	}
 
 }
