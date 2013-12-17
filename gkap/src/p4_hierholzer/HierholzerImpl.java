@@ -23,7 +23,8 @@ public class HierholzerImpl {
 	private long countGraphBegin = 0;
 	private long countGraphEnd = 0;
 	
-	//Wir speichern die Kante die benutzt wurde um nicht bei dem raussuchen von der kante zwischen start und zeil unnötig viele zugriffe zu machen
+	//Wir speichern die Kante die benutzt wurde um nicht bei dem raussuchen von 
+	//der kante zwischen start und zeil unnötig viele zugriffe zu machen
 	private String attrNodeUsedEdge = "used_edge";
 	
 	public HierholzerImpl(AIGraph g, String start) {
@@ -58,7 +59,8 @@ public class HierholzerImpl {
 
 		System.out.println();
 		System.out.println();
-		System.out.println("COUNT - GRAPH:" + (this.countGraphEnd - this.countGraphBegin));
+		System.out.println("COUNT - GRAPH:" + (this.countGraphEnd - 
+				this.countGraphBegin));
 		
 	}
 	
@@ -76,7 +78,8 @@ public class HierholzerImpl {
 					targetNode = this.graph.getSource(tmpE);
 				}
 				tmpN = targetNode;
-				System.out.print(":"+this.graph.getValE(tmpE, this.globalDist)+":"+targetNode);
+				System.out.print(":"+this.graph.getValE(tmpE, this.globalDist)+
+						":"+targetNode);
 			}
 			System.out.println();
 		}
@@ -89,11 +92,9 @@ public class HierholzerImpl {
 		//List<String> newFoundCircles = new ArrayList<String>();
 		int i = 0;
 		
-		while (i < this.foundCircles.size() && this.globalUsedEdges.size() < this.graph.getEdges().size()) {
+		while (i < this.foundCircles.size() && this.globalUsedEdges.size() 
+				< this.graph.getEdges().size()) {
 			String edge = this.foundCircles.get(i);
-			
-			//System.out.println("+++ "+this.graph.getSource(edge)+":"+this.graph.getValE(edge, this.globalDist)+":"+this.graph.getTarget(edge));
-			
 			String targetNode = null;
 			if (this.graph.getSource(edge).equals(startNode)) {
 				targetNode = this.graph.getTarget(edge);
@@ -190,7 +191,8 @@ public class HierholzerImpl {
 						inspectedNodes.push(targetNode);
 						break;
 						
-					} else if (!stackNodes.contains(targetNode) && !inspectedNodes.contains(targetNode) && !circleFound) {
+					} else if (!stackNodes.contains(targetNode) && 
+							!inspectedNodes.contains(targetNode) && !circleFound) {
 						stackNodes.push(targetNode);
 						
 						this.graph.setStrV(targetNode, this.attrNodeUsedEdge, edge);
@@ -210,7 +212,8 @@ public class HierholzerImpl {
 				String currentNode = inspectedNodes.pop();
 				
 				if (expectedNode == null || currentNode.equals(expectedNode)) {
-					String usedEdge = this.graph.getStrV(currentNode, this.attrNodeUsedEdge);
+					String usedEdge = this.graph.getStrV(currentNode, 
+							this.attrNodeUsedEdge);
 					
 					String targetNode = null;
 					if (this.graph.getSource(usedEdge).equals(currentNode)) {
