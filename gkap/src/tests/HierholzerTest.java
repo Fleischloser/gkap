@@ -22,6 +22,11 @@ public class HierholzerTest {
 		graph = AIGraph.init();
 		graph = Importer.importExample(graph, "graph_02", attrNames);
 		new HierholzerImpl(graph, "München");
+		
+
+//		graph = AIGraph.init();
+//		graph = Importer.importExample(graph, "graph_12", attrNames);
+//		new HierholzerImpl(graph, null);
 	}
 
 }
