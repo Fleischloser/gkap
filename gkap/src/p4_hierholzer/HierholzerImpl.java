@@ -54,9 +54,19 @@ public class HierholzerImpl {
 		}
 		
 		this.countGraphEnd = g.getCountGraphAccesses();
+
 		
+		System.out.println();
+		System.out.println();
+		
+		boolean b = false;
+		if (this.globalUsedEdges.size() == this.graph.getEdges().size()) {
+			b = true;
+		}
+		System.out.println("EULER-TOUR-FOUND:"+b);
 		printCircle();
 
+		
 		System.out.println();
 		System.out.println();
 		System.out.println("COUNT - GRAPH:" + (this.countGraphEnd - 

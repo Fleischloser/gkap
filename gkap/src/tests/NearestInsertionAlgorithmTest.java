@@ -19,13 +19,13 @@ public class NearestInsertionAlgorithmTest {
 //		new HierholzerImpl(graph, "s");
 		
 		
-//		graph = AIGraph.init();
-//		graph = Importer.importExample(graph, "graph_11", attrNames);
-//		new NearestInsertionAlgorithmImpl(graph, attrNames[0], "v1");
-
 		graph = AIGraph.init();
-		graph = Importer.importExample(graph, "graph_12", attrNames);
-		new NearestInsertionAlgorithmImpl(graph, attrNames[0], null);
+		graph = Importer.importExample(graph, "graph_11", attrNames);
+		new NearestInsertionAlgorithmImpl(graph, attrNames[0], "v1");
+
+//		graph = AIGraph.init();
+//		graph = Importer.importExample(graph, "graph_12", attrNames);
+//		new NearestInsertionAlgorithmImpl(graph, attrNames[0], "ge");
 	}
 
 }
