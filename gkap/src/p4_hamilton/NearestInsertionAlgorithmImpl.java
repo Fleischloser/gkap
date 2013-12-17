@@ -48,7 +48,7 @@ public class NearestInsertionAlgorithmImpl {
 		String nearestNode = nearestNodeEdge[0];
 		String nearestEdge = nearestNodeEdge[1];
 		
-		System.out.println("NEW NEAREST:"+nearestNode+" FROM EDGE: "+ this.getOtherNodeFromEdge(nearestEdge, nearestNode));
+		System.out.println("NEW NEAREST:"+nearestNode+" FROM NODE: "+ this.getOtherNodeFromEdge(nearestEdge, nearestNode) + " DIST: " + this.graph.getValE(nearestEdge, this.edgeDistAttrName));
 		
 		//Raussuchen wo einfügen....
 		if (this.circleNodes.size() == 1) {
