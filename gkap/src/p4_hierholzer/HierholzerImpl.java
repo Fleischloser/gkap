@@ -20,12 +20,17 @@ public class HierholzerImpl {
 	
 	private String globalDist = "distance";
 	
+	private long countGraphBegin = 0;
+	private long countGraphEnd = 0;
+	
 	//Wir speichern die Kante die benutzt wurde um nicht bei dem raussuchen von der kante zwischen start und zeil unnötig viele zugriffe zu machen
 	private String attrNodeUsedEdge = "used_edge";
 	
 	public HierholzerImpl(AIGraph g, String start) {
 		
 		this.graph = g;
+		
+		this.countGraphBegin = g.getCountGraphAccesses();
 		
 		if (start == null || start.length() == 0) {
 			start = this.graph.getVertexes().get(0);
@@ -35,8 +40,9 @@ public class HierholzerImpl {
 		this.globalUsedEdges = new ArrayList<String>();
 		
 		foundCircles = this.doFindCircle(this.globalStartNode);
-		tempPrintEdges(this.globalStartNode, foundCircles);
-		System.out.println("********************");
+		System.out.println("----------------");
+		tempPrintEdges(this.globalStartNode, this.foundCircles);
+		System.out.println("################");
 		System.out.println();
 		
 		if (foundCircles.size() > 0) {
@@ -46,7 +52,13 @@ public class HierholzerImpl {
 			System.err.println("ERROR kein Eulerkreis!!!");
 		}
 		
+		this.countGraphEnd = g.getCountGraphAccesses();
+		
 		printCircle();
+
+		System.out.println();
+		System.out.println();
+		System.out.println("COUNT - GRAPH:" + (this.countGraphEnd - this.countGraphBegin));
 		
 	}
 	
@@ -80,7 +92,7 @@ public class HierholzerImpl {
 		while (i < this.foundCircles.size() && this.globalUsedEdges.size() < this.graph.getEdges().size()) {
 			String edge = this.foundCircles.get(i);
 			
-			System.out.println("+++ "+this.graph.getSource(edge)+":"+this.graph.getValE(edge, this.globalDist)+":"+this.graph.getTarget(edge));
+			//System.out.println("+++ "+this.graph.getSource(edge)+":"+this.graph.getValE(edge, this.globalDist)+":"+this.graph.getTarget(edge));
 			
 			String targetNode = null;
 			if (this.graph.getSource(edge).equals(startNode)) {
@@ -113,6 +125,8 @@ public class HierholzerImpl {
 		String firstUsedEdge = null;
 		String nextNode = null;
 		if (startNode != null) {
+			System.out.println("doFindCircle: "+startNode);
+			
 			List<String> edgeList = this.graph.getIncident(startNode);
 			for (String edge : edgeList) {
 				if (!this.globalUsedEdges.contains(edge)) {

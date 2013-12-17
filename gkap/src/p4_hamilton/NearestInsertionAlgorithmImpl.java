@@ -14,9 +14,15 @@ public class NearestInsertionAlgorithmImpl {
 	
 	private LinkedList<String> circleNodes = new LinkedList<String>();
 	private int countAllNodesInGraph = -1;
+
+	private long countGraphBegin = 0;
+	private long countGraphEnd = 0;
 	
 	public NearestInsertionAlgorithmImpl(AIGraph graph, String edgeDistAttrName, String startNode) {
 		this.graph = graph;
+		
+		this.countGraphBegin = graph.getCountGraphAccesses();
+		
 		this.countAllNodesInGraph = this.graph.getVertexes().size();
 		this.edgeDistAttrName = edgeDistAttrName;
 		
@@ -29,6 +35,12 @@ public class NearestInsertionAlgorithmImpl {
 		circleNodes.add(this.globalStartNode);
 		
 		this.doStep2();
+
+		this.countGraphEnd = graph.getCountGraphAccesses();
+		
+		System.out.println();
+		System.out.println();
+		System.out.println("COUNT - GRAPH:" + (this.countGraphEnd - this.countGraphBegin));
 	}
 	
 	public void doStep2() {
